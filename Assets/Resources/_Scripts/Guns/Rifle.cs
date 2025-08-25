@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Rifle : Weapon
 {
+    [Header("OverHeat Config")]
+    [SerializeField] private float overHeatTime = 1;
+    [Min(0.05f)]
+    [SerializeField] private float coolTime;
+    private float heatTime;
+    private bool canShoot = true;
+
+
     private void Start()
     {
         originalPosition = transform.parent.localPosition;
@@ -17,10 +25,27 @@ public class Rifle : Weapon
     {
         if (nextFire > 0) nextFire -= Time.deltaTime;
 
-        if (Input.GetButton("Fire1") && nextFire <= 0)
+        if (Input.GetButton("Fire1") && nextFire <= 0 && heatTime <= overHeatTime)
         {
-            nextFire = 1 / fireRate;
-            Fire();
+            if (canShoot)
+            {
+                heatTime += 1 * Time.deltaTime;
+                nextFire = 1 / fireRate;
+                Fire();
+            }
+        }
+        else if (!Input.GetButton("Fire1")) heatTime -= 0.5f * Time.deltaTime;
+
+        if (heatTime <= 0)
+        {
+            heatTime = 0;
+            canShoot = true;
+        }
+
+        if (heatTime > overHeatTime)
+        {
+            canShoot = false;
+            heatTime -= 0.5f * Time.deltaTime;
         }
 
         if (recoiling) Recoil();
@@ -42,6 +67,4 @@ public class Rifle : Weapon
             DoDamage(hit, damage);
         }
     }
-
-
 }

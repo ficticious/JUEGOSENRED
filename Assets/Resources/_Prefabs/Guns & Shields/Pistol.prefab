@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7335265468307985667
 Transform:
   m_ObjectHideFlags: 0
@@ -103,9 +103,9 @@ MonoBehaviour:
   damage: 12.5
   fireRate: 3
   maxDistance: 50
-  recoverPercent: 2
-  recoilUp: 2
-  recoilBack: 2
+  recoverPercent: 0.5
+  recoilUp: 0.02
+  recoilBack: 0.02
   recoiling: 0
   recovering: 0
   hitVFX: {fileID: 3432958286849152088, guid: 87ee7299dd44ed747af24dbb91bcd33b, type: 3}

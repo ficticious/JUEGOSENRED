@@ -38,11 +38,7 @@ public class Shotgun : Weapon
         for (int i = 0; i < pellets; i++)
         {
             Vector3 direction = camera.transform.forward;
-            direction = Quaternion.Euler(
-                Random.Range(-spreadAngle, spreadAngle),
-                Random.Range(-spreadAngle, spreadAngle),
-                0
-            ) * direction;
+            direction = Quaternion.Euler(Random.Range(-spreadAngle, spreadAngle), Random.Range(-spreadAngle, spreadAngle), 0) * direction;
 
             Ray ray = new Ray(camera.transform.position, direction);
             RaycastHit hit;
@@ -50,7 +46,7 @@ public class Shotgun : Weapon
             if (Physics.Raycast(ray, out hit, maxDistance))
             {
                 if (hitVFX) Photon.Pun.PhotonNetwork.Instantiate(hitVFX.name, hit.point, Quaternion.identity);
-                DoDamage(hit, damage / pellets); // daño repartido entre balas
+                DoDamage(hit, damage / pellets);
             }
         }
     }

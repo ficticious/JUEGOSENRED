@@ -559,6 +559,7 @@ Transform:
   m_Children:
   - {fileID: 5029882021818124564}
   - {fileID: 2791255970049155940}
+  - {fileID: 7791521718652651003}
   m_Father: {fileID: 7853596038875301616}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -574,7 +575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf170cacec47214599f9579f92fdf36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pistol: {fileID: 3312212981945186782}
+  pistol: {fileID: 7452009413838643009}
   rifle: {fileID: 5658328317819327406}
   crosshairUI: {fileID: 9093507332657329075}
 --- !u!114 &5015905511718186719
@@ -1117,7 +1118,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7853596038875301616
 Transform:
   m_ObjectHideFlags: 0
@@ -1295,30 +1296,6 @@ PrefabInstance:
       propertyPath: camera
       value: 
       objectReference: {fileID: 7853596038875301623}
-    - target: {fileID: 1304217250789177226, guid: b6865d98ccd74f14d9d411d7956838e8, type: 3}
-      propertyPath: recoilUp
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 1304217250789177226, guid: b6865d98ccd74f14d9d411d7956838e8, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1304217250789177226, guid: b6865d98ccd74f14d9d411d7956838e8, type: 3}
-      propertyPath: recoiling
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1304217250789177226, guid: b6865d98ccd74f14d9d411d7956838e8, type: 3}
-      propertyPath: recoilBack
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 1304217250789177226, guid: b6865d98ccd74f14d9d411d7956838e8, type: 3}
-      propertyPath: recovering
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1304217250789177226, guid: b6865d98ccd74f14d9d411d7956838e8, type: 3}
-      propertyPath: recoverPercent
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 8224114873886908253, guid: b6865d98ccd74f14d9d411d7956838e8, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1367,10 +1344,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rifle
       objectReference: {fileID: 0}
-    - target: {fileID: 8748871519087183335, guid: b6865d98ccd74f14d9d411d7956838e8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6865d98ccd74f14d9d411d7956838e8, type: 3}
 --- !u!4 &5029882021818124564 stripped
@@ -1382,6 +1355,77 @@ Transform:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8748871519087183335, guid: b6865d98ccd74f14d9d411d7956838e8, type: 3}
   m_PrefabInstance: {fileID: 4029692434335061577}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4377831353386215562
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8426486406473321785}
+    m_Modifications:
+    - target: {fileID: 2640488853077056372, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 7853596038875301623}
+    - target: {fileID: 5827699506475396465, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5827699506475396465, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.541
+      objectReference: {fileID: 0}
+    - target: {fileID: 5827699506475396465, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 5827699506475396465, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5827699506475396465, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.99993116
+      objectReference: {fileID: 0}
+    - target: {fileID: 5827699506475396465, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.011257007
+      objectReference: {fileID: 0}
+    - target: {fileID: 5827699506475396465, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.0033158562
+      objectReference: {fileID: 0}
+    - target: {fileID: 5827699506475396465, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.000037329184
+      objectReference: {fileID: 0}
+    - target: {fileID: 5827699506475396465, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -1.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 5827699506475396465, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -0.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 5827699506475396465, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605643206553974731, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: m_Name
+      value: Shotgun
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+--- !u!1 &7452009413838643009 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6605643206553974731, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+  m_PrefabInstance: {fileID: 4377831353386215562}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7791521718652651003 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5827699506475396465, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+  m_PrefabInstance: {fileID: 4377831353386215562}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4859544046673606247
 PrefabInstance:
@@ -1438,29 +1482,9 @@ PrefabInstance:
       propertyPath: camera
       value: 
       objectReference: {fileID: 7853596038875301623}
-    - target: {fileID: 7866567535269319159, guid: 05914b63b9ffbbb43a30e8f016f85daa, type: 3}
-      propertyPath: recoilUp
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 7866567535269319159, guid: 05914b63b9ffbbb43a30e8f016f85daa, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7866567535269319159, guid: 05914b63b9ffbbb43a30e8f016f85daa, type: 3}
-      propertyPath: recoilBack
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 7866567535269319159, guid: 05914b63b9ffbbb43a30e8f016f85daa, type: 3}
-      propertyPath: recoverPercent
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 7964556261379248057, guid: 05914b63b9ffbbb43a30e8f016f85daa, type: 3}
       propertyPath: m_Name
       value: Pistol
-      objectReference: {fileID: 0}
-    - target: {fileID: 7964556261379248057, guid: 05914b63b9ffbbb43a30e8f016f85daa, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05914b63b9ffbbb43a30e8f016f85daa, type: 3}
@@ -1474,28 +1498,3 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7964556261379248057, guid: 05914b63b9ffbbb43a30e8f016f85daa, type: 3}
   m_PrefabInstance: {fileID: 4859544046673606247}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8018940427503479019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3312212981945186782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86380c571d7b5d547969b6b9e35c37af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camera: {fileID: 7853596038875301623}
-  damage: 30
-  fireRate: 0.8
-  maxDistance: 15
-  recoverPercent: 0.5
-  recoilUp: 0.05
-  recoilBack: 0.05
-  recoiling: 0
-  recovering: 0
-  hitVFX: {fileID: 1141330259687333427, guid: 6718dc24203da53468af9ada8fef7d6d, type: 3}
-  crosshair: {fileID: 21300000, guid: bfb6bd7e8471f5442bd8e524bdda3380, type: 3}
-  pellets: 8
-  spreadAngle: 5
