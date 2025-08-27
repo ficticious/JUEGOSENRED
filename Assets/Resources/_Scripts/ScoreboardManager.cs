@@ -11,7 +11,7 @@ public class ScoreboardManager : MonoBehaviour
     [Header("UI")]
     public GameObject scoreboardPanel;
     public Transform contentParent; 
-    public GameObject playerRowPrefab; 
+    public GameObject PlayerRow; 
 
     private Dictionary<Player, GameObject> playerRows = new Dictionary<Player, GameObject>();
 
@@ -39,7 +39,7 @@ public class ScoreboardManager : MonoBehaviour
     {
         if (!playerRows.ContainsKey(photonPlayer))
         {
-            GameObject row = Instantiate(playerRowPrefab, contentParent);
+            GameObject row = Instantiate(PlayerRow, contentParent);
             row.transform.Find("Player").GetComponent<TMP_Text>().text = photonPlayer.NickName;
             row.transform.Find("Kills").GetComponent<TMP_Text>().text = "0";
             row.transform.Find("Deaths").GetComponent<TMP_Text>().text = "0";
