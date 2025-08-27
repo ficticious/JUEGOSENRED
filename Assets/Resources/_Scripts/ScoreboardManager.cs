@@ -4,77 +4,72 @@ using Photon.Realtime;
 using TMPro;
 using System.Collections.Generic;
 
-public class ScoreboardManager : MonoBehaviourPunCallbacks
+public class ScoreboardManager : MonoBehaviour
 {
-    
+    public static ScoreboardManager instance;
+
+    [Header("UI")]
     public GameObject scoreboardPanel;
     public Transform contentParent; 
-    public GameObject playerRowPrefab;
+    public GameObject playerRowPrefab; 
 
     private Dictionary<Player, GameObject> playerRows = new Dictionary<Player, GameObject>();
 
-    void Start()
+    void Awake()
     {
+        instance = this;
         scoreboardPanel.SetActive(false);
+    }
 
+    void Update()
+    {
         
+        scoreboardPanel.SetActive(Input.GetKey(KeyCode.Tab));
+    }
+
+    public void InitializeScoreboard()
+    {
         foreach (Player p in PhotonNetwork.PlayerList)
         {
             AddPlayerRow(p);
         }
     }
 
-    void Update()
+    public void AddPlayerRow(Player photonPlayer)
     {
-       
-        if (Input.GetKeyDown(KeyCode.Tab))
-            scoreboardPanel.SetActive(true);
-        if (Input.GetKeyUp(KeyCode.Tab))
-            scoreboardPanel.SetActive(false);
-
-        
-        UpdatePlayerRows();
-    }
-
-    void AddPlayerRow(Player player)
-    {
-        GameObject row = Instantiate(playerRowPrefab, contentParent);
-        row.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = player.NickName;
-        playerRows[player] = row;
-    }
-
-    void RemovePlayerRow(Player player)
-    {
-        if (playerRows.ContainsKey(player))
+        if (!playerRows.ContainsKey(photonPlayer))
         {
-            Destroy(playerRows[player]);
-            playerRows.Remove(player);
+            GameObject row = Instantiate(playerRowPrefab, contentParent);
+            row.transform.Find("Player").GetComponent<TMP_Text>().text = photonPlayer.NickName;
+            row.transform.Find("Kills").GetComponent<TMP_Text>().text = "0";
+            row.transform.Find("Deaths").GetComponent<TMP_Text>().text = "0";
+
+            playerRows.Add(photonPlayer, row);
         }
     }
 
-    void UpdatePlayerRows()
+    public void UpdateScore(Player photonPlayer)
     {
-        foreach (var kvp in playerRows)
+        if (playerRows.ContainsKey(photonPlayer))
         {
-            Player p = kvp.Key;
-            GameObject row = kvp.Value;
+            GameObject row = playerRows[photonPlayer];
+            PlayerSetup stats = FindPlayerSetup(photonPlayer);
 
-            int kills = p.CustomProperties.ContainsKey("Kills") ? (int)p.CustomProperties["Kills"] : 0;
-            int deaths = p.CustomProperties.ContainsKey("Deaths") ? (int)p.CustomProperties["Deaths"] : 0;
-
-            row.transform.Find("Kills").GetComponent<TextMeshProUGUI>().text = kills.ToString();
-            row.transform.Find("Deaths").GetComponent<TextMeshProUGUI>().text = deaths.ToString();
+            if (stats != null)
+            {
+                row.transform.Find("Kills").GetComponent<TMP_Text>().text = stats.kills.ToString();
+                row.transform.Find("Deaths").GetComponent<TMP_Text>().text = stats.deaths.ToString();
+            }
         }
     }
 
-    
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    private PlayerSetup FindPlayerSetup(Player photonPlayer)
     {
-        AddPlayerRow(newPlayer);
-    }
-
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        RemovePlayerRow(otherPlayer);
+        foreach (PlayerSetup ps in FindObjectsOfType<PlayerSetup>())
+        {
+            if (ps.photonView.Owner == photonPlayer)
+                return ps;
+        }
+        return null;
     }
 }

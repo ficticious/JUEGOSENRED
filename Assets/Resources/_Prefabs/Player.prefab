@@ -1072,6 +1072,8 @@ MonoBehaviour:
   camera: {fileID: 7853596038875301621}
   nickname: 
   nameTag: {fileID: 4736404608774827320}
+  kills: 0
+  deaths: 0
 --- !u!114 &-8414198903005244444
 MonoBehaviour:
   m_ObjectHideFlags: 0

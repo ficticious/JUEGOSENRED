@@ -13,7 +13,7 @@ public class Connect : MonoBehaviourPunCallbacks
     public GameObject player;
     public TMP_InputField inputNickname;
 
-    private string nickname = "Name";
+    private string nickname = "Player";
     private int numberOfPlayer;
 
     void Start()
@@ -36,7 +36,7 @@ public class Connect : MonoBehaviourPunCallbacks
         else
         {
             numberOfPlayer = PhotonNetwork.CountOfPlayersInRooms + 1;
-            nickname = "Name" + numberOfPlayer;
+            nickname = "Player" + numberOfPlayer;
         }
 
        

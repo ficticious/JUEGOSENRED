@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 
-public class PlayerSetup : MonoBehaviour
+public class PlayerSetup : MonoBehaviourPun
 {
     public CameraMove cameraScript;
     public Movement movementScript;
@@ -12,11 +12,16 @@ public class PlayerSetup : MonoBehaviour
     public string nickname;
     public TextMeshPro nameTag;
 
+    [Header("Stats")]
+    public int kills = 0;
+    public int deaths = 0;
+
     [PunRPC]
     public void SetNickname(string _name)
     {
         nickname = _name;
-        nameTag.text = nickname;
+        if (nameTag != null)
+            nameTag.text = nickname;
     }
 
     public void IsLocalPlayer()
@@ -31,7 +36,8 @@ public class PlayerSetup : MonoBehaviour
         movementScript.enabled = false;
         cameraScript.enabled = false;
         camera.SetActive(false);
-
         Debug.Log("Remote Player");
     }
+
+ 
 }
