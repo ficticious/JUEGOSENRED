@@ -8,49 +8,60 @@ using TMPro;
 
 public class Connect : MonoBehaviourPunCallbacks
 {
-    [Space]
     [Header("Player")]
     public GameObject mainCamera;
     public GameObject player;
     public TMP_InputField inputNickname;
-    private string nickname = "player";
+
+    private string nickname = "Name";
     private int numberOfPlayer;
-    
 
     void Start()
     {
-        if (!PhotonNetwork.IsConnected) PhotonNetwork.ConnectUsingSettings();
+        if (!PhotonNetwork.IsConnected)
+            PhotonNetwork.ConnectUsingSettings();
     }
 
     public void ConnectToMasterWithButton()
     {
-        if (!PhotonNetwork.IsConnected) PhotonNetwork.ConnectUsingSettings();
+        
+        if (!PhotonNetwork.IsConnected)
+            PhotonNetwork.ConnectUsingSettings();
+
+        
+        if (inputNickname != null && !string.IsNullOrEmpty(inputNickname.text))
+        {
+            nickname = inputNickname.text;
+        }
+        else
+        {
+            numberOfPlayer = PhotonNetwork.CountOfPlayersInRooms + 1;
+            nickname = "Name" + numberOfPlayer;
+        }
+
+       
+        PhotonNetwork.NickName = nickname;
+        Debug.Log("Nick asignado: " + nickname);
     }
 
     public override void OnConnectedToMaster()
     {
-        base.OnConnectedToMaster();
-
         PhotonNetwork.JoinLobby();
-    }
-
-    public override void OnJoinedLobby()
-    {
-        base.OnJoinedLobby();
     }
 
     public override void OnJoinedRoom()
     {
-        base.OnJoinedRoom();
-
+        
         GameObject newPlayer = SpawnController.instance.SpawnPlayer();
-        EmptyNickname();
+
+        
         newPlayer.GetComponent<PhotonView>().RPC("SetNickname", RpcTarget.AllBuffered, nickname);
     }
 
     public void ChangeNickname(string _name)
     {
         nickname = _name;
+        PhotonNetwork.NickName = nickname;
     }
 
     private void EmptyNickname()

@@ -35,6 +35,8 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.CreateRoom(inputCreate.text, new RoomOptions() 
             { 
+
+
                 MaxPlayers = (byte)_maxPlayers, 
                 IsVisible = isPublic.isOn, 
                 IsOpen = isPublic.isOn,
