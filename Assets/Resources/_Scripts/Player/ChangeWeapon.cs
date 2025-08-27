@@ -5,44 +5,47 @@ using UnityEngine.UI;
 
 public class ChangeWeapon : MonoBehaviour
 {
-    [SerializeField] GameObject pistol;
-    [SerializeField] GameObject rifle;
+    [Header("UI")]
     [SerializeField] private Image crosshairUI;
+    [Space]
+    [SerializeField] private List<GameObject> weapons = new List<GameObject>();
 
+    private int currentWeaponIndex = 0;
     private Weapon currentWeapon;
 
     private void Start()
     {
-        EquipWeapon(pistol);
+        if (weapons.Count > 0)
+            EquipWeapon(0);
     }
 
     private void Update()
     {
-        Change();
-    }
-
-    private void Change()
-    {
         if (Input.GetKeyUp(KeyCode.Q))
         {
-            if (currentWeapon == pistol.GetComponent<Weapon>())
-                EquipWeapon(rifle);
-            else
-                EquipWeapon(pistol);
+            NextWeapon();
         }
     }
 
-    private void EquipWeapon(GameObject weapon)
+    private void EquipWeapon(int index)
     {
-        pistol.SetActive(weapon == pistol);
-        rifle.SetActive(weapon == rifle);
+        for (int i = 0; i < weapons.Count; i++)
+            weapons[i].SetActive(i == index);
 
-        currentWeapon = weapon.GetComponent<Weapon>();
+        currentWeaponIndex = index;
+        currentWeapon = weapons[index].GetComponent<Weapon>();
 
-        // Seteo el crosshair según el arma
         if (currentWeapon != null && crosshairUI != null)
-        {
             crosshairUI.sprite = currentWeapon.crosshair;
-        }
+    }
+
+    private void NextWeapon()
+    {
+        int nextIndex = currentWeaponIndex + 1;
+
+        if (nextIndex >= weapons.Count)
+            nextIndex = 0;
+
+        EquipWeapon(nextIndex);
     }
 }

@@ -38,17 +38,22 @@ public abstract class Weapon : MonoBehaviour
     {
         if (hit.transform.gameObject.GetComponent<Health>())
         {
-            hit.transform.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, dmg);
+            float distance = Vector3.Distance(camera.transform.position, hit.point);
+            float t = Mathf.InverseLerp(minDistance, maxDistance, distance);
+            float damageMultiplier = Mathf.Lerp(1f, minDamagePercent, t);
 
-            Debug.Log($"Hit {hit.transform.name} → {dmg:F1} dmg");
+            float finalDamage = damage * damageMultiplier;
+
+            hit.transform.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, finalDamage);
+
+            //Debug.Log($"Hit {hit.transform.name} → {dmg:F1} dmg");
+            Debug.Log($"Hit → {finalDamage:F1} dmg (Base {dmg:F1}, Dist {distance:F1})");
         }
     }
     public abstract void Fire();
 
     public void Recoil()
     {
-        //print("Recoil");
-
         Vector3 finalPosition = new Vector3(originalPosition.x, originalPosition.y + recoilUp, originalPosition.z - recoilBack);
 
         transform.parent.localPosition = Vector3.SmoothDamp(transform.parent.localPosition, finalPosition, ref recoilVelocity, recoilLength);
@@ -62,8 +67,6 @@ public abstract class Weapon : MonoBehaviour
 
     public void Recover()
     {
-        //print("Recover");
-
         Vector3 finalPosition = originalPosition;
 
         transform.parent.localPosition = Vector3.SmoothDamp(transform.parent.localPosition, finalPosition, ref recoilVelocity, recoverLength);

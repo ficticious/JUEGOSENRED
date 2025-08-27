@@ -557,8 +557,8 @@ Transform:
   m_LocalScale: {x: 1, y: 0.9999999, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5029882021818124564}
   - {fileID: 2791255970049155940}
+  - {fileID: 5029882021818124564}
   - {fileID: 7791521718652651003}
   m_Father: {fileID: 7853596038875301616}
   m_RootOrder: 1
@@ -575,9 +575,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf170cacec47214599f9579f92fdf36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pistol: {fileID: 7452009413838643009}
-  rifle: {fileID: 5658328317819327406}
   crosshairUI: {fileID: 9093507332657329075}
+  weapons:
+  - {fileID: 3312212981945186782}
+  - {fileID: 5658328317819327406}
+  - {fileID: 7452009413838643009}
 --- !u!114 &5015905511718186719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1282,9 +1284,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faf170cacec47214599f9579f92fdf36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pistol: {fileID: 3312212981945186782}
-  rifle: {fileID: 5658328317819327406}
   crosshairUI: {fileID: 0}
+  weapons: []
 --- !u!1001 &4029692434335061577
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1298,7 +1299,7 @@ PrefabInstance:
       objectReference: {fileID: 7853596038875301623}
     - target: {fileID: 8224114873886908253, guid: b6865d98ccd74f14d9d411d7956838e8, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8224114873886908253, guid: b6865d98ccd74f14d9d411d7956838e8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1415,6 +1416,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shotgun
       objectReference: {fileID: 0}
+    - target: {fileID: 6605643206553974731, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
 --- !u!1 &7452009413838643009 stripped
@@ -1436,7 +1441,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7335265468307985667, guid: 05914b63b9ffbbb43a30e8f016f85daa, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7335265468307985667, guid: 05914b63b9ffbbb43a30e8f016f85daa, type: 3}
       propertyPath: m_LocalPosition.x

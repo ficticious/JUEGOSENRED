@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class Rifle : Weapon
@@ -63,7 +64,7 @@ public class Rifle : Weapon
 
         if (Physics.Raycast(ray, out hit, maxDistance))
         {
-            if (hitVFX) Photon.Pun.PhotonNetwork.Instantiate(hitVFX.name, hit.point, Quaternion.identity);
+            if (hitVFX) Photon.Pun.PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "VFX", hitVFX.name), hit.point, Quaternion.identity);
             DoDamage(hit, damage);
         }
     }
