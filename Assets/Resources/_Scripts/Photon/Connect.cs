@@ -12,7 +12,6 @@ public class Connect : MonoBehaviourPunCallbacks
     public GameObject mainCamera;
     public GameObject player;
     public TMP_InputField inputNickname;
-
     private string nickname = "Player";
     private int numberOfPlayer;
 
@@ -27,33 +26,27 @@ public class Connect : MonoBehaviourPunCallbacks
         
         if (!PhotonNetwork.IsConnected)
             PhotonNetwork.ConnectUsingSettings();
-
-        
-        if (inputNickname != null && !string.IsNullOrEmpty(inputNickname.text))
-        {
-            nickname = inputNickname.text;
-        }
-        else
-        {
-            numberOfPlayer = PhotonNetwork.CountOfPlayersInRooms + 1;
-            nickname = "Player" + numberOfPlayer;
-        }
-
+              
        
-        PhotonNetwork.NickName = nickname;
-        Debug.Log("Nick asignado: " + nickname);
     }
 
     public override void OnConnectedToMaster()
     {
+        base.OnConnectedToMaster();
         PhotonNetwork.JoinLobby();
+    }
+    public override void OnJoinedLobby()
+    { 
+        
+        base.OnJoinedLobby(); 
+        
     }
 
     public override void OnJoinedRoom()
     {
-        
-        GameObject newPlayer = SpawnController.instance.SpawnPlayer();
 
+        base.OnJoinedRoom(); 
+        GameObject newPlayer = SpawnController.instance.SpawnPlayer(); EmptyNickname();
         
         newPlayer.GetComponent<PhotonView>().RPC("SetNickname", RpcTarget.AllBuffered, nickname);
     }
@@ -61,7 +54,7 @@ public class Connect : MonoBehaviourPunCallbacks
     public void ChangeNickname(string _name)
     {
         nickname = _name;
-        PhotonNetwork.NickName = nickname;
+        
     }
 
     private void EmptyNickname()
@@ -72,4 +65,4 @@ public class Connect : MonoBehaviourPunCallbacks
             nickname = nickname + numberOfPlayer.ToString();
         }
     }
-}
+} 
