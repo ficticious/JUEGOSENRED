@@ -317,74 +317,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &728925937
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 728925940}
-  - component: {fileID: 728925939}
-  - component: {fileID: 728925938}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &728925938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 728925937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
---- !u!114 &728925939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 728925937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!4 &728925940
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 728925937}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &818307759
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,24 +513,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7452009413838643009, guid: 97340654bc95fed4492f9cd34d852eb5, type: 3}
   m_PrefabInstance: {fileID: 6309375112292398230}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1320822746 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7853596038875301621, guid: 97340654bc95fed4492f9cd34d852eb5, type: 3}
-  m_PrefabInstance: {fileID: 6309375112292398230}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1320822749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320822746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53dce13666552d24cb04283eb5e5893a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  verticalResolution: 240
 --- !u!1 &1462402651
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,10 +666,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shotgun_Lowpoly
       objectReference: {fileID: 0}
-    - target: {fileID: 6605643206553974731, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
 --- !u!1001 &6309375112292398230
@@ -769,14 +679,6 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 789250179829866470, guid: 97340654bc95fed4492f9cd34d852eb5, type: 3}
-      propertyPath: m_SortingOrder
-      value: -10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4675902976539262787, guid: 97340654bc95fed4492f9cd34d852eb5, type: 3}
-      propertyPath: m_Texture
-      value: 
-      objectReference: {fileID: 8400000, guid: 86e4d79529993834f8b182b9770673ff, type: 2}
     - target: {fileID: 6229055537181650765, guid: 97340654bc95fed4492f9cd34d852eb5, type: 3}
       propertyPath: pistol
       value: 
@@ -832,10 +734,6 @@ PrefabInstance:
     - target: {fileID: 7853596038875301621, guid: 97340654bc95fed4492f9cd34d852eb5, type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7853596038875301623, guid: 97340654bc95fed4492f9cd34d852eb5, type: 3}
-      propertyPath: m_TargetTexture
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97340654bc95fed4492f9cd34d852eb5, type: 3}
