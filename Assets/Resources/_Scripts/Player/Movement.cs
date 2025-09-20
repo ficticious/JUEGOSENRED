@@ -8,12 +8,12 @@ public class Movement : MonoBehaviour
     [Header("Move")]
     public float baseWalkSpeed = 1f;
     public float baseSprintSpeed = 4f;
-    public float maxVelocityChange = 10f;
+
     private float walkSpeed, sprintSpeed;
-    [Space]
+
     [Header("Jump")]
-    public float jumpForce;
-    public float airControl;
+    public float jumpForce = 5f;
+    public float airControl = 0.5f;
 
     private Vector2 input;
     private Rigidbody rb;
@@ -25,13 +25,14 @@ public class Movement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-
+        rb.freezeRotation = true; // evita que el player se caiga al rotar
         walkSpeed = baseWalkSpeed;
         sprintSpeed = baseSprintSpeed;
     }
 
     private void Update()
     {
+        // Input
         input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         input.Normalize();
 
@@ -46,64 +47,23 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (grounded) 
+        // ---- Movimiento horizontal con Translate ----
+        if (input.magnitude > 0.1f)
         {
-            if (jumping)
-            {
-                rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
-            }
-            else if (input.magnitude > 0.5f)
-            { 
-                rb.AddForce(CalculateMovement(sprinting ? sprintSpeed : walkSpeed), ForceMode.VelocityChange);
-            }
-            else
-            {
-                var velocity1 = rb.velocity;
-                velocity1 = new Vector3(velocity1.x * 0.2f * Time.fixedDeltaTime, velocity1.y, velocity1.z * 0.2f * Time.fixedDeltaTime);
-                rb.velocity = velocity1;
-            }
-        }
-        else
-        {
-            if (input.magnitude > 0.5f)
-            {
-                rb.AddForce(CalculateMovement(sprinting ? sprintSpeed * airControl : walkSpeed * airControl), ForceMode.VelocityChange);
-            }
-            else
-            {
-                var velocity1 = rb.velocity;
-                velocity1 = new Vector3(velocity1.x * 0.2f * Time.fixedDeltaTime, velocity1.y, velocity1.z * 0.2f * Time.fixedDeltaTime);
-                rb.velocity = velocity1;
-            }
+            // Solo podés sprintar si estás en el suelo
+            float speed = grounded && sprinting ? sprintSpeed : walkSpeed;
+
+            Vector3 move = transform.right * input.x + transform.forward * input.y;
+            transform.Translate(move * speed * Time.fixedDeltaTime, Space.World);
         }
 
-        grounded = false;
-    }
-
-    Vector3 CalculateMovement(float _speed)
-    {
-        Vector3 targetVelocity = new Vector3(input.x, 0, input.y);
-        targetVelocity = transform.TransformDirection(targetVelocity);
-
-        targetVelocity *= _speed;
-
-        Vector3 velocity = rb.velocity;
-
-        if (input.magnitude > 0.5f)
+        // ---- Salto con Rigidbody ----
+        if (grounded && jumping)
         {
-            Vector3 velocityChange = (targetVelocity - velocity);
-
-            velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
-            velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
-
-            velocityChange.y = 0f;
-
-            return velocityChange;
+            rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
         }
-        else
-        {
-            return new Vector3();
-        }
+
+        grounded = false; // reset cada FixedUpdate
     }
 
     public void SpeedBoost(float multiplier)
