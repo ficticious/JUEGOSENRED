@@ -44,10 +44,8 @@ public class Health : MonoBehaviourPunCallbacks
     {
         Debug.Log($"{gameObject.name} murió");
 
-        // Desactivar control y modelo
         playerSetup.DisablePlayer();
 
-        // Solo el dueño (local) pide respawn
         if (photonView.IsMine)
         {
             StartCoroutine(Respawn());
@@ -56,8 +54,19 @@ public class Health : MonoBehaviourPunCallbacks
 
     private IEnumerator Respawn()
     {
-        yield return new WaitForSeconds(3f); // tiempo de respawn
-        SpawnpointManager.Instance.RespawnPlayer(this.photonView.Owner);
+        yield return new WaitForSeconds(0.1f);
+
+        Transform spawn = SpawnPointManager.Instance.GetRandomSpawnPoint();
+
+        // mover jugador al spawn
+        transform.position = spawn.position;
+        transform.rotation = spawn.rotation;
+
+        // resetear vida
+        ResetHealth();
+
+        // reactivar controles y modelo
+        playerSetup.EnablePlayer();
     }
 
     public void Heal(float healAmount)

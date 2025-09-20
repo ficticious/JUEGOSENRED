@@ -2,9 +2,9 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class SpawnpointManager : MonoBehaviourPunCallbacks
+public class SpawnPointManager : MonoBehaviourPunCallbacks
 {
-    public static SpawnpointManager Instance;
+    public static SpawnPointManager Instance;
 
     [Header("Spawn Settings")]
     public Transform[] spawnPoints;
@@ -14,22 +14,9 @@ public class SpawnpointManager : MonoBehaviourPunCallbacks
         if (Instance == null) Instance = this;
     }
 
-    public void RespawnPlayer(Player player)
+    public Transform GetRandomSpawnPoint()
     {
-        if (spawnPoints.Length == 0)
-        {
-            Debug.LogError("No hay spawn points asignados!");
-            return;
-        }
-
         int rand = Random.Range(0, spawnPoints.Length);
-        Transform spawn = spawnPoints[rand];
-
-        // Instancia un nuevo player
-        GameObject newPlayer = PhotonNetwork.Instantiate("PlayerPrefab", spawn.position, spawn.rotation, 0);
-
-        // Resetear vida
-        newPlayer.GetComponent<Health>().ResetHealth();
-        newPlayer.GetComponent<PlayerSetup>().EnablePlayer();
+        return spawnPoints[rand];
     }
 }
