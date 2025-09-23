@@ -49,6 +49,13 @@ public abstract class Weapon : MonoBehaviour
             //Debug.Log($"Hit {hit.transform.name} → {dmg:F1} dmg");
             Debug.Log($"Hit → {finalDamage:F1} dmg (Base {dmg:F1}, Dist {distance:F1})");
         }
+
+        if(damage >= hit.transform.gameObject.GetComponent<Health>().health)
+        {
+            KillsManager.instance.kills++;
+            KillsManager.instance.SetHashes();
+            Debug.Log(KillsManager.instance.kills);
+        }
     }
     public abstract void Fire();
 
