@@ -23,7 +23,20 @@ public class SpawnController : MonoBehaviour
     public GameObject SpawnPlayer()
     {
         int spawnIndex = (PhotonNetwork.LocalPlayer.ActorNumber - 1) % spawnPoints.Length;
-        GameObject _player = PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "Player"), spawnPoints[spawnIndex].position, Quaternion.identity);
+        Transform spawn = spawnPoints[spawnIndex];
+
+        // Invertir la rotación en Y
+        Quaternion spawnRotation = Quaternion.Euler(
+            spawn.rotation.eulerAngles.x,
+            spawn.rotation.eulerAngles.y + 180f, // 180° para mirar al lado opuesto
+            spawn.rotation.eulerAngles.z
+        );
+
+        GameObject _player = PhotonNetwork.Instantiate(
+            Path.Combine("_Prefabs", "Player"),
+            spawn.position,
+            spawnRotation
+        );
         return _player;
     }
 }

@@ -16,9 +16,12 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
     public Toggle isPublic;
 
     [Header("Room Options")]
-    [Min(1)] public int _maxPlayers;
+    [Min(2)] public int _maxPlayers = 2; 
     public bool _isVisible;
     public bool _isOpen;
+
+    private const int MIN_PLAYERS = 2;
+    private const int MAX_PLAYERS = 4;
 
     public void CreateAndJoinRandomRoom()
     {
@@ -27,16 +30,16 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
-        if (inputCreate.text == "" || inputCreate.text == null)
+        if (string.IsNullOrEmpty(inputCreate.text))
         {
             Debug.LogWarning("Cannot create room --- Need a room name");
-        } 
+        }
         else
         {
-            PhotonNetwork.CreateRoom(inputCreate.text, new RoomOptions() 
-            { 
-                MaxPlayers = (byte)_maxPlayers, 
-                IsVisible = isPublic.isOn, 
+            PhotonNetwork.CreateRoom(inputCreate.text, new RoomOptions()
+            {
+                MaxPlayers = (byte)_maxPlayers,
+                IsVisible = isPublic.isOn,
                 IsOpen = isPublic.isOn,
             });
         }
@@ -49,13 +52,13 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
 
     public void MorePlayers()
     {
-        if (_maxPlayers < 10) _maxPlayers++;
+        if (_maxPlayers < MAX_PLAYERS) _maxPlayers++;
         UpdateMaxPlayersText();
     }
 
     public void LessPlayers()
     {
-        if (_maxPlayers > 1) _maxPlayers--;
+        if (_maxPlayers > MIN_PLAYERS) _maxPlayers--;
         UpdateMaxPlayersText();
     }
 
