@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class GameOverScreen : MonoBehaviour
+public class GameOverScreen : MonoBehaviourPunCallbacks
 {
     //public TMP_Text textPuntos;
 
@@ -28,5 +30,17 @@ public class GameOverScreen : MonoBehaviour
         gameOverPanel.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void GoToLobby()
+    {
+        PhotonNetwork.Disconnect();
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        base.OnDisconnected(cause);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class WinScreen : MonoBehaviour
+public class WinScreen : MonoBehaviourPunCallbacks
 {
     //public TMP_Text textPuntos;
 
@@ -34,6 +36,13 @@ public class WinScreen : MonoBehaviour
 
     public void GoToLobby()
     {
+        PhotonNetwork.Disconnect();
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        base.OnDisconnected(cause); 
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
