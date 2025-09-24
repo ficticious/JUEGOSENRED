@@ -14,8 +14,8 @@ public class ChangeWeapon : MonoBehaviourPun
     private int currentWeaponIndex = 0;
     private Weapon currentWeapon;
 
-    private int killCount = 0;
     private int killsPerChange = 3;
+    private int lastKillCheckpoint = 0; 
 
     private void Start()
     {
@@ -25,9 +25,10 @@ public class ChangeWeapon : MonoBehaviourPun
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Q))
+        
+        if (photonView.IsMine)
         {
-            AddKill();
+            CheckKillsForWeaponChange();
         }
     }
 
@@ -55,35 +56,15 @@ public class ChangeWeapon : MonoBehaviourPun
         EquipWeapon(nextIndex);
     }
 
-    // Llamar a esto cuando el jugador haga una kill
-    public void AddKill()
+    private void CheckKillsForWeaponChange()
     {
-        killCount++;
+        int currentKills = Connect.instance.kills;
 
-        if (killCount % killsPerChange == 0)
+        
+        if (currentKills >= lastKillCheckpoint + killsPerChange)
         {
+            lastKillCheckpoint = currentKills;
             NextWeapon();
         }
     }
 }
-
-/*
-[PunRPC]
-void EquipWeaponRPC(int weaponIndex)
-{
-    for (int i = 0; i < weapons.Count; i++)
-        weapons[i].SetActive(i == weaponIndex);
-
-    currentWeaponIndex = weaponIndex;
-    currentWeapon = weapons[weaponIndex].GetComponent<Weapon>();
-
-    if (photonView.IsMine && crosshairUI != null)
-        crosshairUI.sprite = currentWeapon.crosshair;
-}
-
-// Si quisieras sincronizar el cambio de arma vía RPC
-private void EquipWeapon(int index)
-{
-    photonView.RPC("EquipWeaponRPC", RpcTarget.AllBuffered, index);
-}
-*/
