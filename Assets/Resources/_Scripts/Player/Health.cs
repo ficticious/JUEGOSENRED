@@ -160,14 +160,7 @@ public class Health : MonoBehaviourPunCallbacks
             text.text = value.ToString("F1");
     }
 
-    private void UpdateHealthUI()
-    {
-        if (healthText != null)
-        {
-            healthText.text = health.ToString("F0");
-        }
-    }
-
+    
    
     public float GetCurrentHealth()
     {
