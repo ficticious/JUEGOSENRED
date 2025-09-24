@@ -52,7 +52,9 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
 
             hit.transform.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, finalDamage);
 
-            deatCheck -= damage;
+            deatCheck -= finalDamage;
+
+            Debug.Log(deatCheck);
 
             //Debug.Log($"Hit {hit.transform.name} → {dmg:F1} dmg");
             Debug.Log($"Hit → {finalDamage:F1} dmg (Base {dmg:F1}, Dist {distance:F1})");
@@ -60,11 +62,11 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
 
         if(deatCheck <= 0)
         {
-               // PhotonNetwork.LocalPlayer.AddScore(100);
-
-                Connect.instance.kills++;
-                Connect.instance.SetHashes();
-                deatCheck = 100;
+            // PhotonNetwork.LocalPlayer.AddScore(100);
+            deatCheck = 100;
+            Connect.instance.kills++;
+            Connect.instance.SetHashes();
+           
 
         }
     }

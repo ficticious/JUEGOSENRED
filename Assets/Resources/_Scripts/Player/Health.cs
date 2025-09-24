@@ -41,12 +41,7 @@ public class Health : MonoBehaviourPunCallbacks
 
         if (health <= 0)
         {
-            if (isLocalPlayer) 
-            {
-                //Connect.instance.deaths++;
-                //Connect.instance.SetHashes();
-                
-            }
+           
 
             photonView.RPC("Die", RpcTarget.All);
            
@@ -58,7 +53,11 @@ public class Health : MonoBehaviourPunCallbacks
     public void Die()
     {
         Debug.Log($"{gameObject.name} murió");
-        health = maxHealth;
+        
+
+      
+
+       
 
 
         playerSetup.DisablePlayer();
@@ -67,11 +66,18 @@ public class Health : MonoBehaviourPunCallbacks
 
         if (photonView.IsMine)
         {
-            
-            StartCoroutine(Respawn());
+            if (isLocalPlayer && health <= 0)
+            {
+                Connect.instance.deaths++;
+                Connect.instance.SetHashes();
 
+            }
+            StartCoroutine(Respawn());
+          
 
         }
+
+        health = 100;
     }
 
     private IEnumerator Respawn()
@@ -84,7 +90,7 @@ public class Health : MonoBehaviourPunCallbacks
         transform.position = spawn.position;
         transform.rotation = spawn.rotation;
 
-       
+        
 
         // resetear vida
         ResetHealth();
