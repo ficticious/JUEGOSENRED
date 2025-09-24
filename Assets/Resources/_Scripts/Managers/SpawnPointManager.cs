@@ -10,11 +10,11 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
 
     [Header("Spawn Settings")]
     public Transform[] spawnPoints;
-    public float minDistanceBetweenPlayers = 15f;
+    public float minDistanceBetweenPlayers = 10f;
 
     [Header("Debug Settings")]
     public bool showDebugGizmos = true;
-    public float debugMinDistance = 20f;
+    public float debugMinDistance = 10f;
     public Color safeColor = Color.green;
     public Color unsafeColor = Color.red;
     public float gizmoRadius = 1.5f;
