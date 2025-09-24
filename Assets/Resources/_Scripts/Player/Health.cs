@@ -28,7 +28,7 @@ public class Health : MonoBehaviourPunCallbacks
         UpdateUI(healthText, health);
     }
 
-    // TakeDamage con attackerId para sistema de kills
+    
     [PunRPC]
     public void TakeDamage(float damage, int attackerId)
     {
@@ -45,11 +45,11 @@ public class Health : MonoBehaviourPunCallbacks
         }
     }
 
-    // Sobrecarga de TakeDamage sin attackerId (para compatibilidad)
+    
     [PunRPC]
     public void TakeDamage(float damage)
     {
-        TakeDamage(damage, -1); // -1 indica que no hay atacante específico
+        TakeDamage(damage, -1); 
     }
 
     [PunRPC]
@@ -59,13 +59,13 @@ public class Health : MonoBehaviourPunCallbacks
 
         Debug.Log($"{gameObject.name} murió");
 
-        // Desactivar jugador visualmente para TODOS
+        
         if (playerSetup != null)
         {
             playerSetup.DisablePlayer();
         }
 
-        // Solo el dueño del objeto maneja la lógica de respawn y estadísticas
+        
         if (photonView.IsMine)
         {
             if (isLocalPlayer && health <= 0f)
@@ -77,7 +77,7 @@ public class Health : MonoBehaviourPunCallbacks
             StartCoroutine(RespawnCoroutine());
         }
 
-        // SOLO el cliente del atacante suma la kill localmente (evita incrementos múltiples)
+        
         if (attackerId != -1 && PhotonNetwork.LocalPlayer.ActorNumber == attackerId)
         {
             Connect.instance.kills++;
@@ -96,7 +96,7 @@ public class Health : MonoBehaviourPunCallbacks
     {
         if (!photonView.IsMine) return;
 
-        // Obtener punto de spawn seguro
+       
         Transform spawnPoint = SpawnPointManager.Instance.GetSafeSpawnPoint(10f);
 
         
