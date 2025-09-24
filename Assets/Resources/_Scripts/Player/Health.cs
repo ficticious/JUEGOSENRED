@@ -7,101 +7,136 @@ using UnityEngine;
 public class Health : MonoBehaviourPunCallbacks
 {
     [Header("Parameters")]
-    [SerializeField]
-    public float health;
-    private float maxHealth = 100;
-
-    [Space]
+    public float maxHealth = 100f;
+    [SerializeField] public float health;
     [Header("UI")]
     public TextMeshProUGUI healthText;
-
+    [Header("Respawn Settings")]
+    public float respawnTime = 3f;
     private PlayerSetup playerSetup;
-
-
     public bool isLocalPlayer;
+    private bool isDead = false;
 
-
-
-    private void Start()
+    void Start()
     {
         health = maxHealth;
         playerSetup = GetComponent<PlayerSetup>();
-        UpdateUI(healthText, health);
-
-        
+        isLocalPlayer = photonView.IsMine;
+        UpdateHealthUI();
     }
 
     [PunRPC]
     public void TakeDamage(float damage)
     {
-        if (health < 0) return; // ya muerto
-
+        if (isDead || health <= 0) return;
         health -= damage;
-        UpdateUI(healthText, health);
-
-        if (health <= 0)
+        health = Mathf.Max(0, health);
+        UpdateHealthUI();
+        if (health <= 0 && !isDead)
         {
-           
-
             photonView.RPC("Die", RpcTarget.All);
-           
-           
         }
     }
 
     [PunRPC]
     public void Die()
     {
-        Debug.Log($"{gameObject.name} murió");
+        if (isDead) return;
+        isDead = true;
+        Debug.Log($"{gameObject.name} ha muerto");
 
-        
-        playerSetup.DisablePlayer();
+        if (playerSetup != null)
+        {
+            playerSetup.DisablePlayer();
+        }
 
         if (photonView.IsMine)
         {
-            if (isLocalPlayer && health <= 0)
+            if (isLocalPlayer)
             {
                 Connect.instance.deaths++;
                 Connect.instance.SetHashes();
             }
-
-            
-            StartCoroutine(Respawn());
+            StartCoroutine(RespawnCoroutine());
         }
     }
 
-
-    private IEnumerator Respawn()
+    private IEnumerator RespawnCoroutine()
     {
-        yield return new WaitForSeconds(2f); 
-
+        yield return new WaitForSeconds(respawnTime);
         if (!photonView.IsMine) yield break;
+        RespawnPlayer();
+    }
 
-        
-        Transform spawn = SpawnPointManager.Instance.GetSafeSpawnPoint(5f);
+    public void RespawnPlayer()
+    {
+        if (!photonView.IsMine) return;
 
-        
-        transform.position = spawn.position;
-        transform.rotation = spawn.rotation;
+        Transform spawnPoint = SpawnPointManager.Instance.GetSafeSpawnPoint(10f);
+        if (spawnPoint != null)
+        {
+            // CAMBIO CLAVE: Usar RPC para sincronizar posición
+            photonView.RPC("SetRespawnPosition", RpcTarget.All,
+                          spawnPoint.position.x, spawnPoint.position.y, spawnPoint.position.z,
+                          spawnPoint.rotation.x, spawnPoint.rotation.y, spawnPoint.rotation.z, spawnPoint.rotation.w);
+        }
 
+        // CAMBIO CLAVE: Usar RPC para sincronizar respawn
+        photonView.RPC("CompleteRespawn", RpcTarget.All);
+    }
+
+    // NUEVO RPC: Sincronizar posición de respawn
+    [PunRPC]
+    public void SetRespawnPosition(float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float rotW)
+    {
+        transform.position = new Vector3(posX, posY, posZ);
+        transform.rotation = new Quaternion(rotX, rotY, rotZ, rotW);
+    }
+
+    // NUEVO RPC: Completar respawn para todos
+    [PunRPC]
+    public void CompleteRespawn()
+    {
         ResetHealth();
 
-        
-        playerSetup.EnablePlayer();
+        if (playerSetup != null)
+        {
+            playerSetup.EnablePlayer();
+        }
+
+        isDead = false;
+        Debug.Log($"{gameObject.name} ha respawneado");
     }
 
     public void Heal(float healAmount)
-{
-    if (health >= maxHealth) health = maxHealth;
-    else health += healAmount;
-
-    UpdateUI(healthText, health);
-}
+    {
+        if (isDead) return;
+        health = Mathf.Min(health + healAmount, maxHealth);
+        UpdateHealthUI();
+    }
 
     public void ResetHealth()
     {
         health = maxHealth;
-        UpdateUI(healthText, health);
+        UpdateHealthUI();
+    }
+
+    private void UpdateHealthUI()
+    {
+        if (healthText != null)
+        {
+            healthText.text = health.ToString("F0");
+        }
+    }
+
+    public float GetCurrentHealth()
+    {
+        return health;
+    }
+
+    public bool IsDead()
+    {
+        return isDead;
     }
 
     public void UpdateUI(TextMeshProUGUI text, float value)

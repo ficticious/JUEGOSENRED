@@ -1101,8 +1101,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59dcb8c4aef3d1a4abc0905db6a6bfbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
   health: 100
   healthText: {fileID: 1179685608133835405}
+  respawnTime: 3
   isLocalPlayer: 1
 --- !u!1 &7853596038875301621
 GameObject:
