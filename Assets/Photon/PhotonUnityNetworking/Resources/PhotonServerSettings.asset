@@ -43,6 +43,8 @@ MonoBehaviour:
   - TakeDamage
   - EquipWeaponRPC
   - Die
+  - WinCondition
+  - Update
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

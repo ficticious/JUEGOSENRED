@@ -15,21 +15,31 @@ public class ChangeWeapon : MonoBehaviourPun
     private Weapon currentWeapon;
 
     private int killsPerChange = 3;
-    private int lastKillCheckpoint = 0; 
+    private int lastKillCheckpoint = 0;
+
+    
 
     private void Start()
     {
         if (weapons.Count > 0)
             EquipWeapon(0);
+
+       
+      
     }
 
+    
     private void Update()
     {
         
         if (photonView.IsMine)
         {
             CheckKillsForWeaponChange();
+           // WinCondition(PhotonNetwork.LocalPlayer.ActorNumber);
+
         }
+
+       
     }
 
     private void EquipWeapon(int index)
@@ -67,4 +77,22 @@ public class ChangeWeapon : MonoBehaviourPun
             NextWeapon();
         }
     }
+
+    
+    //private void WinCondition(int playerID)
+    //{
+    //    int killsForWin = Connect.instance.kills;
+
+    //    if(killsForWin == 2 && PhotonNetwork.LocalPlayer.ActorNumber == playerID)
+    //    {
+    //        FindObjectOfType<WinScreen>().ShowWinPanel();
+    //    }
+
+    //    if(killsForWin > 2 && PhotonNetwork.LocalPlayer.ActorNumber == playerID)
+    //    {
+    //        FindObjectOfType<GameOverScreen>().ShowLosePanel();
+    //    }
+
+        
+    //}
 }
