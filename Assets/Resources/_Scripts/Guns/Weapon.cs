@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun.Demo.PunBasics;
 
-public abstract class Weapon : MonoBehaviour
+public abstract class Weapon : MonoBehaviourPunCallbacks
 {
     public Camera camera;
 
@@ -29,10 +30,14 @@ public abstract class Weapon : MonoBehaviour
     protected Vector3 originalPosition;
     protected Vector3 recoilVelocity = Vector3.zero;
 
+    
+
 
     [Header("VFX -- UI")]
     public GameObject hitVFX;
     public Sprite crosshair;
+
+   
 
     protected void DoDamage(RaycastHit hit, float dmg)
     {
@@ -50,11 +55,12 @@ public abstract class Weapon : MonoBehaviour
             Debug.Log($"Hit → {finalDamage:F1} dmg (Base {dmg:F1}, Dist {distance:F1})");
         }
 
-        if(damage >= hit.transform.gameObject.GetComponent<Health>().health)
+        if(0 >= hit.transform.gameObject.GetComponent<Health>().health )
         {
-            KillsManager.instance.kills++;
-            KillsManager.instance.SetHashes();
-            Debug.Log(KillsManager.instance.kills);
+            
+                KillsManager.instance.kills++;
+                KillsManager.instance.SetHashes();
+
         }
     }
     public abstract void Fire();

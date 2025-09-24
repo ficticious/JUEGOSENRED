@@ -43,12 +43,11 @@ public class Health : MonoBehaviourPunCallbacks
         {
            if (isLocalPlayer)
             {
-                KillsManager.instance.deaths++;
-                KillsManager.instance.SetHashes();
-                Debug.Log(KillsManager.instance.deaths);
+               
+                
             }
 
-            health = 0;
+            
             photonView.RPC("Die", RpcTarget.All);
         
         }
@@ -59,7 +58,7 @@ public class Health : MonoBehaviourPunCallbacks
     {
         Debug.Log($"{gameObject.name} murió");
 
-    
+       
 
         playerSetup.DisablePlayer();
 
@@ -68,7 +67,9 @@ public class Health : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             StartCoroutine(Respawn());
-           
+            KillsManager.instance.deaths++;
+            KillsManager.instance.SetHashes();
+
         }
     }
 
