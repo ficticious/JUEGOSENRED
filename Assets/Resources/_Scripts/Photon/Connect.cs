@@ -46,6 +46,9 @@ public class Connect : MonoBehaviourPunCallbacks
         GameObject newPlayer = SpawnController.instance.SpawnPlayer();
         EmptyNickname();
         newPlayer.GetComponent<PhotonView>().RPC("SetNickname", RpcTarget.AllBuffered, nickname);
+        player.GetComponent<Health>().isLocalPlayer = true;
+
+        PhotonNetwork.LocalPlayer.NickName = nickname;
     }
 
     public void ChangeNickname(string _name)

@@ -17,7 +17,6 @@ public class Health : MonoBehaviourPunCallbacks
 
     private PlayerSetup playerSetup;
 
-    private KillsManager killsManager;
 
     public bool isLocalPlayer;
 
@@ -29,7 +28,6 @@ public class Health : MonoBehaviourPunCallbacks
         playerSetup = GetComponent<PlayerSetup>();
         UpdateUI(healthText, health);
 
-        killsManager = GetComponent<KillsManager>();
         
     }
 
@@ -43,12 +41,12 @@ public class Health : MonoBehaviourPunCallbacks
 
         if (health <= 0)
         {
-           // if (isLocalPlayer)
-           // {
+           if (isLocalPlayer)
+            {
                 KillsManager.instance.deaths++;
                 KillsManager.instance.SetHashes();
                 Debug.Log(KillsManager.instance.deaths);
-            //}
+            }
 
             health = 0;
             photonView.RPC("Die", RpcTarget.All);
