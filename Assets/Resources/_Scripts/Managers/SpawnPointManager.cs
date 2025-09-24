@@ -97,8 +97,37 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
         return safeSpawns[Random.Range(0, safeSpawns.Count)];
     }
 
+    // MÉTODO FALTANTE: GetRandomSpawnPoint
+    public Transform GetRandomSpawnPoint()
+    {
+        if (spawnPoints == null || spawnPoints.Length == 0)
+        {
+            Debug.LogError("No hay puntos de spawn disponibles para spawn aleatorio!");
+            return null;
+        }
+
+        // Filtrar spawn points válidos
+        List<Transform> validSpawns = new List<Transform>();
+        foreach (Transform spawn in spawnPoints)
+        {
+            if (spawn != null)
+                validSpawns.Add(spawn);
+        }
+
+        if (validSpawns.Count == 0)
+        {
+            Debug.LogError("No hay spawn points válidos!");
+            return null;
+        }
+
+        // Retornar un spawn point aleatorio
+        return validSpawns[Random.Range(0, validSpawns.Count)];
+    }
+
     private Transform GetFarthestSpawnPoint()
     {
+        if (spawnPoints == null || spawnPoints.Length == 0) return null;
+
         Transform farthestSpawn = spawnPoints[0];
         float maxDistance = 0f;
 
@@ -162,7 +191,7 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
 
         if (spawnPoint != null)
         {
-            // CAMBIO CLAVE: Usar RPC para spawn inicial también
+            // Usar RPC para spawn inicial también
             Health playerHealth = player.GetComponent<Health>();
             if (playerHealth != null)
             {
@@ -216,6 +245,6 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        // Empty - mantenido como en tu código original
+        
     }
 }
