@@ -32,7 +32,7 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
     protected Vector3 recoilVelocity = Vector3.zero;
 
 
-    //public float deatCheck = 100;
+    
 
     [Header("VFX -- UI")]
     public GameObject hitVFX;
