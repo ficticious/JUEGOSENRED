@@ -11,7 +11,7 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks
     public Transform[] spawnPoints;
 
     [Header("Debug Settings")]
-    public float debugMinDistance = 10f;   
+    public float debugMinDistance = 20f;
     public Color safeColor = Color.green;
     public Color unsafeColor = Color.red;
     public float gizmoRadius = 1.5f;
@@ -53,6 +53,25 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks
         return safeSpawns[Random.Range(0, safeSpawns.Count)];
     }
 
+    // NUEVO: Se llama cuando el jugador entra al mapa
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+
+        // Aseguramos que el jugador local se mueva a un spawn seguro
+        GameObject localPlayer = PhotonNetwork.LocalPlayer.TagObject as GameObject;
+
+        if (localPlayer != null)
+        {
+            Transform spawn = GetSafeSpawnPoint();
+            localPlayer.transform.position = spawn.position;
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró al jugador local para spawnear.");
+        }
+    }
+
     private void OnDrawGizmos()
     {
         if (spawnPoints == null) return;
@@ -61,7 +80,6 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks
         {
             if (spawn == null) continue;
 
-            
             bool isSafe = true;
             foreach (var player in GameObject.FindGameObjectsWithTag("Player"))
             {
@@ -80,7 +98,6 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks
             Gizmos.color = isSafe ? safeColor : unsafeColor;
             Gizmos.DrawSphere(spawn.position, gizmoRadius);
 
-            
             Gizmos.color = new Color(Gizmos.color.r, Gizmos.color.g, Gizmos.color.b, 0.2f);
             Gizmos.DrawWireSphere(spawn.position, debugMinDistance);
         }
