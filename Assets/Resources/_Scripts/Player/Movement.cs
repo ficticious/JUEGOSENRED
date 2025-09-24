@@ -61,6 +61,8 @@ public class Movement : MonoBehaviour
         if (grounded && jumping)
         {
             rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+
+            //transform.Translate(Vector3.up * jumpForce * Time.fixedDeltaTime);
         }
 
         grounded = false; 
