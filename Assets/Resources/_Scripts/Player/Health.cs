@@ -54,6 +54,7 @@ public class Health : MonoBehaviourPunCallbacks
     {
         Debug.Log($"{gameObject.name} murió");
 
+        
         playerSetup.DisablePlayer();
 
         if (photonView.IsMine)
@@ -64,43 +65,38 @@ public class Health : MonoBehaviourPunCallbacks
                 Connect.instance.SetHashes();
             }
 
+            
             StartCoroutine(Respawn());
         }
-
-
     }
 
 
     private IEnumerator Respawn()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2f); 
 
         if (!photonView.IsMine) yield break;
 
-
+        
         Transform spawn = SpawnPointManager.Instance.GetSafeSpawnPoint(5f);
 
+        
+        transform.position = spawn.position;
+        transform.rotation = spawn.rotation;
 
-        PhotonNetwork.Destroy(gameObject);
+        ResetHealth();
 
-
-        GameObject newPlayer = PhotonNetwork.Instantiate("PlayerPrefab", spawn.position, spawn.rotation);
-
-
-        Health h = newPlayer.GetComponent<Health>();
-        if (h != null)
-        {
-            h.ResetHealth();
-        }
+        
+        playerSetup.EnablePlayer();
     }
 
     public void Heal(float healAmount)
-    {
-        if (health >= maxHealth) health = maxHealth;
-        else health += healAmount;
+{
+    if (health >= maxHealth) health = maxHealth;
+    else health += healAmount;
 
-        UpdateUI(healthText, health);
-    }
+    UpdateUI(healthText, health);
+}
 
     public void ResetHealth()
     {
