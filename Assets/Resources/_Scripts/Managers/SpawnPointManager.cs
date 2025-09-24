@@ -97,7 +97,7 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
         return safeSpawns[Random.Range(0, safeSpawns.Count)];
     }
 
-    // MÉTODO FALTANTE: GetRandomSpawnPoint
+    
     public Transform GetRandomSpawnPoint()
     {
         if (spawnPoints == null || spawnPoints.Length == 0)
@@ -106,7 +106,7 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
             return null;
         }
 
-        // Filtrar spawn points válidos
+        
         List<Transform> validSpawns = new List<Transform>();
         foreach (Transform spawn in spawnPoints)
         {
@@ -120,7 +120,7 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
             return null;
         }
 
-        // Retornar un spawn point aleatorio
+       
         return validSpawns[Random.Range(0, validSpawns.Count)];
     }
 
@@ -191,7 +191,7 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
 
         if (spawnPoint != null)
         {
-            // Usar RPC para spawn inicial también
+            
             Health playerHealth = player.GetComponent<Health>();
             if (playerHealth != null)
             {
