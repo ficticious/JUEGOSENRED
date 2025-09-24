@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun.Demo.PunBasics;
+using Photon.Pun.UtilityScripts;
 
 public abstract class Weapon : MonoBehaviourPunCallbacks
 {
@@ -51,15 +52,18 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
 
             hit.transform.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, finalDamage);
 
+            
+
             //Debug.Log($"Hit {hit.transform.name} → {dmg:F1} dmg");
             Debug.Log($"Hit → {finalDamage:F1} dmg (Base {dmg:F1}, Dist {distance:F1})");
         }
 
-        if(0 >= hit.transform.gameObject.GetComponent<Health>().health )
+        if(0 > hit.transform.gameObject.GetComponent<Health>().health )
         {
-            
-                KillsManager.instance.kills++;
-                KillsManager.instance.SetHashes();
+                PhotonNetwork.LocalPlayer.AddScore(100);
+
+                Connect.instance.kills++;
+                Connect.instance.SetHashes();
 
         }
     }
