@@ -53,16 +53,8 @@ public class Health : MonoBehaviourPunCallbacks
     public void Die()
     {
         Debug.Log($"{gameObject.name} murió");
-        
-
-      
-
-       
-
 
         playerSetup.DisablePlayer();
-       
-    
 
         if (photonView.IsMine)
         {
@@ -70,34 +62,36 @@ public class Health : MonoBehaviourPunCallbacks
             {
                 Connect.instance.deaths++;
                 Connect.instance.SetHashes();
-
             }
-            StartCoroutine(Respawn());
-          
 
+            StartCoroutine(Respawn());
         }
 
-        health = 100;
+
     }
+
 
     private IEnumerator Respawn()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(2f);
 
-        Transform spawn = SpawnPointManager.Instance.GetRandomSpawnPoint();
-
-        // mover jugador al spawn
-        transform.position = spawn.position;
-        transform.rotation = spawn.rotation;
-
-        
-
-        // resetear vida
-        ResetHealth();
+        if (!photonView.IsMine) yield break;
 
 
-        // reactivar controles y modelo
-        playerSetup.EnablePlayer();
+        Transform spawn = SpawnPointManager.Instance.GetSafeSpawnPoint(5f);
+
+
+        PhotonNetwork.Destroy(gameObject);
+
+
+        GameObject newPlayer = PhotonNetwork.Instantiate("PlayerPrefab", spawn.position, spawn.rotation);
+
+
+        Health h = newPlayer.GetComponent<Health>();
+        if (h != null)
+        {
+            h.ResetHealth();
+        }
     }
 
     public void Heal(float healAmount)
