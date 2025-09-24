@@ -51,6 +51,8 @@ public class Connect : MonoBehaviourPunCallbacks
     {
         base.OnJoinedLobby();
 
+        LocalPlayer();
+
     }
 
     public override void OnJoinedRoom()

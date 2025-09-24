@@ -31,8 +31,8 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
     protected Vector3 originalPosition;
     protected Vector3 recoilVelocity = Vector3.zero;
 
-    
 
+    public float deatCheck = 100;
 
     [Header("VFX -- UI")]
     public GameObject hitVFX;
@@ -52,18 +52,19 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
 
             hit.transform.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, finalDamage);
 
-            
+            deatCheck -= damage;
 
             //Debug.Log($"Hit {hit.transform.name} → {dmg:F1} dmg");
             Debug.Log($"Hit → {finalDamage:F1} dmg (Base {dmg:F1}, Dist {distance:F1})");
         }
 
-        if(0 > hit.transform.gameObject.GetComponent<Health>().health )
+        if(deatCheck <= 0)
         {
-                PhotonNetwork.LocalPlayer.AddScore(100);
+               // PhotonNetwork.LocalPlayer.AddScore(100);
 
                 Connect.instance.kills++;
                 Connect.instance.SetHashes();
+                deatCheck = 100;
 
         }
     }
