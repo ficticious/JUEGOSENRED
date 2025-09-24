@@ -32,43 +32,38 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
     protected Vector3 recoilVelocity = Vector3.zero;
 
 
-    public float deatCheck = 100;
+    //public float deatCheck = 100;
 
     [Header("VFX -- UI")]
     public GameObject hitVFX;
     public Sprite crosshair;
 
-   
+
 
     protected void DoDamage(RaycastHit hit, float dmg)
     {
-        if (hit.transform.gameObject.GetComponent<Health>())
+        PhotonView targetPV = hit.transform.GetComponent<PhotonView>();
+        if (targetPV == null) return;
+
+        // cálculo de daño por distancia
+        float distance = Vector3.Distance(camera.transform.position, hit.point);
+        float t = Mathf.InverseLerp(minDistance, maxDistance, distance);
+        float damageMultiplier = Mathf.Lerp(1f, minDamagePercent, t);
+        float finalDamage = dmg * damageMultiplier;
+
+        // Enviamos el daño SÓLO al propietario del objeto impactado (evita que todos apliquen daño)
+        if (targetPV.Owner != null)
         {
-            float distance = Vector3.Distance(camera.transform.position, hit.point);
-            float t = Mathf.InverseLerp(minDistance, maxDistance, distance);
-            float damageMultiplier = Mathf.Lerp(1f, minDamagePercent, t);
-
-            float finalDamage = damage * damageMultiplier;
-
-            hit.transform.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, finalDamage);
-
-            deatCheck -= finalDamage;
-
-            Debug.Log(deatCheck);
-
-            //Debug.Log($"Hit {hit.transform.name} → {dmg:F1} dmg");
-            Debug.Log($"Hit → {finalDamage:F1} dmg (Base {dmg:F1}, Dist {distance:F1})");
+            // le pasamos el actorNumber del atacante para saber quién mató
+            targetPV.RPC("TakeDamage", targetPV.Owner, finalDamage, PhotonNetwork.LocalPlayer.ActorNumber);
+        }
+        else
+        {
+            // fallback: si no tiene owner (objeto de escena), aplicar a todos (o manejar distinto)
+            targetPV.RPC("TakeDamage", RpcTarget.All, finalDamage, PhotonNetwork.LocalPlayer.ActorNumber);
         }
 
-        if(deatCheck <= 0)
-        {
-            // PhotonNetwork.LocalPlayer.AddScore(100);
-            deatCheck = 100;
-            Connect.instance.kills++;
-            Connect.instance.SetHashes();
-           
-
-        }
+        Debug.Log($"Hit → {finalDamage:F1} dmg (Base {dmg:F1}, Dist {distance:F1})");
     }
     public abstract void Fire();
 

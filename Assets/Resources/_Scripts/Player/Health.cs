@@ -1,5 +1,4 @@
-using Photon.Pun;
-using Photon.Pun.Demo.PunBasics;
+﻿using Photon.Pun;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -9,7 +8,7 @@ public class Health : MonoBehaviourPunCallbacks
     [Header("Parameters")]
     [SerializeField]
     public float health;
-    private float maxHealth = 100;
+    private float maxHealth = 100f;
 
     [Space]
     [Header("UI")]
@@ -17,67 +16,69 @@ public class Health : MonoBehaviourPunCallbacks
 
     private PlayerSetup playerSetup;
 
-
     public bool isLocalPlayer;
 
-
+    // bandera para evitar procesar la muerte varias veces
+    private bool isDead = false;
 
     private void Start()
     {
         health = maxHealth;
+        isDead = false;
         playerSetup = GetComponent<PlayerSetup>();
         UpdateUI(healthText, health);
-
-        
     }
 
+    // ahora recibe también el attackerId (actorNumber)
     [PunRPC]
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, int attackerId)
     {
-        if (health < 0) return; // ya muerto
+        // Si ya estamos muertos, o la bandera dice que ya procesamos, no hacemos nada.
+        if (isDead) return;
 
+        // Restar vida (esto lo hace SÓLO el cliente que es dueño del PhotonView)
         health -= damage;
         UpdateUI(healthText, health);
 
-        if (health <= 0)
+        // Si llegamos a 0 o menos, marcamos muerte y avisamos a todos con el attackerId
+        if (health <= 0f)
         {
-           
-
-            photonView.RPC("Die", RpcTarget.All);
-           
-           
+            isDead = true;
+            // Llamamos a Die una sola vez desde el dueño del avatar, y notificamos a todos
+            photonView.RPC("Die", RpcTarget.All, attackerId);
         }
     }
 
     [PunRPC]
-    public void Die()
+    public void Die(int attackerId)
     {
-        Debug.Log($"{gameObject.name} muri�");
-        
+        // Protegemos contra ejecuciones múltiples (si por alguna razón se recibe más de un RPC)
+        if (isDead == false) isDead = true;
 
-      
-
-       
-
+        Debug.Log($"{gameObject.name} murió");
 
         playerSetup.DisablePlayer();
-       
-    
 
         if (photonView.IsMine)
         {
-            if (isLocalPlayer && health <= 0)
+            if (isLocalPlayer && health <= 0f)
             {
+                health = 0f;
                 Connect.instance.deaths++;
                 Connect.instance.SetHashes();
-
             }
-            StartCoroutine(Respawn());
-          
 
+            StartCoroutine(Respawn());
         }
 
-        health = 100;
+        // SOLO el cliente del atacante suma la kill localmente (evita incrementos múltiples)
+        if (PhotonNetwork.LocalPlayer.ActorNumber == attackerId)
+        {
+            Connect.instance.kills++;
+            Connect.instance.SetHashes();
+        }
+
+        // no dejamos la vida a 100 acá; la Respawn() y ResetHealth se encargarán.
     }
 
     private IEnumerator Respawn()
@@ -86,15 +87,12 @@ public class Health : MonoBehaviourPunCallbacks
 
         Transform spawn = SpawnPointManager.Instance.GetRandomSpawnPoint();
 
-        // mover jugador al spawn
         transform.position = spawn.position;
         transform.rotation = spawn.rotation;
 
-        
-
-        // resetear vida
+        // resetear vida y bandera
         ResetHealth();
-
+        isDead = false;
 
         // reactivar controles y modelo
         playerSetup.EnablePlayer();
@@ -102,9 +100,7 @@ public class Health : MonoBehaviourPunCallbacks
 
     public void Heal(float healAmount)
     {
-        if (health >= maxHealth) health = maxHealth;
-        else health += healAmount;
-
+        health = Mathf.Min(maxHealth, health + healAmount);
         UpdateUI(healthText, health);
     }
 
