@@ -2305,6 +2305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   killsToWin: 2
+  player: {fileID: 7853596038564473441, guid: 97340654bc95fed4492f9cd34d852eb5, type: 3}
 --- !u!4 &323417696
 Transform:
   m_ObjectHideFlags: 0

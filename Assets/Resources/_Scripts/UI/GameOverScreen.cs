@@ -8,7 +8,7 @@ using Photon.Realtime;
 
 public class GameOverScreen : MonoBehaviourPunCallbacks
 {
-    //public TMP_Text textPuntos;
+    
 
     public GameObject gameOverPanel;
 
@@ -27,6 +27,7 @@ public class GameOverScreen : MonoBehaviourPunCallbacks
 
     public void ShowLosePanel()
     {
+     
         gameOverPanel.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
