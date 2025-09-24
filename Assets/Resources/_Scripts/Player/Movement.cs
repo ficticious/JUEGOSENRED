@@ -6,8 +6,8 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     [Header("Move")]
-    public float baseWalkSpeed = 1f;
-    public float baseSprintSpeed = 4f;
+    public float baseWalkSpeed = 2f;
+    public float baseSprintSpeed = 5f;
 
     private float walkSpeed, sprintSpeed;
 
