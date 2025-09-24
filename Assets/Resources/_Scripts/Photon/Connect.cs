@@ -5,9 +5,12 @@ using Photon.Pun;
 using UnityEngine.SceneManagement;
 using Photon.Realtime;
 using TMPro;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class Connect : MonoBehaviourPunCallbacks
 {
+    public static Connect instance;
+    
     [Space]
     [Header("Player")]
     public GameObject mainCamera;
@@ -15,8 +18,16 @@ public class Connect : MonoBehaviourPunCallbacks
     public TMP_InputField inputNickname;
     private string nickname = "player";
     private int numberOfPlayer;
-    
 
+    [HideInInspector]
+    public int kills = 0;
+    [HideInInspector]
+    public int deaths = 0;
+
+    private void Awake()
+    {
+        instance = this;
+    }
     void Start()
     {
         if (!PhotonNetwork.IsConnected) PhotonNetwork.ConnectUsingSettings();
@@ -31,21 +42,32 @@ public class Connect : MonoBehaviourPunCallbacks
     {
         base.OnConnectedToMaster();
 
+       
+
         PhotonNetwork.JoinLobby();
     }
 
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
+
+        LocalPlayer();
+
     }
 
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
 
+
+        
+
         GameObject newPlayer = SpawnController.instance.SpawnPlayer();
         EmptyNickname();
         newPlayer.GetComponent<PhotonView>().RPC("SetNickname", RpcTarget.AllBuffered, nickname);
+        LocalPlayer();
+
+        PhotonNetwork.LocalPlayer.NickName = nickname;
     }
 
     public void ChangeNickname(string _name)
@@ -61,4 +83,26 @@ public class Connect : MonoBehaviourPunCallbacks
             nickname = nickname + numberOfPlayer.ToString();
         }
     }
+
+    public void SetHashes()
+    {
+        try
+        {
+            Hashtable hash = PhotonNetwork.LocalPlayer.CustomProperties;
+            hash["kills"] = kills;
+            hash["deaths"] = deaths;
+
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+        }
+        catch
+        {
+            //do nothing
+        }
+    }
+
+    public void LocalPlayer()
+    {
+        player.GetComponent<Health>().isLocalPlayer = true;
+    }
+
 }

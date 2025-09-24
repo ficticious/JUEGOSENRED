@@ -8,7 +8,7 @@ public class Health : MonoBehaviourPunCallbacks
 {
     [Header("Parameters")]
     [SerializeField]
-    protected float health;
+    public float health;
     private float maxHealth = 100;
 
     [Space]
@@ -17,25 +17,35 @@ public class Health : MonoBehaviourPunCallbacks
 
     private PlayerSetup playerSetup;
 
+
+    public bool isLocalPlayer;
+
+
+
     private void Start()
     {
         health = maxHealth;
         playerSetup = GetComponent<PlayerSetup>();
         UpdateUI(healthText, health);
+
+        
     }
 
     [PunRPC]
     public void TakeDamage(float damage)
     {
-        if (health <= 0) return; // ya muerto
+        if (health < 0) return; // ya muerto
 
         health -= damage;
         UpdateUI(healthText, health);
 
         if (health <= 0)
         {
-            health = 0;
+           
+
             photonView.RPC("Die", RpcTarget.All);
+           
+           
         }
     }
 
@@ -43,13 +53,31 @@ public class Health : MonoBehaviourPunCallbacks
     public void Die()
     {
         Debug.Log($"{gameObject.name} murió");
+        
+
+      
+
+       
+
 
         playerSetup.DisablePlayer();
+       
+    
 
         if (photonView.IsMine)
         {
+            if (isLocalPlayer && health <= 0)
+            {
+                Connect.instance.deaths++;
+                Connect.instance.SetHashes();
+
+            }
             StartCoroutine(Respawn());
+          
+
         }
+
+        health = 100;
     }
 
     private IEnumerator Respawn()
@@ -62,8 +90,11 @@ public class Health : MonoBehaviourPunCallbacks
         transform.position = spawn.position;
         transform.rotation = spawn.rotation;
 
+        
+
         // resetear vida
         ResetHealth();
+
 
         // reactivar controles y modelo
         playerSetup.EnablePlayer();

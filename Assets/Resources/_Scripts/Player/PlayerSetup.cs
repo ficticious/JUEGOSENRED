@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 
+
 public class PlayerSetup : MonoBehaviourPun
 {
     public CameraMove cameraScript;
@@ -55,5 +56,6 @@ public class PlayerSetup : MonoBehaviourPun
             camera.SetActive(true);
         }
     }
+
 
 }

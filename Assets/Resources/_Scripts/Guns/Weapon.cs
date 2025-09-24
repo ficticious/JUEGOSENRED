@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun.Demo.PunBasics;
+using Photon.Pun.UtilityScripts;
 
-public abstract class Weapon : MonoBehaviour
+public abstract class Weapon : MonoBehaviourPunCallbacks
 {
     public Camera camera;
 
@@ -30,9 +32,13 @@ public abstract class Weapon : MonoBehaviour
     protected Vector3 recoilVelocity = Vector3.zero;
 
 
+    public float deatCheck = 100;
+
     [Header("VFX -- UI")]
     public GameObject hitVFX;
     public Sprite crosshair;
+
+   
 
     protected void DoDamage(RaycastHit hit, float dmg)
     {
@@ -46,8 +52,22 @@ public abstract class Weapon : MonoBehaviour
 
             hit.transform.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, finalDamage);
 
+            deatCheck -= finalDamage;
+
+            Debug.Log(deatCheck);
+
             //Debug.Log($"Hit {hit.transform.name} → {dmg:F1} dmg");
             Debug.Log($"Hit → {finalDamage:F1} dmg (Base {dmg:F1}, Dist {distance:F1})");
+        }
+
+        if(deatCheck <= 0)
+        {
+            // PhotonNetwork.LocalPlayer.AddScore(100);
+            deatCheck = 100;
+            Connect.instance.kills++;
+            Connect.instance.SetHashes();
+           
+
         }
     }
     public abstract void Fire();

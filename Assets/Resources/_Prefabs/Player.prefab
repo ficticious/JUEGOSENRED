@@ -1103,6 +1103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   healthText: {fileID: 1179685608133835405}
+  isLocalPlayer: 1
 --- !u!1 &7853596038875301621
 GameObject:
   m_ObjectHideFlags: 0

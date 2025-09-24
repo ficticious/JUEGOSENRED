@@ -6,9 +6,12 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine.SceneManagement;
+//using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class CreateAndJoin : MonoBehaviourPunCallbacks
 {
+    public static CreateAndJoin instance;
+
     [Header("Inputs")]
     public TMP_InputField inputCreate;
     public TMP_InputField inputJoin;
@@ -22,6 +25,11 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
 
     private const int MIN_PLAYERS = 2;
     private const int MAX_PLAYERS = 4;
+
+    //[HideInInspector]
+    //public int kills = 0;
+    //[HideInInspector]
+    //public int deaths = 0;
 
     public void CreateAndJoinRandomRoom()
     {
@@ -66,4 +74,21 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
     {
         maxPlayersText.text = _maxPlayers.ToString();
     }
+
+
+    //public void SetHashes()
+    //{
+    //    try
+    //    {
+    //        Hashtable hash = PhotonNetwork.LocalPlayer.CustomProperties;
+    //        hash["kills"] = kills;
+    //        hash["deaths"] = deaths;
+
+    //        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+    //    }
+    //    catch
+    //    {
+    //        //do nothing
+    //    }
+    //}
 }
