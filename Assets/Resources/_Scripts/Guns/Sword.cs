@@ -31,6 +31,7 @@ public class Sword : Weapon
         {
             nextFire = 1 / fireRate;
             Fire();
+            if (anim != null) anim.SetTrigger("Attack");
         }
 
         if (recoiling) Recoil();
@@ -42,7 +43,6 @@ public class Sword : Weapon
     {
         if (!photonView.IsMine) return;
 
-        if (anim != null) anim.SetTrigger("Attack");
 
         recoiling = true;
         recovering = false;
