@@ -28,6 +28,13 @@ public class Health : MonoBehaviourPunCallbacks
         UpdateUI(healthText, health);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            TakeDamage(30);
+        }
+    }
 
     [PunRPC]
     public void TakeDamage(float damage, int attackerId)
