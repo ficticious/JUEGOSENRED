@@ -1193,7 +1193,7 @@ MonoBehaviour:
   maxHealth: 100
   health: 100
   healthText: {fileID: 1179685608133835405}
-  respawnTime: 3
+  respawnTime: 0
   isLocalPlayer: 1
 --- !u!65 &6657835898283040036
 BoxCollider:
