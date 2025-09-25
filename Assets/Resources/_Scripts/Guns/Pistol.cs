@@ -33,7 +33,7 @@ public class Pistol : Weapon
         Ray ray = new Ray(camera.transform.position, camera.transform.forward);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, maxDistance))
+        if (Physics.Raycast(ray, out hit, maxDistance, hitMask, QueryTriggerInteraction.Ignore))
         {
             if (hitVFX) Photon.Pun.PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "VFX", hitVFX.name), hit.point, Quaternion.identity);
             DoDamage(hit, damage);

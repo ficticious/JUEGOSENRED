@@ -96,23 +96,16 @@ public class Health : MonoBehaviourPunCallbacks
     {
         if (!photonView.IsMine) return;
 
-       
         Transform spawnPoint = SpawnPointManager.Instance.GetSafeSpawnPoint(10f);
 
-        
-        if (spawnPoint == null)
-        {
-            spawnPoint = SpawnPointManager.Instance.GetRandomSpawnPoint();
-        }
+        if (spawnPoint == null) spawnPoint = SpawnPointManager.Instance.GetRandomSpawnPoint();
 
-        if (spawnPoint != null)
+        else
         {
-            
             photonView.RPC("SetRespawnPosition", RpcTarget.All,
                           spawnPoint.position.x, spawnPoint.position.y, spawnPoint.position.z,
                           spawnPoint.rotation.x, spawnPoint.rotation.y, spawnPoint.rotation.z, spawnPoint.rotation.w);
         }
-
         
         photonView.RPC("CompleteRespawn", RpcTarget.All);
     }
@@ -159,8 +152,6 @@ public class Health : MonoBehaviourPunCallbacks
         if (text != null)
             text.text = value.ToString("F1");
     }
-
-    
    
     public float GetCurrentHealth()
     {
