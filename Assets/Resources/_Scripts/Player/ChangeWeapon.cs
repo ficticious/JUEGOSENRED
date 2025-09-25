@@ -37,7 +37,7 @@ public class ChangeWeapon : MonoBehaviourPun
         {
             CheckKillsForWeaponChange();
 
-            if (Input.GetKeyUp(KeyCode.Q)) NextWeapon();
+            
         }
 
        

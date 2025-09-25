@@ -8,11 +8,11 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks
 {
     public static SpawnPointManager Instance;
 
-    [Header("Spawn Settings")]
+    [Header("Spawn")]
     public Transform[] spawnPoints;
     public float minDistanceBetweenPlayers = 10f;
 
-    [Header("Debug Settings")]
+    [Header("Debug")]
     public bool showDebugGizmos = true;
     public float debugMinDistance = 10f;
     public Color safeColor = Color.green;
