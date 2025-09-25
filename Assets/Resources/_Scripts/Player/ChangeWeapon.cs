@@ -35,7 +35,7 @@ public class ChangeWeapon : MonoBehaviourPun
         if (photonView.IsMine)
         {
             CheckKillsForWeaponChange();
-           // WinCondition(PhotonNetwork.LocalPlayer.ActorNumber);
+           
 
         }
 
@@ -79,20 +79,4 @@ public class ChangeWeapon : MonoBehaviourPun
     }
 
     
-    //private void WinCondition(int playerID)
-    //{
-    //    int killsForWin = Connect.instance.kills;
-
-    //    if(killsForWin == 2 && PhotonNetwork.LocalPlayer.ActorNumber == playerID)
-    //    {
-    //        FindObjectOfType<WinScreen>().ShowWinPanel();
-    //    }
-
-    //    if(killsForWin > 2 && PhotonNetwork.LocalPlayer.ActorNumber == playerID)
-    //    {
-    //        FindObjectOfType<GameOverScreen>().ShowLosePanel();
-    //    }
-
-        
-    //}
 }

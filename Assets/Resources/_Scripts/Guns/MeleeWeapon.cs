@@ -1,20 +1,21 @@
-using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class MeleeWeapon : Weapon
 {
     private void Start()
     {
         originalPosition = transform.parent.localPosition;
+
         recoilLength = 0.05f;
         recoverLength = 1 / fireRate * recoverPercent;
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1)) 
+        if (Input.GetButtonDown("Fire1")) 
         {
             Fire();
         }
@@ -30,20 +31,16 @@ public class MeleeWeapon : Weapon
         recoiling = true;
         recovering = false;
 
-        Vector3 origin = camera.transform.position;
-        Vector3 direction = camera.transform.forward;
+        Ray ray = new Ray(camera.transform.position, camera.transform.forward);
+        RaycastHit hit;
 
-        if (Physics.Raycast(origin, direction, out RaycastHit hit, maxDistance))
+        if (Physics.Raycast(ray, out hit, maxDistance))
         {
-            Debug.Log("Golpeaste a: " + hit.collider.name);
-
-            if (hitVFX)
-                PhotonNetwork.Instantiate(System.IO.Path.Combine("_Prefabs", "VFX", hitVFX.name), hit.point, Quaternion.identity);
-
+            if (hitVFX) Photon.Pun.PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "VFX", hitVFX.name), hit.point, Quaternion.identity);
             DoDamage(hit, damage);
         }
 
-        
-        Debug.DrawRay(origin, direction * maxDistance, Color.red, 0.2f);
+
+        //Debug.DrawRay(origin, direction * maxDistance, Color.red, 0.2f);
     }
 }
