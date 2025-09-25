@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -367,7 +367,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &40919615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,7 +375,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 40919614}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9305734d3c955b49bd26a4f54f33c87, type: 3}
   m_Name: 
@@ -1390,9 +1390,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bcf2c207dbe6ba4bb9ac366d12161d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  createAndJoinScript: {fileID: 1890089018}
   morePlayersButton: {fileID: 874969969}
   lessPlayersButton: {fileID: 812353617}
-  createAndJoinScript: {fileID: 1890089018}
 --- !u!1 &210791621
 GameObject:
   m_ObjectHideFlags: 0
@@ -2146,6 +2146,7 @@ GameObject:
   - component: {fileID: 293856128}
   - component: {fileID: 293856127}
   - component: {fileID: 293856129}
+  - component: {fileID: 293856130}
   m_Layer: 0
   m_Name: SpawnController
   m_TagString: Untagged
@@ -2205,6 +2206,29 @@ MonoBehaviour:
   canvasLoading: {fileID: 2011520864}
   canvasLobby: {fileID: 103515799}
   mainCamera: {fileID: 963194225}
+--- !u!114 &293856130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 293856126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9305734d3c955b49bd26a4f54f33c87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPoints:
+  - {fileID: 518907522}
+  - {fileID: 1483378649}
+  - {fileID: 814421941}
+  - {fileID: 1420548130}
+  minDistanceBetweenPlayers: 10
+  showDebugGizmos: 1
+  debugMinDistance: 10
+  safeColor: {r: 0, g: 1, b: 0, a: 1}
+  unsafeColor: {r: 1, g: 0, b: 0, a: 1}
+  gizmoRadius: 1.5
 --- !u!1 &300612366
 GameObject:
   m_ObjectHideFlags: 0
@@ -2294,7 +2318,7 @@ GameObject:
   - component: {fileID: 323417696}
   - component: {fileID: 323417695}
   m_Layer: 0
-  m_Name: EndGameManager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2326,7 +2350,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &345480813
 GameObject:
@@ -3890,14 +3914,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 518907521}
-  m_LocalRotation: {x: -0, y: -0.011087105, z: -0, w: 0.9999386}
+  m_LocalRotation: {x: 0, y: 0.33133793, z: 0, w: 0.94351214}
   m_LocalPosition: {x: -23.66, y: -1.7298534, z: -11.63}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 293856128}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -1.271, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 38.7, z: 0}
 --- !u!1 &560868287
 GameObject:
   m_ObjectHideFlags: 0
@@ -5494,14 +5518,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 814421940}
-  m_LocalRotation: {x: -0, y: -0.99999714, z: -0, w: -0.0024027932}
+  m_LocalRotation: {x: 0, y: -0.38437575, z: 0, w: 0.92317677}
   m_LocalPosition: {x: 8.58, y: -1.7298534, z: -12.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 293856128}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: -180.275, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -45.21, z: 0}
 --- !u!1 &818446588
 GameObject:
   m_ObjectHideFlags: 0
@@ -9733,14 +9757,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1420548129}
-  m_LocalRotation: {x: -0, y: -0.99999714, z: -0, w: -0.0024027932}
+  m_LocalRotation: {x: -0, y: -0.95992774, z: 0, w: -0.28024772}
   m_LocalPosition: {x: -22.8, y: -1.7298534, z: 21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 293856128}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: -180.275, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -212.55, z: 0}
 --- !u!1 &1423971295
 GameObject:
   m_ObjectHideFlags: 0
@@ -11607,50 +11631,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 632217146}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1727348209
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1727348211}
-  - component: {fileID: 1727348210}
-  m_Layer: 0
-  m_Name: KillsManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1727348210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1727348209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c440ed5d9160734f913303ed138bd0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1727348211
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1727348209}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.01767, y: 57.64231, z: -46.39038}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1727969711
 GameObject:
