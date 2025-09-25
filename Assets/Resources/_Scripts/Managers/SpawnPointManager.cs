@@ -24,7 +24,7 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {

@@ -13,6 +13,11 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     public GameObject canvasLobby;
     public GameObject mainCamera;
 
+    private void Awake()
+    {
+        mainCamera = FindObjectOfType<Camera>().gameObject;
+    }
+
     private void Start()
     {
         canvasLobby.SetActive(false);
@@ -21,7 +26,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
-
+        if (canvasLoading == null) return;
         canvasLoading.SetActive(false);
         canvasLobby.SetActive(true);
     }
