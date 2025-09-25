@@ -35,7 +35,7 @@ public class ChangeWeapon : MonoBehaviourPun
         
         if (photonView.IsMine)
         {
-            //CheckKillsForWeaponChange();
+            CheckKillsForWeaponChange();
 
             if (Input.GetKeyUp(KeyCode.Q)) NextWeapon();
         }
