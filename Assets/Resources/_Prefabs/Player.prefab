@@ -1837,6 +1837,10 @@ MonoBehaviour:
   hitVFX: {fileID: 3432958286849152088, guid: 87ee7299dd44ed747af24dbb91bcd33b, type: 3}
   crosshair: {fileID: 21300000, guid: 552478a654d2eb8478c30045279d5688, type: 3}
   anim: {fileID: 0}
+  attackRadius: 1.5
+  damageMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!4 &7209572284294767584 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1962151544796972406, guid: a550e30525af27c4a9981df2dbe97e9a, type: 3}
