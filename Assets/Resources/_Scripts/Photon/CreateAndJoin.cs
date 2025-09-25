@@ -31,6 +31,11 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
     //[HideInInspector]
     //public int deaths = 0;
 
+    private void Start()
+    {
+        UpdateMaxPlayersText();
+    }
+
     public void CreateAndJoinRandomRoom()
     {
         PhotonNetwork.JoinRandomOrCreateRoom();
@@ -60,7 +65,7 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
 
     public void MorePlayers()
     {
-        if (_maxPlayers < MAX_PLAYERS) _maxPlayers++;
+        if (_maxPlayers <= MAX_PLAYERS) _maxPlayers++;
         UpdateMaxPlayersText();
     }
 
