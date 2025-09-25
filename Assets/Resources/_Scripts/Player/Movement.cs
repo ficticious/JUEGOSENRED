@@ -22,6 +22,8 @@ public class Movement : MonoBehaviour
     private bool jumping;
     private bool grounded = false;
 
+    [SerializeField] private float skinWidth = 0.25f;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -47,17 +49,30 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+
         if (input.magnitude > 0.1f)
         {
-            
             float speed = grounded && sprinting ? sprintSpeed : walkSpeed;
-
             Vector3 move = transform.right * input.x + transform.forward * input.y;
-            transform.Translate(move * speed * Time.fixedDeltaTime, Space.World);
+            Vector3 targetPos = transform.position + move * speed * Time.fixedDeltaTime;
+
+            // Chequear si hay algo en el camino
+            if (!Physics.Raycast(transform.position, move, out RaycastHit hit, speed * Time.fixedDeltaTime + skinWidth))
+            {
+                transform.Translate(move * speed * Time.fixedDeltaTime, Space.World);
+            }
+            else
+            {
+                // Nos movemos solo hasta "skinWidth" antes de la pared
+                float distance = hit.distance - skinWidth;
+                if (distance > 0f)
+                {
+                    transform.Translate(move.normalized * distance, Space.World);
+                }
+            }
         }
 
-        
+
         if (grounded && jumping)
         {
             rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);

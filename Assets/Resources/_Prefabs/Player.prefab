@@ -1176,6 +1176,7 @@ MonoBehaviour:
   baseSprintSpeed: 8
   jumpForce: 4
   airControl: 0.5
+  skinWidth: 0.25
 --- !u!114 &4538293911059699470
 MonoBehaviour:
   m_ObjectHideFlags: 0
