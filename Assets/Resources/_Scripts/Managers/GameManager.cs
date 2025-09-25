@@ -51,5 +51,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             d.enabled = false;
         }
 
+        //Connect.instance.kills = 0;
+        //Connect.instance.deaths = 0;
+
     }
 }

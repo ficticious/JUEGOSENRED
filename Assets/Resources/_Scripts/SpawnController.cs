@@ -27,7 +27,7 @@ public class SpawnController : MonoBehaviour
 
         Quaternion spawnRotation = Quaternion.Euler(
             spawn.rotation.eulerAngles.x,
-            spawn.rotation.eulerAngles.y + 180f,
+            spawn.rotation.eulerAngles.y,
             spawn.rotation.eulerAngles.z
         );
 
