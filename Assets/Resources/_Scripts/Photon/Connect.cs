@@ -96,7 +96,7 @@ public class Connect : MonoBehaviourPunCallbacks
         }
         catch
         {
-            //do nothing
+           
         }
     }
 
