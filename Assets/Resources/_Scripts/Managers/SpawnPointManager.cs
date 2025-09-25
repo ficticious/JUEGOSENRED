@@ -48,7 +48,8 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
         List<Transform> validSpawns = new List<Transform>();
         foreach (Transform spawn in spawnPoints)
         {
-            if (spawn != null) validSpawns.Add(spawn);
+            if (spawn != null)
+                validSpawns.Add(spawn);
         }
         spawnPoints = validSpawns.ToArray();
     }
@@ -84,10 +85,14 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
                 }
             }
 
-            if (isSafe) safeSpawns.Add(spawn);
+            if (isSafe)
+                safeSpawns.Add(spawn);
         }
 
-        if (safeSpawns.Count == 0) return GetFarthestSpawnPoint();
+        if (safeSpawns.Count == 0)
+        {
+            return GetFarthestSpawnPoint();
+        }
 
         return safeSpawns[Random.Range(0, safeSpawns.Count)];
     }
@@ -105,7 +110,8 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
         List<Transform> validSpawns = new List<Transform>();
         foreach (Transform spawn in spawnPoints)
         {
-            if (spawn != null) validSpawns.Add(spawn);
+            if (spawn != null)
+                validSpawns.Add(spawn);
         }
 
         if (validSpawns.Count == 0)
@@ -113,6 +119,7 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
             Debug.LogError("No hay spawn points válidos!");
             return null;
         }
+
        
         return validSpawns[Random.Range(0, validSpawns.Count)];
     }
@@ -184,6 +191,7 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
 
         if (spawnPoint != null)
         {
+            
             Health playerHealth = player.GetComponent<Health>();
             if (playerHealth != null)
             {

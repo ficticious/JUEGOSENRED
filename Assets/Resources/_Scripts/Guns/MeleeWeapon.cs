@@ -1,22 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
+using System.IO;
 
-public class Pistol : Weapon
+public class MeleeWeapon : Weapon
 {
     private void Start()
     {
         originalPosition = transform.parent.localPosition;
 
-        recoilLength = 0.1f;
+        recoilLength = 0.05f;
         recoverLength = 1 / fireRate * recoverPercent;
     }
 
-    //-----------------------  SEMI-AUTOMATICA  ------------------------
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1")) 
         {
             Fire();
         }
@@ -27,6 +26,8 @@ public class Pistol : Weapon
 
     public override void Fire()
     {
+        if (!photonView.IsMine) return; 
+
         recoiling = true;
         recovering = false;
 
@@ -38,5 +39,8 @@ public class Pistol : Weapon
             if (hitVFX) Photon.Pun.PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "VFX", hitVFX.name), hit.point, Quaternion.identity);
             DoDamage(hit, damage);
         }
+
+
+        //Debug.DrawRay(origin, direction * maxDistance, Color.red, 0.2f);
     }
 }

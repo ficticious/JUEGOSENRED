@@ -9,8 +9,6 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
 {
     public Camera camera;
 
-    public LayerMask hitMask;
-
     [Header("Weapon Config")]
     public float damage;
     public float fireRate;
@@ -34,9 +32,13 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
     protected Vector3 recoilVelocity = Vector3.zero;
 
 
+    
+
     [Header("VFX -- UI")]
     public GameObject hitVFX;
     public Sprite crosshair;
+
+
 
     protected void DoDamage(RaycastHit hit, float dmg)
     {
@@ -52,10 +54,12 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
         
         if (targetPV.Owner != null)
         {
+          
             targetPV.RPC("TakeDamage", targetPV.Owner, finalDamage, PhotonNetwork.LocalPlayer.ActorNumber);
         }
         else
         {
+            
             targetPV.RPC("TakeDamage", RpcTarget.All, finalDamage, PhotonNetwork.LocalPlayer.ActorNumber);
         }
 

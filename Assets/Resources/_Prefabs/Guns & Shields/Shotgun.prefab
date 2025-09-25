@@ -130,9 +130,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 0}
-  hitMask:
-    serializedVersion: 2
-    m_Bits: 257
   damage: 30
   fireRate: 0.8
   maxDistance: 15

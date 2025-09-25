@@ -28,13 +28,6 @@ public class Health : MonoBehaviourPunCallbacks
         UpdateUI(healthText, health);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            TakeDamage(30);
-        }
-    }
 
     [PunRPC]
     public void TakeDamage(float damage, int attackerId)
@@ -101,16 +94,23 @@ public class Health : MonoBehaviourPunCallbacks
     {
         if (!photonView.IsMine) return;
 
+       
         Transform spawnPoint = SpawnPointManager.Instance.GetSafeSpawnPoint(10f);
 
-        if (spawnPoint == null) spawnPoint = SpawnPointManager.Instance.GetRandomSpawnPoint();
-
-        else
+        
+        if (spawnPoint == null)
         {
+            spawnPoint = SpawnPointManager.Instance.GetRandomSpawnPoint();
+        }
+
+        if (spawnPoint != null)
+        {
+            
             photonView.RPC("SetRespawnPosition", RpcTarget.All,
                           spawnPoint.position.x, spawnPoint.position.y, spawnPoint.position.z,
                           spawnPoint.rotation.x, spawnPoint.rotation.y, spawnPoint.rotation.z, spawnPoint.rotation.w);
         }
+
         
         photonView.RPC("CompleteRespawn", RpcTarget.All);
     }
@@ -159,6 +159,8 @@ public class Health : MonoBehaviourPunCallbacks
         if (text != null)
             text.text = value.ToString("F1");
     }
+
+    
    
     public float GetCurrentHealth()
     {

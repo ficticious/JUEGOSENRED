@@ -25,9 +25,10 @@ public class SpawnController : MonoBehaviour
         int spawnIndex = (PhotonNetwork.LocalPlayer.ActorNumber - 1) % spawnPoints.Length;
         Transform spawn = spawnPoints[spawnIndex];
 
+        // Invertir la rotación en Y
         Quaternion spawnRotation = Quaternion.Euler(
             spawn.rotation.eulerAngles.x,
-            spawn.rotation.eulerAngles.y + 180f,
+            spawn.rotation.eulerAngles.y + 180f, // 180° para mirar al lado opuesto
             spawn.rotation.eulerAngles.z
         );
 

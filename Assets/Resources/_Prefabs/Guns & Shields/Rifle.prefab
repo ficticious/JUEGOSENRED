@@ -351,7 +351,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8224114873886908253
 Transform:
   m_ObjectHideFlags: 0
@@ -384,9 +384,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 0}
-  hitMask:
-    serializedVersion: 2
-    m_Bits: 257
   damage: 2.5
   fireRate: 8
   maxDistance: 100

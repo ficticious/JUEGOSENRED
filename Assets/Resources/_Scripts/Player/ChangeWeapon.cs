@@ -9,7 +9,6 @@ public class ChangeWeapon : MonoBehaviourPun
     [SerializeField] private Image crosshairUI;
 
     [Space]
-    [Header("Weapon List")]
     [SerializeField] private List<GameObject> weapons = new List<GameObject>();
 
     private int currentWeaponIndex = 0;
@@ -35,9 +34,9 @@ public class ChangeWeapon : MonoBehaviourPun
         
         if (photonView.IsMine)
         {
-            //CheckKillsForWeaponChange();
+            CheckKillsForWeaponChange();
+           
 
-            if (Input.GetKeyUp(KeyCode.Q)) NextWeapon();
         }
 
        
@@ -70,6 +69,7 @@ public class ChangeWeapon : MonoBehaviourPun
     private void CheckKillsForWeaponChange()
     {
         int currentKills = Connect.instance.kills;
+
         
         if (currentKills >= lastKillCheckpoint + killsPerChange)
         {

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6020697704541994907}
   - component: {fileID: 3134638055440824553}
   m_Layer: 0
-  m_Name: SwordTest
+  m_Name: MeleeWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

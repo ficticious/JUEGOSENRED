@@ -21,6 +21,7 @@ public class Connect : MonoBehaviourPunCallbacks
 
     [HideInInspector]
     public int kills = 0;
+    [HideInInspector]
     public int deaths = 0;
 
     private void Awake()

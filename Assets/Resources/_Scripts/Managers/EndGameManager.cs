@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class GameManager : MonoBehaviourPunCallbacks
+public class EndGameManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private int killsToWin = 5;
 
