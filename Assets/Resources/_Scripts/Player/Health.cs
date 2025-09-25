@@ -80,7 +80,7 @@ public class Health : MonoBehaviourPunCallbacks
                 Connect.instance.SetHashes();
             }
 
-            StartCoroutine(RespawnCoroutine());
+            RespawnPlayer();
         }
 
         
@@ -90,28 +90,21 @@ public class Health : MonoBehaviourPunCallbacks
             Connect.instance.SetHashes();
         }
     }
-    private IEnumerator RespawnCoroutine()
-    {
-        yield return new WaitForSeconds(respawnTime);
-        if (!photonView.IsMine) yield break;
-        RespawnPlayer();
-    }
+
 
     public void RespawnPlayer()
     {
         if (!photonView.IsMine) return;
 
-        Transform spawnPoint = SpawnPointManager.Instance.GetSafeSpawnPoint(10f);
+        Transform spawnPoint = SpawnPointManager.Instance.GetSafeSpawnPoint();
 
-        if (spawnPoint == null) spawnPoint = SpawnPointManager.Instance.GetRandomSpawnPoint();
+        if (spawnPoint == null)
+            spawnPoint = SpawnPointManager.Instance.GetFarthestSpawnPoint();
 
-        else
-        {
-            photonView.RPC("SetRespawnPosition", RpcTarget.All,
-                          spawnPoint.position.x, spawnPoint.position.y, spawnPoint.position.z,
-                          spawnPoint.rotation.x, spawnPoint.rotation.y, spawnPoint.rotation.z, spawnPoint.rotation.w);
-        }
-        
+        photonView.RPC("SetRespawnPosition", RpcTarget.All,
+                      spawnPoint.position.x, spawnPoint.position.y, spawnPoint.position.z,
+                      spawnPoint.rotation.x, spawnPoint.rotation.y, spawnPoint.rotation.z, spawnPoint.rotation.w);
+
         photonView.RPC("CompleteRespawn", RpcTarget.All);
     }
 
