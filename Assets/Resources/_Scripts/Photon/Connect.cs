@@ -10,6 +10,8 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class Connect : MonoBehaviourPunCallbacks
 {
     public static Connect instance;
+
+    //public SpawnController newPlayer;
     
     [Space]
     [Header("Player")]
@@ -59,9 +61,10 @@ public class Connect : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
 
 
-        
+
 
         GameObject newPlayer = SpawnController.instance.SpawnPlayer();
+        //newPlayer.SpawnPlayer();
         EmptyNickname();
         newPlayer.GetComponent<PhotonView>().RPC("SetNickname", RpcTarget.AllBuffered, nickname);
         LocalPlayer();

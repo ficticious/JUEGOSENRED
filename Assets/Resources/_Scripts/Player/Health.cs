@@ -28,6 +28,13 @@ public class Health : MonoBehaviourPunCallbacks
         UpdateUI(healthText, health);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            TakeDamage(30);
+        }
+    }
 
     [PunRPC]
     public void TakeDamage(float damage, int attackerId)
@@ -59,21 +66,20 @@ public class Health : MonoBehaviourPunCallbacks
 
         Debug.Log($"{gameObject.name} murió");
 
-        
-        if (playerSetup != null)
+        if (photonView.IsMine) 
         {
-            playerSetup.DisablePlayer();
-        }
+            if (playerSetup != null)
+            {
+                playerSetup.DisablePlayer();
+            }
 
-        
-        if (photonView.IsMine)
-        {
-            if (isLocalPlayer && health <= 0f)
+            if (health <= 0f)
             {
                 health = 0f;
                 Connect.instance.deaths++;
                 Connect.instance.SetHashes();
             }
+
             StartCoroutine(RespawnCoroutine());
         }
 
@@ -84,7 +90,6 @@ public class Health : MonoBehaviourPunCallbacks
             Connect.instance.SetHashes();
         }
     }
-
     private IEnumerator RespawnCoroutine()
     {
         yield return new WaitForSeconds(respawnTime);
@@ -118,16 +123,18 @@ public class Health : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
+   
     public void CompleteRespawn()
     {
-        
         ResetHealth();
         isDead = false;
 
-      
-        if (playerSetup != null)
+        if (photonView.IsMine) 
         {
-            playerSetup.EnablePlayer();
+            if (playerSetup != null)
+            {
+                playerSetup.EnablePlayer();
+            }
         }
 
         Debug.Log($"{gameObject.name} ha respawneado");
