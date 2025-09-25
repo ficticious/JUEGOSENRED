@@ -125,7 +125,7 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks
         return farthestSpawn;
     }
 
-    // Liberar spawn cuando un jugador muere o respawnea
+   
     public void ReleaseSpawn(Transform spawn)
     {
         if (usedSpawns.Contains(spawn))
