@@ -43,8 +43,8 @@ MonoBehaviour:
   - TakeDamage
   - EquipWeaponRPC
   - Die
-  - WinCondition
-  - Update
+  - CompleteRespawn
+  - SetRespawnPosition
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

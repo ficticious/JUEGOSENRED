@@ -19,7 +19,6 @@ public class PlayerButtonController : MonoBehaviour
         {
             int currentPlayers = createAndJoinScript._maxPlayers;
 
-            // Desactivamos el botón si llegamos a los límites
             morePlayersButton.interactable = currentPlayers < MAX_PLAYERS;
             lessPlayersButton.interactable = currentPlayers > MIN_PLAYERS;
         }

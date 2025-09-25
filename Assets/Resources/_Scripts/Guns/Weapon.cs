@@ -45,21 +45,21 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
         PhotonView targetPV = hit.transform.GetComponent<PhotonView>();
         if (targetPV == null) return;
 
-        // cálculo de daño por distancia
+        
         float distance = Vector3.Distance(camera.transform.position, hit.point);
         float t = Mathf.InverseLerp(minDistance, maxDistance, distance);
         float damageMultiplier = Mathf.Lerp(1f, minDamagePercent, t);
         float finalDamage = dmg * damageMultiplier;
 
-        // Enviamos el daño SÓLO al propietario del objeto impactado (evita que todos apliquen daño)
+        
         if (targetPV.Owner != null)
         {
-            // le pasamos el actorNumber del atacante para saber quién mató
+          
             targetPV.RPC("TakeDamage", targetPV.Owner, finalDamage, PhotonNetwork.LocalPlayer.ActorNumber);
         }
         else
         {
-            // fallback: si no tiene owner (objeto de escena), aplicar a todos (o manejar distinto)
+            
             targetPV.RPC("TakeDamage", RpcTarget.All, finalDamage, PhotonNetwork.LocalPlayer.ActorNumber);
         }
 

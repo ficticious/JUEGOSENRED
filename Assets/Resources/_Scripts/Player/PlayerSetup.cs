@@ -41,15 +41,27 @@ public class PlayerSetup : MonoBehaviourPun
     public void DisablePlayer()
     {
         movementScript.enabled = false;
-        cameraScript.enabled = false;
-        if (playerModel != null) playerModel.SetActive(false);
+
+        
+        if (!photonView.IsMine)
+        {
+            cameraScript.enabled = false;
+            camera.SetActive(false);
+        }
+
+        if (playerModel != null)
+            playerModel.SetActive(false);
     }
+
 
     public void EnablePlayer()
     {
         movementScript.enabled = true;
-        if (playerModel != null) playerModel.SetActive(true);
 
+        if (playerModel != null)
+            playerModel.SetActive(true);
+
+        
         if (photonView.IsMine)
         {
             cameraScript.enabled = true;
