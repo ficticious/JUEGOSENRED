@@ -28,7 +28,7 @@ public class Health : MonoBehaviourPunCallbacks
         UpdateUI(healthText, health);
     }
 
-    
+
     [PunRPC]
     public void TakeDamage(float damage, int attackerId)
     {

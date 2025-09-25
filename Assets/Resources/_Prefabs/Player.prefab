@@ -941,6 +941,7 @@ GameObject:
   - component: {fileID: -5899975697788283065}
   - component: {fileID: -8414198903005244444}
   - component: {fileID: 4538293911059699470}
+  - component: {fileID: 6657835898283040036}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -1039,7 +1040,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 7853596038564473441}
   m_Material: {fileID: 13400000, guid: fdf74f488ffb4a847a4532eb74a372e7, type: 2}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
@@ -1053,7 +1054,7 @@ Rigidbody:
   m_GameObject: {fileID: 7853596038564473441}
   serializedVersion: 2
   m_Mass: 10
-  m_Drag: 0
+  m_Drag: 0.5
   m_AngularDrag: 0
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -1174,7 +1175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseWalkSpeed: 4
   baseSprintSpeed: 8
-  jumpForce: 4
+  jumpForce: 6
   airControl: 0.5
   skinWidth: 0.25
 --- !u!114 &4538293911059699470
@@ -1194,6 +1195,19 @@ MonoBehaviour:
   healthText: {fileID: 1179685608133835405}
   respawnTime: 3
   isLocalPlayer: 1
+--- !u!65 &6657835898283040036
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7853596038564473441}
+  m_Material: {fileID: 13400000, guid: fdf74f488ffb4a847a4532eb74a372e7, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.9434441, z: 0.7968838}
+  m_Center: {x: 0, y: 0.006003797, z: 0.0131492615}
 --- !u!1 &7853596038875301621
 GameObject:
   m_ObjectHideFlags: 0

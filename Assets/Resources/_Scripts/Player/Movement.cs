@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,6 +45,7 @@ public class Movement : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         grounded = true;
+        //rb.drag = 4f;
     }
 
     private void FixedUpdate()
@@ -56,14 +57,14 @@ public class Movement : MonoBehaviour
             Vector3 move = transform.right * input.x + transform.forward * input.y;
             Vector3 targetPos = transform.position + move * speed * Time.fixedDeltaTime;
 
-            // Chequear si hay algo en el camino
+            
             if (!Physics.Raycast(transform.position, move, out RaycastHit hit, speed * Time.fixedDeltaTime + skinWidth))
             {
                 transform.Translate(move * speed * Time.fixedDeltaTime, Space.World);
             }
             else
             {
-                // Nos movemos solo hasta "skinWidth" antes de la pared
+                
                 float distance = hit.distance - skinWidth;
                 if (distance > 0f)
                 {
@@ -76,8 +77,8 @@ public class Movement : MonoBehaviour
         if (grounded && jumping)
         {
             rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+           // rb.drag = 0f;
 
-            //transform.Translate(Vector3.up * jumpForce * Time.fixedDeltaTime);
         }
 
         grounded = false; 
