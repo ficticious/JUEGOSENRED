@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private int killsToWin = 5;
 
-   // public GameObject player;
+   
 
     private void Start()
     {

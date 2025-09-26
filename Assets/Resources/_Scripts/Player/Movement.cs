@@ -45,7 +45,7 @@ public class Movement : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         grounded = true;
-        //rb.drag = 4f;
+       
     }
 
     private void FixedUpdate()
@@ -77,7 +77,7 @@ public class Movement : MonoBehaviour
         if (grounded && jumping)
         {
             rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
-           // rb.drag = 0f;
+           
 
         }
 

@@ -41,7 +41,7 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (spawnPoints == null || spawnPoints.Length == 0)
         {
-            Debug.LogError("No hay puntos de spawn configurados!");
+            Debug.LogError("No hay puntos de spawn configurados");
             return;
         }
 
@@ -57,7 +57,7 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (spawnPoints == null || spawnPoints.Length == 0)
         {
-            Debug.LogError("No hay puntos de spawn disponibles!");
+            Debug.LogError("No hay puntos de spawn disponibles");
             return null;
         }
 
@@ -97,7 +97,7 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (spawnPoints == null || spawnPoints.Length == 0)
         {
-            Debug.LogError("No hay puntos de spawn disponibles para spawn aleatorio!");
+            Debug.LogError("No hay puntos de spawn disponibles para spawn aleatorio");
             return null;
         }
 
@@ -110,7 +110,7 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
 
         if (validSpawns.Count == 0)
         {
-            Debug.LogError("No hay spawn points válidos!");
+            Debug.LogError("No hay spawn points válidos");
             return null;
         }
        

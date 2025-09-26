@@ -9,11 +9,11 @@ public class Sword : Weapon
 {
     [Header("Anim")]
     public Animator anim;
-    //public string triggerString;
+    
 
     [Header("Melee Attack Settings")]
     public float attackRadius = 1.5f;
-    //public float attackRange = 2f;
+    
     public LayerMask damageMask;
 
     private void Start()
@@ -47,13 +47,12 @@ public class Sword : Weapon
         recoiling = true;
         recovering = false;
 
-        //Vector3 attackOrigin = camera.transform.position + camera.transform.forward * maxDistance;
+       
 
         Vector3 attackOrigin = camera.transform.position;
         Vector3 attackDirection = camera.transform.forward;
 
 
-        //Collider[] hits = Physics.OverlapSphere(attackOrigin, attackRadius, damageMask, QueryTriggerInteraction.Ignore);
 
         Collider[] hits = Physics.OverlapSphere(attackOrigin + attackDirection * maxDistance, attackRadius, damageMask, QueryTriggerInteraction.Ignore);
 
@@ -61,8 +60,7 @@ public class Sword : Weapon
         {
             if (hit.transform.root == transform.root) continue;
 
-            //Vector3 hitPoint = hit.ClosestPoint(camera.transform.position + camera.transform.forward * maxDistance);
-            //if (hitVFX) PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "VFX", hitVFX.name), hitPoint, Quaternion.identity);
+          
 
             PhotonView targetPV = hit.GetComponent<PhotonView>();
             if (targetPV != null && targetPV != photonView)
@@ -80,14 +78,7 @@ public class Sword : Weapon
         }
         Debug.Log($"Sword attack hit {hits.Length} targets");
 
-        //Ray ray = new Ray(camera.transform.position, camera.transform.forward);
-        //RaycastHit hit;
-
-        //if (Physics.Raycast(ray, out hit, maxDistance, hitMask, QueryTriggerInteraction.Ignore))
-        //{
-        //    if (hitVFX) Photon.Pun.PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "VFX", hitVFX.name), hit.point, Quaternion.identity);
-        //    DoDamage(hit, damage);
-        //}
+       
     }
 
 
