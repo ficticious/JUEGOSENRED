@@ -81,6 +81,8 @@ public class Health : MonoBehaviourPunCallbacks
             }
 
             StartCoroutine(RespawnCoroutine());
+            //StartCoroutine(SpawnManager.instance.RespawnCoroutine());
+            //SpawnManager.instance.RespawnPlayer();
         }
 
         
@@ -90,6 +92,7 @@ public class Health : MonoBehaviourPunCallbacks
             Connect.instance.SetHashes();
         }
     }
+
     private IEnumerator RespawnCoroutine()
     {
         yield return new WaitForSeconds(respawnTime);
@@ -111,7 +114,7 @@ public class Health : MonoBehaviourPunCallbacks
                           spawnPoint.position.x, spawnPoint.position.y, spawnPoint.position.z,
                           spawnPoint.rotation.x, spawnPoint.rotation.y, spawnPoint.rotation.z, spawnPoint.rotation.w);
         }
-        
+
         photonView.RPC("CompleteRespawn", RpcTarget.All);
     }
 

@@ -351,61 +351,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &40919614
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 40919616}
-  - component: {fileID: 40919615}
-  m_Layer: 0
-  m_Name: SpawnPointManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &40919615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 40919614}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9305734d3c955b49bd26a4f54f33c87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnPoints:
-  - {fileID: 518907522}
-  - {fileID: 1483378649}
-  - {fileID: 814421941}
-  - {fileID: 1420548130}
-  minDistanceBetweenPlayers: 10
-  showDebugGizmos: 1
-  debugMinDistance: 10
-  safeColor: {r: 0, g: 1, b: 0, a: 1}
-  unsafeColor: {r: 1, g: 0, b: 0, a: 1}
-  gizmoRadius: 1.5
---- !u!4 &40919616
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 40919614}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -976.0731, y: -920.506, z: 456.49606}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 16
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &65284393
 GameObject:
   m_ObjectHideFlags: 0
@@ -2166,12 +2111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfcd798914fdf05419cc3ff3446915f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 7853596038564473441, guid: 97340654bc95fed4492f9cd34d852eb5, type: 3}
-  nickname: 
-  spawnPoints:
-  - {fileID: 518907522}
-  - {fileID: 1483378649}
-  - {fileID: 814421941}
 --- !u!4 &293856128
 Transform:
   m_ObjectHideFlags: 0
@@ -2203,9 +2142,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88c53544e65bda045b701959bf583474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 7853596038564473441, guid: 97340654bc95fed4492f9cd34d852eb5, type: 3}
+  nickname: 
+  respawnTime: 0.2
+  spawnPoints:
+  - {fileID: 518907522}
+  - {fileID: 1483378649}
+  - {fileID: 814421941}
+  - {fileID: 1420548130}
   canvasLoading: {fileID: 2011520864}
   canvasLobby: {fileID: 103515799}
-  mainCamera: {fileID: 0}
 --- !u!114 &293856130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2218,14 +2164,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9305734d3c955b49bd26a4f54f33c87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoints:
-  - {fileID: 518907522}
-  - {fileID: 1483378649}
-  - {fileID: 814421941}
-  - {fileID: 1420548130}
   minDistanceBetweenPlayers: 10
   showDebugGizmos: 1
-  debugMinDistance: 10
   safeColor: {r: 0, g: 1, b: 0, a: 1}
   unsafeColor: {r: 1, g: 0, b: 0, a: 1}
   gizmoRadius: 1.5
@@ -2350,7 +2290,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &345480813
 GameObject:

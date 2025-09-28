@@ -9,40 +9,40 @@ using UnityEngine.SceneManagement;
 
 public class SpawnController : MonoBehaviour
 {
-    public static SpawnController instance;
+    //public static SpawnController instance;
 
-    public GameObject player;
-    public string nickname;
-    public Transform[] spawnPoints;
+    //public GameObject player;
+    //public string nickname;
+    //public Transform[] spawnPoints;
 
-    private void Awake()
-    {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+    //private void Awake()
+    //{
+    //    if (instance != null && instance != this)
+    //    {
+    //        Destroy(gameObject);
+    //        return;
+    //    }
 
-        instance = this;
-        //DontDestroyOnLoad(gameObject);
-    }
+    //    instance = this;
+    //    //DontDestroyOnLoad(gameObject);
+    //}
 
-    public GameObject SpawnPlayer()
-    {
-        int spawnIndex = (PhotonNetwork.LocalPlayer.ActorNumber - 1) % spawnPoints.Length;
-        Transform spawn = spawnPoints[spawnIndex];
+    //public GameObject SpawnPlayer()
+    //{
+    //    int spawnIndex = (PhotonNetwork.LocalPlayer.ActorNumber - 1) % spawnPoints.Length;
+    //    Transform spawn = spawnPoints[spawnIndex];
 
-        Quaternion spawnRotation = Quaternion.Euler(
-            spawn.rotation.eulerAngles.x,
-            spawn.rotation.eulerAngles.y + 180f,
-            spawn.rotation.eulerAngles.z
-        );
+    //    Quaternion spawnRotation = Quaternion.Euler(
+    //        spawn.rotation.eulerAngles.x,
+    //        spawn.rotation.eulerAngles.y + 180f,
+    //        spawn.rotation.eulerAngles.z
+    //    );
 
-        GameObject _player = PhotonNetwork.Instantiate(
-            Path.Combine("_Prefabs", "Player"),
-            spawn.position,
-            spawnRotation
-        );
-        return _player;
-    }
+    //    GameObject _player = PhotonNetwork.Instantiate(
+    //        Path.Combine("_Prefabs", "Player"),
+    //        spawn.position,
+    //        spawnRotation
+    //    );
+    //    return _player;
+    //}
 }

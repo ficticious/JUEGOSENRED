@@ -63,7 +63,8 @@ public class Connect : MonoBehaviourPunCallbacks
 
 
 
-        GameObject newPlayer = SpawnController.instance.SpawnPlayer();
+        GameObject newPlayer = SpawnManager.instance.SpawnPlayer();
+        //GameObject newPlayer = SpawnController.instance.SpawnPlayer();
         //newPlayer.SpawnPlayer();
         EmptyNickname();
         newPlayer.GetComponent<PhotonView>().RPC("SetNickname", RpcTarget.AllBuffered, nickname);

@@ -9,15 +9,15 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
     public static SpawnPointManager Instance;
 
     [Header("Spawn Settings")]
-    public Transform[] spawnPoints;
     public float minDistanceBetweenPlayers = 10f;
 
     [Header("Debug Settings")]
     public bool showDebugGizmos = true;
-    public float debugMinDistance = 10f;
     public Color safeColor = Color.green;
     public Color unsafeColor = Color.red;
     public float gizmoRadius = 1.5f;
+
+    private Transform[] spawnPoints;
 
     void Awake()
     {
@@ -34,17 +34,26 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void Start()
     {
+        spawnPoints = SpawnManager.instance.spawnPoints;
         ValidateSpawnPoints();
+
+        if (spawnPoints == null || spawnPoints.Length == 0) Debug.LogWarning("No hay Spawnpoints");
+    }
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+
+        GameObject localPlayer = FindLocalPlayer();
+
+        if (localPlayer != null)
+        {
+            SpawnLocalPlayer(localPlayer);
+        }
     }
 
     private void ValidateSpawnPoints()
     {
-        if (spawnPoints == null || spawnPoints.Length == 0)
-        {
-            Debug.LogError("No hay puntos de spawn configurados");
-            return;
-        }
-
         List<Transform> validSpawns = new List<Transform>();
         foreach (Transform spawn in spawnPoints)
         {
@@ -55,12 +64,6 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public Transform GetSafeSpawnPoint(float minDistance = 10f)
     {
-        if (spawnPoints == null || spawnPoints.Length == 0)
-        {
-            Debug.LogError("No hay puntos de spawn disponibles");
-            return null;
-        }
-
         List<Transform> safeSpawns = new List<Transform>();
 
         foreach (Transform spawn in spawnPoints)
@@ -95,13 +98,6 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
     
     public Transform GetRandomSpawnPoint()
     {
-        if (spawnPoints == null || spawnPoints.Length == 0)
-        {
-            Debug.LogError("No hay puntos de spawn disponibles para spawn aleatorio");
-            return null;
-        }
-
-        
         List<Transform> validSpawns = new List<Transform>();
         foreach (Transform spawn in spawnPoints)
         {
@@ -119,8 +115,6 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
 
     private Transform GetFarthestSpawnPoint()
     {
-        if (spawnPoints == null || spawnPoints.Length == 0) return null;
-
         Transform farthestSpawn = spawnPoints[0];
         float maxDistance = 0f;
 
@@ -153,17 +147,6 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
         return farthestSpawn;
     }
 
-    public override void OnJoinedRoom()
-    {
-        base.OnJoinedRoom();
-
-        GameObject localPlayer = FindLocalPlayer();
-
-        if (localPlayer != null)
-        {
-            SpawnLocalPlayer(localPlayer);
-        }
-    }
 
     private GameObject FindLocalPlayer()
     {
@@ -178,13 +161,19 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
         return null;
     }
 
-    private void SpawnLocalPlayer(GameObject player)
+    public void SpawnLocalPlayer(GameObject player)
     {
         Transform spawnPoint = GetSafeSpawnPoint(minDistanceBetweenPlayers);
 
+        Vector3 spawnPos = spawnPoint.position;
+        Quaternion spawnRot = spawnPoint.rotation;
+
         if (spawnPoint != null)
         {
+            //photonView.RPC("SetRespawnPosition", RpcTarget.All, spawnPos, spawnRot);
+
             Health playerHealth = player.GetComponent<Health>();
+
             if (playerHealth != null)
             {
                 playerHealth.photonView.RPC("SetRespawnPosition", RpcTarget.All,
@@ -196,8 +185,16 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
+            GetRandomSpawnPoint();
             Debug.LogWarning("No se pudo encontrar un punto de spawn seguro");
         }
+    }
+
+    [PunRPC]
+    public void SetRespawnPosition(float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float rotW)
+    {
+        transform.position = new Vector3(posX, posY, posZ);
+        transform.rotation = new Quaternion(rotX, rotY, rotZ, rotW);
     }
 
     void OnDrawGizmos()
@@ -218,7 +215,7 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
                     if (playerHealth != null && !playerHealth.IsDead())
                     {
                         float distance = Vector3.Distance(spawn.position, playerObj.transform.position);
-                        if (distance < debugMinDistance)
+                        if (distance < minDistanceBetweenPlayers)
                         {
                             isSafe = false;
                             break;
@@ -231,7 +228,7 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
             Gizmos.DrawSphere(spawn.position, gizmoRadius);
 
             Gizmos.color = new Color(Gizmos.color.r, Gizmos.color.g, Gizmos.color.b, 0.2f);
-            Gizmos.DrawWireSphere(spawn.position, debugMinDistance);
+            Gizmos.DrawWireSphere(spawn.position, minDistanceBetweenPlayers);
         }
     }
 
