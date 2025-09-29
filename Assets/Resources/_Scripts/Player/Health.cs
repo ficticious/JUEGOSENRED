@@ -6,14 +6,12 @@ using UnityEngine;
 public class Health : MonoBehaviourPunCallbacks
 {
     [Header("Parameters")]
-    public float maxHealth = 100f;
-    [SerializeField] public float health;
+    public float health;
+    public float respawnTime = 0f;
+    private float maxHealth = 100;
 
     [Header("UI")]
     public TextMeshProUGUI healthText;
-
-    [Header("Respawn Settings")]
-    public float respawnTime = 0f;
 
     private PlayerSetup playerSetup;
     public bool isLocalPlayer;
@@ -76,8 +74,8 @@ public class Health : MonoBehaviourPunCallbacks
             if (health <= 0f)
             {
                 health = 0f;
-                Connect.instance.deaths++;
-                Connect.instance.SetHashes();
+                GameManager.instance.deaths++;
+                GameManager.instance.SetHashes();
             }
 
             StartCoroutine(RespawnCoroutine());
@@ -88,8 +86,8 @@ public class Health : MonoBehaviourPunCallbacks
         
         if (attackerId != -1 && PhotonNetwork.LocalPlayer.ActorNumber == attackerId)
         {
-            Connect.instance.kills++;
-            Connect.instance.SetHashes();
+            GameManager.instance.kills++;
+            GameManager.instance.SetHashes();
         }
     }
 

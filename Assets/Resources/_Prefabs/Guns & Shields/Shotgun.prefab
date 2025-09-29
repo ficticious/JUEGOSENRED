@@ -136,6 +136,8 @@ MonoBehaviour:
   damage: 30
   fireRate: 0.8
   maxDistance: 15
+  minDistance: 5
+  damageFalloffDistance: 15
   recoverPercent: 0.5
   recoilUp: 0.05
   recoilBack: 0.05

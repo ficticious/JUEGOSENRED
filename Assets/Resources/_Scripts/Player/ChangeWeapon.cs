@@ -11,36 +11,25 @@ public class ChangeWeapon : MonoBehaviourPun
     [Space]
     [Header("Weapon List")]
     [SerializeField] private List<GameObject> weapons = new List<GameObject>();
+    [Min(1)] public int killsPerChange;
 
     private int currentWeaponIndex = 0;
     private Weapon currentWeapon;
 
-    private int killsPerChange = 3;
-    private int lastKillCheckpoint = 0;
-
-    
 
     private void Start()
     {
-        if (weapons.Count > 0)
-            EquipWeapon(0);
-
-       
-      
+        if (weapons.Count > 0) EquipWeapon(0);
     }
 
-    
     private void Update()
     {
-        
         if (photonView.IsMine)
         {
             CheckKillsForWeaponChange();
 
             if (Input.GetKeyUp(KeyCode.Q)) NextWeapon();
         }
-
-       
     }
 
     private void EquipWeapon(int index)
@@ -61,22 +50,20 @@ public class ChangeWeapon : MonoBehaviourPun
     {
         int nextIndex = currentWeaponIndex + 1;
 
-        if (nextIndex >= weapons.Count)
-            nextIndex = 0;
+        if (nextIndex >= weapons.Count) nextIndex = 0;
 
         EquipWeapon(nextIndex);
     }
 
     private void CheckKillsForWeaponChange()
     {
-        int currentKills = Connect.instance.kills;
-        
+        int currentKills = GameManager.instance.kills;
+        int lastKillCheckpoint = 0;
+
         if (currentKills >= lastKillCheckpoint + killsPerChange)
         {
             lastKillCheckpoint = currentKills;
             NextWeapon();
         }
     }
-
-    
 }

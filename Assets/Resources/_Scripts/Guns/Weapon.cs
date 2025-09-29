@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun.Demo.PunBasics;
 using Photon.Pun.UtilityScripts;
+using System.IO;
 
 public abstract class Weapon : MonoBehaviourPunCallbacks
 {
@@ -15,7 +16,8 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
     public float damage;
     public float fireRate;
     public float maxDistance;
-    private float minDistance = 5f;
+    public float minDistance = 5f;
+    public float damageFalloffDistance;
     private float minDamagePercent = 0.2f;
     protected float nextFire;
 
@@ -38,13 +40,21 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
     public GameObject hitVFX;
     public Sprite crosshair;
 
+    public abstract void Fire();
+
     protected void DoDamage(RaycastHit hit, float dmg)
     {
         PhotonView targetPV = hit.transform.GetComponent<PhotonView>();
         if (targetPV == null) return;
-
         
         float distance = Vector3.Distance(camera.transform.position, hit.point);
+
+        if (distance > damageFalloffDistance)
+        {
+            Debug.Log($"Hit fuera de rango ({distance:F1}m). Solo VFX.");
+            return;
+        }
+
         float t = Mathf.InverseLerp(minDistance, maxDistance, distance);
         float damageMultiplier = Mathf.Lerp(1f, minDamagePercent, t);
         float finalDamage = dmg * damageMultiplier;
@@ -61,7 +71,6 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
 
         Debug.Log($"Hit → {finalDamage:F1} dmg (Base {dmg:F1}, Dist {distance:F1})");
     }
-    public abstract void Fire();
 
     public void Recoil()
     {

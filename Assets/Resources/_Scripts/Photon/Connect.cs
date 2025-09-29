@@ -17,16 +17,22 @@ public class Connect : MonoBehaviourPunCallbacks
     [Header("Player")]
     public GameObject mainCamera;
     public GameObject player;
-    public TMP_InputField inputNickname;
+
+    private TMP_InputField inputNickname;
     private string nickname = "player";
     private int numberOfPlayer;
 
-    [HideInInspector]
-    public int kills = 0;
-    public int deaths = 0;
+    //[HideInInspector]
+    //public int kills = 0;
+    //public int deaths = 0;
 
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         instance = this;
     }
     void Start()
@@ -34,6 +40,7 @@ public class Connect : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsConnected) PhotonNetwork.ConnectUsingSettings();
     }
 
+    // -------------------  PHOTON  -----------------------------------------------------------
     public void ConnectToMasterWithButton()
     {
         if (!PhotonNetwork.IsConnected) PhotonNetwork.ConnectUsingSettings();
@@ -43,8 +50,6 @@ public class Connect : MonoBehaviourPunCallbacks
     {
         base.OnConnectedToMaster();
 
-       
-
         PhotonNetwork.JoinLobby();
     }
 
@@ -53,25 +58,30 @@ public class Connect : MonoBehaviourPunCallbacks
         base.OnJoinedLobby();
 
         LocalPlayer();
-
     }
 
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
 
-
-
-
-        GameObject newPlayer = SpawnManager.instance.SpawnPlayer();
         //GameObject newPlayer = SpawnController.instance.SpawnPlayer();
         //newPlayer.SpawnPlayer();
+        GameObject newPlayer = SpawnManager.instance.SpawnPlayer();
         EmptyNickname();
         newPlayer.GetComponent<PhotonView>().RPC("SetNickname", RpcTarget.AllBuffered, nickname);
         LocalPlayer();
 
         PhotonNetwork.LocalPlayer.NickName = nickname;
     }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        base.OnDisconnected(cause);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+// ------------------------------------------------------------------------------
 
     public void ChangeNickname(string _name)
     {
@@ -87,21 +97,18 @@ public class Connect : MonoBehaviourPunCallbacks
         }
     }
 
-    public void SetHashes()
-    {
-        try
-        {
-            Hashtable hash = PhotonNetwork.LocalPlayer.CustomProperties;
-            hash["kills"] = kills;
-            hash["deaths"] = deaths;
+    //public void SetHashes()
+    //{
+    //    try
+    //    {
+    //        Hashtable hash = PhotonNetwork.LocalPlayer.CustomProperties;
+    //        hash["kills"] = kills;
+    //        hash["deaths"] = deaths;
 
-            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-        }
-        catch
-        {
-           
-        }
-    }
+    //        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+    //    }
+    //    catch { }
+    //}
 
     public void LocalPlayer()
     {

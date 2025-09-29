@@ -8,24 +8,24 @@ using Photon.Realtime;
 
 public class GameOverScreen : MonoBehaviourPunCallbacks
 {
-    public GameObject gameOverPanel;
+    //public GameObject gameOverPanel;
 
-    public void ShowLosePanel()
-    {
-        gameOverPanel.SetActive(true);
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-    }
+    //public void ShowLosePanel()
+    //{
+    //    gameOverPanel.SetActive(true);
+    //    Cursor.visible = true;
+    //    Cursor.lockState = CursorLockMode.None;
+    //}
 
-    public void GoToLobby()
-    {
-        PhotonNetwork.Disconnect();
-    }
+    //public void GoToLobby()
+    //{
+    //    PhotonNetwork.Disconnect();
+    //}
 
-    public override void OnDisconnected(DisconnectCause cause)
-    {
-        base.OnDisconnected(cause);
+    //public override void OnDisconnected(DisconnectCause cause)
+    //{
+    //    base.OnDisconnected(cause);
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
+    //    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    //}
 }

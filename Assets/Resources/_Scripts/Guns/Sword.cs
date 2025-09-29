@@ -33,26 +33,19 @@ public class Sword : Weapon
             Fire();
             if (anim != null) anim.SetTrigger("Attack");
         }
-
-        if (recoiling) Recoil();
-        if (recovering) Recover();
-
+        //if (recoiling) Recoil();
+        //if (recovering) Recover();
     }
 
     public override void Fire()
     {
         if (!photonView.IsMine) return;
 
-
-        recoiling = true;
-        recovering = false;
-
-       
+        //recoiling = true;
+        //recovering = false;
 
         Vector3 attackOrigin = camera.transform.position;
         Vector3 attackDirection = camera.transform.forward;
-
-
 
         Collider[] hits = Physics.OverlapSphere(attackOrigin + attackDirection * maxDistance, attackRadius, damageMask, QueryTriggerInteraction.Ignore);
 
@@ -60,9 +53,8 @@ public class Sword : Weapon
         {
             if (hit.transform.root == transform.root) continue;
 
-          
-
             PhotonView targetPV = hit.GetComponent<PhotonView>();
+
             if (targetPV != null && targetPV != photonView)
             {
                 targetPV.RPC("TakeDamage", targetPV.Owner, damage, PhotonNetwork.LocalPlayer.ActorNumber);
@@ -77,8 +69,6 @@ public class Sword : Weapon
             }
         }
         Debug.Log($"Sword attack hit {hits.Length} targets");
-
-       
     }
 
 
