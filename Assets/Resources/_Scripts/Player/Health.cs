@@ -30,7 +30,7 @@ public class Health : MonoBehaviourPunCallbacks
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            TakeDamage(30);
+            TakeDamage(30, -1);
         }
     }
 
@@ -50,11 +50,11 @@ public class Health : MonoBehaviourPunCallbacks
         }
     }
 
-    
+
     [PunRPC]
     public void TakeDamage(float damage)
     {
-        TakeDamage(damage, -1); 
+        TakeDamage(damage, -1);
     }
 
     [PunRPC]
@@ -172,13 +172,13 @@ public class Health : MonoBehaviourPunCallbacks
     }
 
     
-    public void DealDamage(float damage, int attackerId = -1)
-    {
-        photonView.RPC("TakeDamage", RpcTarget.All, damage, attackerId);
-    }
+    //public void DealDamage(float damage, int attackerId = -1)
+    //{
+    //    photonView.RPC("TakeDamage", RpcTarget.All, damage, attackerId);
+    //}
 
-    public void DealDamage(float damage)
-    {
-        photonView.RPC("TakeDamage", RpcTarget.All, damage);
-    }
+    //public void DealDamage(float damage)
+    //{
+    //    photonView.RPC("TakeDamage", RpcTarget.All, damage);
+    //}
 }
