@@ -59,7 +59,7 @@ public class Rocket : MonoBehaviourPunCallbacks
 
         if (explosionVFX != null)
         {
-            Quaternion rot = Quaternion.LookRotation(normal*0.5f);
+            Quaternion rot = Quaternion.LookRotation(normal);
             PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "VFX", explosionVFX.name), pos, rot);
         }
 
