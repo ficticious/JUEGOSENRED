@@ -383,14 +383,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d8a75f6ad051e64c87ce2ecd0cfd150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 0}
+  playerCamera: {fileID: 0}
   hitMask:
     serializedVersion: 2
     m_Bits: 257
-  damage: 2.5
+  damage: 5
   fireRate: 8
   maxDistance: 100
-  minDistance: 5
+  minDistance: 15
   damageFalloffDistance: 60
   recoverPercent: 0.5
   recoilUp: 0.02

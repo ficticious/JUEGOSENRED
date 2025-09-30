@@ -38,10 +38,10 @@ public class Shotgun : Weapon
 
         for (int i = 0; i < pellets; i++)
         {
-            Vector3 direction = camera.transform.forward;
+            Vector3 direction = playerCamera.transform.forward;
             direction = Quaternion.Euler(Random.Range(-spreadAngle, spreadAngle), Random.Range(-spreadAngle, spreadAngle), 0) * direction;
 
-            Ray ray = new Ray(camera.transform.position, direction);
+            Ray ray = new Ray(playerCamera.transform.position, direction);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, 100, hitMask, QueryTriggerInteraction.Ignore))

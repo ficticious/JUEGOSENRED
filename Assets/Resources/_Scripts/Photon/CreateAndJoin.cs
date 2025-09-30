@@ -17,6 +17,8 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
     public TMP_InputField inputJoin;
     public TextMeshProUGUI maxPlayersText;
     public Toggle isPublic;
+    public Button morePlayersButton;
+    public Button lessPlayersButton;
 
     [Header("Room Options")]
     [Min(2)] public int _maxPlayers = 2; 
@@ -75,8 +77,8 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
     private void UpdateMaxPlayersText()
     {
         maxPlayersText.text = _maxPlayers.ToString();
-    }
 
-
-   
+        morePlayersButton.interactable = _maxPlayers < MAX_PLAYERS;
+        lessPlayersButton.interactable = _maxPlayers > MIN_PLAYERS;
+    }   
 }

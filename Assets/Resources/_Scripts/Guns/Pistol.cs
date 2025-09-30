@@ -30,7 +30,7 @@ public class Pistol : Weapon
         recoiling = true;
         recovering = false;
 
-        Ray ray = new Ray(camera.transform.position, camera.transform.forward);
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, 100, hitMask, QueryTriggerInteraction.Ignore))

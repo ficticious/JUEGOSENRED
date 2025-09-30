@@ -93,7 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5827699506475396465}
   - component: {fileID: 2640488853077056372}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86380c571d7b5d547969b6b9e35c37af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 0}
+  playerCamera: {fileID: 0}
   hitMask:
     serializedVersion: 2
     m_Bits: 257

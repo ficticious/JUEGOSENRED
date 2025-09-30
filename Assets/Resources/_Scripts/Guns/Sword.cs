@@ -44,8 +44,8 @@ public class Sword : Weapon
         //recoiling = true;
         //recovering = false;
 
-        Vector3 attackOrigin = camera.transform.position;
-        Vector3 attackDirection = camera.transform.forward;
+        Vector3 attackOrigin = playerCamera.transform.position;
+        Vector3 attackDirection = playerCamera.transform.forward;
 
         Collider[] hits = Physics.OverlapSphere(attackOrigin + attackDirection * maxDistance, attackRadius, damageMask, QueryTriggerInteraction.Ignore);
 
@@ -72,12 +72,12 @@ public class Sword : Weapon
     }
 
 
-    private void OnDrawGizmosSelected()
-    {
-        if (camera == null) return;
+    //private void OnDrawGizmosSelected()
+    //{
+    //    if (playerCamera == null) return;
 
-        Gizmos.color = Color.red;
-        Vector3 attackOrigin = camera.transform.position + camera.transform.forward * maxDistance;
-        Gizmos.DrawWireSphere(attackOrigin, attackRadius);
-    }
+    //    Gizmos.color = Color.red;
+    //    Vector3 attackOrigin = playerCamera.transform.position + playerCamera.transform.forward * maxDistance;
+    //    Gizmos.DrawWireSphere(attackOrigin, attackRadius);
+    //}
 }

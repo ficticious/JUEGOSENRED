@@ -8,7 +8,7 @@ using System.IO;
 
 public abstract class Weapon : MonoBehaviourPunCallbacks
 {
-    public Camera camera;
+    public Camera playerCamera;
 
     public LayerMask hitMask;
 
@@ -47,7 +47,7 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
         PhotonView targetPV = hit.transform.GetComponent<PhotonView>();
         if (targetPV == null) return;
         
-        float distance = Vector3.Distance(camera.transform.position, hit.point);
+        float distance = Vector3.Distance(playerCamera.transform.position, hit.point);
 
         if (distance > damageFalloffDistance)
         {
