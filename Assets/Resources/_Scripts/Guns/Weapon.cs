@@ -36,9 +36,21 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
     protected Vector3 recoilVelocity = Vector3.zero;
 
 
-    [Header("VFX -- UI")]
+    [Header("VFX -- UI -- AUDIO")]
     public GameObject hitVFX;
     public Sprite crosshair;
+    public AudioClip fireSound;
+    public AudioClip[] fireSounds;
+    protected AudioSource audioSource;
+
+    protected virtual void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
+
+        audioSource.spatialBlend = 1f;
+        audioSource.playOnAwake = false;
+    }
 
     public abstract void Fire();
 
@@ -96,5 +108,20 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
             recoiling = false;
             recovering = false;
         }
+    }
+
+
+    [PunRPC]
+    protected void PlayFireSound()
+    {
+        if (fireSound == null || audioSource == null) return;
+        audioSource.PlayOneShot(fireSound);
+    }
+
+    [PunRPC]
+    protected void PlayFireSounds()
+    {
+        if (fireSounds == null || audioSource == null) return;
+        audioSource.PlayOneShot(fireSounds[Random.Range(0, fireSounds.Length)]);
     }
 }

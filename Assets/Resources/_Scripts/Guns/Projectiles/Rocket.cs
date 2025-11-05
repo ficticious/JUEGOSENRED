@@ -17,6 +17,12 @@ public class Rocket : MonoBehaviourPunCallbacks
     public float lifetime;
     public bool useGravity = false;
 
+    [Header("Audio")]
+    public AudioClip expSound;
+    protected AudioSource audioSource;
+    public float min, max;
+
+
     private Rigidbody rb;
     private int ownerActorNumber = -1;
 
@@ -24,6 +30,12 @@ public class Rocket : MonoBehaviourPunCallbacks
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = useGravity;
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
+
+        audioSource.spatialBlend = 1f;
+        audioSource.playOnAwake = false;
     }
 
     public void Initialize(Vector3 initialVelocity, int ownerActor)
@@ -50,6 +62,7 @@ public class Rocket : MonoBehaviourPunCallbacks
         Vector3 hitPoint = contact.point;
         Vector3 hitNormal = contact.normal;
 
+        photonView.RPC("RPC_PlayExplosionSoundAt", RpcTarget.All, hitPoint);
         Explode(hitPoint, hitNormal);
     }
 
@@ -100,6 +113,24 @@ public class Rocket : MonoBehaviourPunCallbacks
         {
             Destroy(gameObject);
         }
+    }
+
+    [PunRPC]
+    private void RPC_PlayExplosionSoundAt(Vector3 pos)
+    {
+        if (expSound == null) return;
+
+        GameObject audioObj = new GameObject("ExplosionSound");
+        audioObj.transform.position = pos;
+
+        AudioSource src = audioObj.AddComponent<AudioSource>();
+        src.spatialBlend = 1f;
+        src.rolloffMode = AudioRolloffMode.Logarithmic;
+        src.minDistance = min;
+        src.maxDistance = max;
+        src.PlayOneShot(expSound);
+
+        Destroy(audioObj, expSound.length);
     }
 
     private void OnDrawGizmosSelected()

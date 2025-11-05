@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -56,6 +57,8 @@ public class Rifle : Weapon
 
     public override void Fire()
     {
+        photonView.RPC("PlayFireSound", RpcTarget.All);
+
         recoiling = true;
         recovering = false;
 

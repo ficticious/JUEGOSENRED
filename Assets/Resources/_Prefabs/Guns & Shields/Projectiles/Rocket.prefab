@@ -48,13 +48,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
+  ObservedComponentsFoldoutOpen: 0
   Group: 0
   prefixField: -1
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
+  observableSearch: 0
+  ObservedComponents:
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -108,6 +109,9 @@ MonoBehaviour:
   explosionVFX: {fileID: 4593184484909914552, guid: 2e1e9506f5904a64b81744324fb7cd50, type: 3}
   lifetime: 5
   useGravity: 0
+  expSound: {fileID: 8300000, guid: cd823ba0adf07fc46bf3a4e9bca20a70, type: 3}
+  min: 1
+  max: 40
 --- !u!1001 &8000839343414748043
 PrefabInstance:
   m_ObjectHideFlags: 0

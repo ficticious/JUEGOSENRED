@@ -37,6 +37,8 @@ public class RocketLauncher : Weapon
     {
         if (!photonView.IsMine) return;
 
+        photonView.RPC("PlayFireSound", RpcTarget.All);
+
         //recoiling = true;
         //recovering = false;
 

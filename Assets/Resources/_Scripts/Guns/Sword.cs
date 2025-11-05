@@ -13,7 +13,7 @@ public class Sword : Weapon
 
     [Header("Melee Attack Settings")]
     public float attackRadius = 1.5f;
-    
+
     public LayerMask damageMask;
 
     private void Start()
@@ -40,6 +40,8 @@ public class Sword : Weapon
     public override void Fire()
     {
         if (!photonView.IsMine) return;
+
+        photonView.RPC("PlayFireSounds", RpcTarget.All);
 
         //recoiling = true;
         //recovering = false;
