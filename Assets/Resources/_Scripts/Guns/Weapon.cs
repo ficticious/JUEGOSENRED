@@ -39,8 +39,7 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
     [Header("VFX -- UI -- AUDIO")]
     public GameObject hitVFX;
     public Sprite crosshair;
-    public AudioClip fireSound;
-    public AudioClip[] fireSounds;
+    public AudioClip[] fireSound;
     protected AudioSource audioSource;
 
     protected virtual void Awake()
@@ -115,13 +114,11 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
     protected void PlayFireSound()
     {
         if (fireSound == null || audioSource == null) return;
-        audioSource.PlayOneShot(fireSound);
-    }
 
-    [PunRPC]
-    protected void PlayFireSounds()
-    {
-        if (fireSounds == null || audioSource == null) return;
-        audioSource.PlayOneShot(fireSounds[Random.Range(0, fireSounds.Length)]);
+        if (fireSound.Length > 1 )
+        {
+            audioSource.PlayOneShot(fireSound[Random.Range(0, fireSound.Length)]);
+        }
+        else audioSource.PlayOneShot(fireSound[0]);
     }
 }

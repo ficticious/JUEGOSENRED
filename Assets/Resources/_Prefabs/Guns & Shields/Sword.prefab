@@ -86,8 +86,7 @@ MonoBehaviour:
   recovering: 0
   hitVFX: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512, type: 3}
   crosshair: {fileID: 21300000, guid: b26c1b2c24c056a43931e5b20d8d9193, type: 3}
-  fireSound: {fileID: 0}
-  fireSounds:
+  fireSound:
   - {fileID: 8300000, guid: 00432db095042264e9a2d687ad9820b4, type: 3}
   - {fileID: 8300000, guid: 55f7707685b3d394a98927be7df60727, type: 3}
   - {fileID: 8300000, guid: 6ddd4040baf5e744991e6ac1b17e30c2, type: 3}

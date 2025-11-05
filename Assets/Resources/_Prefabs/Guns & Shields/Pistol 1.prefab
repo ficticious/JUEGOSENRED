@@ -85,7 +85,8 @@ MonoBehaviour:
   recovering: 0
   hitVFX: {fileID: 3432958286849152088, guid: 87ee7299dd44ed747af24dbb91bcd33b, type: 3}
   crosshair: {fileID: 21300000, guid: 552478a654d2eb8478c30045279d5688, type: 3}
-  fireSound: {fileID: 8300000, guid: 9043a6a9d56f2894ea001655b3314f6a, type: 3}
+  fireSound:
+  - {fileID: 8300000, guid: 9043a6a9d56f2894ea001655b3314f6a, type: 3}
 --- !u!1001 &3764023718501997675
 PrefabInstance:
   m_ObjectHideFlags: 0

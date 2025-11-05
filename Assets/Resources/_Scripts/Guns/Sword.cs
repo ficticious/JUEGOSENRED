@@ -41,7 +41,7 @@ public class Sword : Weapon
     {
         if (!photonView.IsMine) return;
 
-        photonView.RPC("PlayFireSounds", RpcTarget.All);
+        photonView.RPC("PlayFireSound", RpcTarget.All);
 
         //recoiling = true;
         //recovering = false;

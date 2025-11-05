@@ -22,11 +22,15 @@ public class Movement : MonoBehaviour
     private bool jumping;
     private bool grounded = false;
 
+    private Animator anim;
+
     [SerializeField] private float skinWidth = 0.25f;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        anim = GetComponentInChildren<Animator>();
+
         rb.freezeRotation = true; 
         walkSpeed = baseWalkSpeed;
         sprintSpeed = baseSprintSpeed;
@@ -40,13 +44,10 @@ public class Movement : MonoBehaviour
 
         sprinting = Input.GetButton("Sprint");
         jumping = Input.GetButton("Jump");
+
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        grounded = true;
-       
-    }
+    
 
     private void FixedUpdate()
     {
@@ -56,6 +57,7 @@ public class Movement : MonoBehaviour
             float speed = grounded && sprinting ? sprintSpeed : walkSpeed;
             Vector3 move = transform.right * input.x + transform.forward * input.y;
             Vector3 targetPos = transform.position + move * speed * Time.fixedDeltaTime;
+
 
             
             if (!Physics.Raycast(transform.position, move, out RaycastHit hit, speed * Time.fixedDeltaTime + skinWidth))
@@ -71,17 +73,26 @@ public class Movement : MonoBehaviour
                     transform.Translate(move.normalized * distance, Space.World);
                 }
             }
+
+            anim.SetBool("Moving", true);
         }
+        else anim.SetBool("Moving", false);
 
 
         if (grounded && jumping)
         {
             rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
-           
-
         }
+        grounded = false;
 
-        grounded = false; 
+        anim.SetBool("Jumping", jumping);
+        anim.SetBool("Running", sprinting);
+        Debug.Log(sprinting);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        grounded = true;
     }
 
     public void SpeedBoost(float multiplier)
