@@ -87,7 +87,6 @@ public class Movement : MonoBehaviour
 
         anim.SetBool("Jumping", jumping);
         anim.SetBool("Running", sprinting);
-        Debug.Log(sprinting);
     }
 
     private void OnTriggerStay(Collider other)
