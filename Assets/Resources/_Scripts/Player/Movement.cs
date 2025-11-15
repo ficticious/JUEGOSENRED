@@ -5,101 +5,117 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Movement : MonoBehaviour
 {
-    [Header("Move")]
-    public float baseWalkSpeed = 2f;
-    public float baseSprintSpeed = 5f;
-
-    private float walkSpeed, sprintSpeed;
-
-    [Header("Jump")]
-    public float jumpForce = 5f;
-    public float airControl = 0.5f;
-
-    private Vector2 input;
+    [Header("Components")]
     private Rigidbody rb;
-
-    private bool sprinting;
-    private bool jumping;
-    private bool grounded = false;
-
     private Animator anim;
 
-    [SerializeField] private float skinWidth = 0.25f;
+    [Header("Movement")]
+    [SerializeField] private float walkSpeed = 5f;
+    [SerializeField] private float sprintSpeed = 9f;
+    [SerializeField] private float airControlMultiplier = 0.5f;
+
+    [Header("Jump")]
+    [SerializeField] private float jumpForce = 6f;
+    [SerializeField] private float groundCheckRadius = 0.25f;
+    [SerializeField] private LayerMask groundMask;
+    [SerializeField] private Transform groundCheck;
+
+    [Header("Tuning")]
+    [SerializeField, Tooltip("Velocidad de blend para alcanzar la velocidad objetivo. Más alto = respuesta más instantánea")]
+    private float accel = 10f;
+
+    private Vector2 input;
+    private bool jumping;
+    private bool sprinting;
+    private bool grounded;
+
+    private float baseWalkSpeed;
+    private float baseSprintSpeed;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
 
-        rb.freezeRotation = true; 
-        walkSpeed = baseWalkSpeed;
-        sprintSpeed = baseSprintSpeed;
+        rb.freezeRotation = true;
+
+        baseWalkSpeed = walkSpeed;
+        baseSprintSpeed = sprintSpeed;
     }
 
     private void Update()
     {
-        
         input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         input.Normalize();
 
         sprinting = Input.GetButton("Sprint");
         jumping = Input.GetButton("Jump");
 
-    }
+        if (groundCheck != null)
+            grounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
 
-    
+        anim.SetBool("Running", sprinting);
+        //anim.SetBool("Jumping", jumping);
+    }
 
     private void FixedUpdate()
     {
+        HandleMovement();
+        HandleJump();
 
-        if (input.magnitude > 0.1f)
-        {
-            float speed = grounded && sprinting ? sprintSpeed : walkSpeed;
-            Vector3 move = transform.right * input.x + transform.forward * input.y;
-            Vector3 targetPos = transform.position + move * speed * Time.fixedDeltaTime;
-
-
-            
-            if (!Physics.Raycast(transform.position, move, out RaycastHit hit, speed * Time.fixedDeltaTime + skinWidth))
-            {
-                transform.Translate(move * speed * Time.fixedDeltaTime, Space.World);
-            }
-            else
-            {
-                
-                float distance = hit.distance - skinWidth;
-                if (distance > 0f)
-                {
-                    transform.Translate(move.normalized * distance, Space.World);
-                }
-            }
-
-            anim.SetBool("Moving", true);
-        }
-        else anim.SetBool("Moving", false);
-
-
-        if (grounded && jumping)
-        {
-            rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
-        }
-        grounded = false;
-
-        anim.SetBool("Jumping", jumping);
-        anim.SetBool("Running", sprinting);
+        anim.SetBool("Moving", input.magnitude > 0.1f);
     }
 
-    private void OnTriggerStay(Collider other)
+    private void HandleMovement()
     {
-        grounded = true;
+        Vector3 moveDir = (transform.right * input.x + transform.forward * input.y).normalized;
+
+        float targetSpeed = (sprinting && grounded) ? sprintSpeed : walkSpeed;
+        if (!grounded)
+            targetSpeed *= airControlMultiplier;
+
+        Vector3 desiredHorizontal = moveDir * targetSpeed;
+
+        Vector3 currentVel = rb.velocity;
+        Vector3 currentHorizontal = new Vector3(currentVel.x, 0f, currentVel.z);
+
+        float blend = Mathf.Clamp01(accel * Time.fixedDeltaTime);
+        Vector3 newHorizontal = Vector3.Lerp(currentHorizontal, desiredHorizontal, blend);
+
+        Vector3 newVelocity = new Vector3(newHorizontal.x, currentVel.y, newHorizontal.z);
+        rb.velocity = newVelocity;
+    }
+
+    private void HandleJump()
+    {
+        if (jumping && grounded)
+        {
+            Vector3 v = rb.velocity;
+            v.y = jumpForce;
+            rb.velocity = v;
+
+            anim.SetTrigger("Jumping");
+        }
+            jumping = false;
     }
 
     public void SpeedBoost(float multiplier)
     {
-        if (walkSpeed < 8 || sprintSpeed < 16)
-        {
-            walkSpeed *= multiplier;
-            sprintSpeed *= multiplier;
-        }
+        float maxWalk = baseWalkSpeed * 2f;
+        float maxSprint = baseSprintSpeed * 2f;
+
+        walkSpeed = Mathf.Min(walkSpeed * multiplier, maxWalk);
+        sprintSpeed = Mathf.Min(sprintSpeed * multiplier, maxSprint);
+    }
+
+    public void OnMoveInput(Vector2 inputValue) => input = inputValue;
+    public void OnJumpInput(bool value) => jumping = value;
+    public void OnSprintInput(bool value) => sprinting = value;
+
+    // Opcional: si antes usabas trigger para ground, conservá este método.
+    private void OnTriggerStay(Collider other)
+    {
+        // si usás layer mask en groundCheck, podrías filtrar aquí; mantengo simple
+        grounded = true;
     }
 }

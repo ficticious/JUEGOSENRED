@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionRadius: 4
   explosionDamage: 75
-  explosionForce: 400
+  explosionForce: 100
   damageMask:
     serializedVersion: 2
     m_Bits: 257

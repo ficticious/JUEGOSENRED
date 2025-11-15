@@ -775,6 +775,7 @@ GameObject:
   - component: {fileID: -63824792730223478}
   - component: {fileID: 1992743782782934745}
   - component: {fileID: 7229159096803316478}
+  - component: {fileID: 8410589190793520004}
   - component: {fileID: -5899975697788283065}
   - component: {fileID: -8414198903005244444}
   - component: {fileID: 4538293911059699470}
@@ -927,6 +928,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 7853596038875301616}
   sensibility: {x: 1, y: 1}
+--- !u!114 &8410589190793520004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7853596038564473441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7977be7b854788f42af990627bbb22b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderersToHide:
+  - {fileID: 3607219291829412554}
+  - {fileID: 6250450154029408124}
+  - {fileID: 6364222090603060105}
 --- !u!114 &-5899975697788283065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -957,11 +974,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09a4060865d5a7a41bce602d22aeca47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseWalkSpeed: 4
-  baseSprintSpeed: 8
-  jumpForce: 6
-  airControl: 0.5
-  skinWidth: 0.25
+  walkSpeed: 5
+  sprintSpeed: 9
+  airControlMultiplier: 0.85
+  jumpForce: 7
+  groundCheckRadius: 0.25
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 1
+  groundCheck: {fileID: 798470252108433240}
+  accel: 8
 --- !u!114 &4538293911059699470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1022,7 +1044,7 @@ Camera:
   m_GameObject: {fileID: 7853596038875301621}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.7921569, g: 0.66221607, b: 0.27843136, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -1037,8 +1059,8 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 60
-  field of view: 70
+  far clip plane: 150
+  field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1080,7 +1102,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5380021116645608034
 Transform:
   m_ObjectHideFlags: 0
@@ -1109,9 +1131,9 @@ Light:
   m_Shape: 0
   m_Color: {r: 0.6016376, g: 0.6451429, b: 0.754717, a: 1}
   m_Intensity: 0.7
-  m_Range: 10
-  m_SpotAngle: 40
-  m_InnerSpotAngle: 21.80208
+  m_Range: 20
+  m_SpotAngle: 55
+  m_InnerSpotAngle: 5
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -1306,9 +1328,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71a55a2301ccaf047b5188afa84dd868, type: 3}
+--- !u!4 &798470252108433240 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4436805663696350335, guid: 71a55a2301ccaf047b5188afa84dd868, type: 3}
+  m_PrefabInstance: {fileID: 3928844530306788135}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3534400149282442444 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 71a55a2301ccaf047b5188afa84dd868, type: 3}
+  m_PrefabInstance: {fileID: 3928844530306788135}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &3607219291829412554 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -8896467862655235603, guid: 71a55a2301ccaf047b5188afa84dd868, type: 3}
   m_PrefabInstance: {fileID: 3928844530306788135}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &4199437985577506422 stripped
@@ -1336,6 +1368,16 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!137 &6250450154029408124 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6933291646529926235, guid: 71a55a2301ccaf047b5188afa84dd868, type: 3}
+  m_PrefabInstance: {fileID: 3928844530306788135}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &6364222090603060105 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7986092759490162862, guid: 71a55a2301ccaf047b5188afa84dd868, type: 3}
+  m_PrefabInstance: {fileID: 3928844530306788135}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4029692434335061577
 PrefabInstance:
   m_ObjectHideFlags: 0
