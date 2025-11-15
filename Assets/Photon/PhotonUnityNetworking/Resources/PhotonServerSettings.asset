@@ -49,6 +49,8 @@ MonoBehaviour:
   - PlayExplosionSound
   - RPC_PlayExplosionSoundAt
   - PlayFireSounds
+  - RPC_PlaySound
+  - RPC_SetActiveState
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
