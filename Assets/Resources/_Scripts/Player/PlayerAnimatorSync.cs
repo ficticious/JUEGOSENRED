@@ -7,37 +7,47 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
 
     private bool remoteMoving;
     private bool remoteRunning;
-    private bool jumpTriggerReceived;
+    private bool remoteJumpTrigger;
 
     private void Awake()
     {
-        //anim = GetComponentInChildren<Animator>();
-        Debug.Log(anim.gameObject.name);
+        Debug.Log("Holaaaa");
+        if (anim == null)
+            anim = GetComponentInChildren<Animator>();
+        
+        if (anim == null)
+            Debug.LogError("ERROR: PlayerAnimatorSync NO encuentra Animator.");
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+        if (anim == null) return;
+
         if (stream.IsWriting)
         {
+            if (!photonView.IsMine) return;
+
             stream.SendNext(anim.GetBool("Moving"));
             stream.SendNext(anim.GetBool("Running"));
-            stream.SendNext(anim.GetBool("Jumping"));
 
-            Debug.Log(remoteMoving);
+            bool jumpJustActivated = anim.GetCurrentAnimatorStateInfo(0).IsTag("JumpStart");
+            stream.SendNext(jumpJustActivated);
+
+            //Debug.Log("ENVIADO Jump:" + jumpJustActivated);
         }
         else
         {
             remoteMoving = (bool)stream.ReceiveNext();
             remoteRunning = (bool)stream.ReceiveNext();
-            jumpTriggerReceived = (bool)stream.ReceiveNext();
+            remoteJumpTrigger = (bool)stream.ReceiveNext();
 
             anim.SetBool("Moving", remoteMoving);
             anim.SetBool("Running", remoteRunning);
 
-            if (jumpTriggerReceived)
+            if (remoteJumpTrigger)
                 anim.SetTrigger("Jumping");
 
-            Debug.Log(jumpTriggerReceived);
+            //Debug.Log("Datos recibidos");
 
         }
     }

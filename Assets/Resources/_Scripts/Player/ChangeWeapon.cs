@@ -40,7 +40,7 @@ public class ChangeWeapon : MonoBehaviourPun
         currentWeaponIndex = index;
         currentWeapon = weapons[index].GetComponent<Weapon>();
 
-        Debug.Log("Equipped: " + currentWeapon.name);
+        //Debug.Log("Equipped: " + currentWeapon.name);
 
         if (currentWeapon != null && crosshairUI != null)
             crosshairUI.sprite = currentWeapon.crosshair;
@@ -53,6 +53,17 @@ public class ChangeWeapon : MonoBehaviourPun
         if (nextIndex >= weapons.Count) nextIndex = 0;
 
         EquipWeapon(nextIndex);
+
+        photonView.RPC("RPC_EquipWeapon", RpcTarget.Others, currentWeaponIndex);
+    }
+
+    [PunRPC]
+    private void RPC_EquipWeapon(int index)
+    {
+        currentWeaponIndex = index;
+        EquipWeapon(currentWeaponIndex);
+
+        Debug.Log("Jugador remoto equipó: " + currentWeapon.name);
     }
 
     private void CheckKillsForWeaponChange()

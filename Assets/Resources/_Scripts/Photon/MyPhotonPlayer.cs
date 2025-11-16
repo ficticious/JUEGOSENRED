@@ -25,7 +25,7 @@ public class MyPhotonPlayer : MonoBehaviour
         if (myPV.IsMine)
         {
             playerSetup.IsLocalPlayer();
-            Debug.Log("Jugador local instanciado");
+            //Debug.Log("Jugador local instanciado");
         }
         else
         {

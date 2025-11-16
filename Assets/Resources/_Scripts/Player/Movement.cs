@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class Movement : MonoBehaviour
     [Header("Components")]
     private Rigidbody rb;
     private Animator anim;
+    private PhotonView photonView;
 
     [Header("Movement")]
     [SerializeField] private float walkSpeed = 5f;
@@ -34,6 +36,7 @@ public class Movement : MonoBehaviour
 
     private void Awake()
     {
+        photonView = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
 
@@ -45,6 +48,8 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
+        if (!photonView.IsMine) return;
+
         input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         input.Normalize();
 
@@ -60,6 +65,8 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!photonView.IsMine) return;
+
         HandleMovement();
         HandleJump();
 
