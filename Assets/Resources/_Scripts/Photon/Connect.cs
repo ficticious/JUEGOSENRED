@@ -64,8 +64,16 @@ public class Connect : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
 
-        //GameObject newPlayer = SpawnController.instance.SpawnPlayer();
-        //newPlayer.SpawnPlayer();
+        //if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
+        //{
+        //    GameObject newPlayer = SpawnManager.instance.SpawnPlayer();
+        //    EmptyNickname();
+        //    newPlayer.GetComponent<PhotonView>().RPC("SetNickname", RpcTarget.AllBuffered, nickname);
+        //    LocalPlayer();
+
+        //    PhotonNetwork.LocalPlayer.NickName = nickname;
+        //}
+
         GameObject newPlayer = SpawnManager.instance.SpawnPlayer();
         EmptyNickname();
         newPlayer.GetComponent<PhotonView>().RPC("SetNickname", RpcTarget.AllBuffered, nickname);

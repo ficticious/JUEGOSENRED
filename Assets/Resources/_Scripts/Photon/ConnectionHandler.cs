@@ -10,6 +10,7 @@ public class ConnectionHandler : MonoBehaviourPunCallbacks
 
     [Header("Overlay UI")]
     public TextMeshProUGUI overlayText;
+    public GameObject errorText;
 
     private float timer;
     private const float overlayRefresh = 0.5f;
@@ -72,6 +73,8 @@ public class ConnectionHandler : MonoBehaviourPunCallbacks
         retryDelay = Mathf.Min(retryDelay * 2f, maxRetryDelay);
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        //errorText.SetActive(!tryingToReconnect);
     }
 
     private void UpdateOverlay()

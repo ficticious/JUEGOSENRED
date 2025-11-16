@@ -25,6 +25,9 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
     public bool _isVisible;
     public bool _isOpen;
 
+    [Header("UI")]
+    public GameObject errorText;
+
     private const int MIN_PLAYERS = 2;
     private const int MAX_PLAYERS = 4;
 
@@ -45,6 +48,7 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
         if (string.IsNullOrEmpty(inputCreate.text))
         {
             Debug.LogWarning("Cannot create room --- Need a room name");
+            if (errorText != null) errorText.SetActive(true);
         }
         else
         {
