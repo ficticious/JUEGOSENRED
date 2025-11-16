@@ -21,7 +21,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private Transform groundCheck;
 
     [Header("Tuning")]
-    [SerializeField, Tooltip("Velocidad de blend para alcanzar la velocidad objetivo. Más alto = respuesta más instantánea")]
+    [SerializeField, Tooltip("Velocidad de respuesta de aceleración")]
     private float accel = 10f;
 
     private Vector2 input;
@@ -112,10 +112,8 @@ public class Movement : MonoBehaviour
     public void OnJumpInput(bool value) => jumping = value;
     public void OnSprintInput(bool value) => sprinting = value;
 
-    // Opcional: si antes usabas trigger para ground, conservá este método.
     private void OnTriggerStay(Collider other)
     {
-        // si usás layer mask en groundCheck, podrías filtrar aquí; mantengo simple
         grounded = true;
     }
 }

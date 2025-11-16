@@ -779,6 +779,7 @@ GameObject:
   - component: {fileID: -5899975697788283065}
   - component: {fileID: -8414198903005244444}
   - component: {fileID: 4538293911059699470}
+  - component: {fileID: 6465105389509482308}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -1000,6 +1001,19 @@ MonoBehaviour:
   respawnTime: 0
   healthText: {fileID: 1179685608133835405}
   isLocalPlayer: 1
+--- !u!114 &6465105389509482308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7853596038564473441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6db518c93b1f56c45a5a01c7dafaf99f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 5661438175605067118}
 --- !u!1 &7853596038875301621
 GameObject:
   m_ObjectHideFlags: 0
