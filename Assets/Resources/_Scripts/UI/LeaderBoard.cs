@@ -9,6 +9,7 @@ using Photon.Pun.UtilityScripts;
 public class LeaderBoard : MonoBehaviour
 {
     public GameObject playersHolder;
+    public GameObject overlay;
 
     [Header("Options")]
     public float refreshRate = 1f;
@@ -27,6 +28,7 @@ public class LeaderBoard : MonoBehaviour
     private void Update()
     {
         playersHolder.SetActive(Input.GetKey(KeyCode.Tab));
+        overlay.SetActive(Input.GetKey(KeyCode.Tab));
     }
     public void Refresh()
     {
@@ -62,10 +64,5 @@ public class LeaderBoard : MonoBehaviour
 
             i++;
         }
-
-
     }
-
-   
-
 }

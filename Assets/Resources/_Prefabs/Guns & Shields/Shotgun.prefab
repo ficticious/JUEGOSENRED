@@ -134,10 +134,10 @@ MonoBehaviour:
   hitMask:
     serializedVersion: 2
     m_Bits: 257
-  damage: 30
+  damage: 50
   fireRate: 0.8
   maxDistance: 15
-  minDistance: 5
+  minDistance: 7
   damageFalloffDistance: 15
   recoverPercent: 0.5
   recoilUp: 0.05
@@ -148,6 +148,7 @@ MonoBehaviour:
   crosshair: {fileID: 21300000, guid: bfb6bd7e8471f5442bd8e524bdda3380, type: 3}
   fireSound:
   - {fileID: 8300000, guid: 7653bcacf23185d40a24354518af7d56, type: 3}
+  audioSource: {fileID: 0}
   pellets: 8
   spreadAngle: 5
 --- !u!114 &-8268639749620922213

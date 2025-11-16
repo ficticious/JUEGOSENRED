@@ -6,12 +6,19 @@ using UnityEngine;
 
 public class Pistol : Weapon
 {
+    private PhotonView pv;
     private void Start()
     {
         originalPosition = transform.parent.localPosition;
 
         recoilLength = 0.1f;
         recoverLength = 1 / fireRate * recoverPercent;
+
+        pv = transform.root.GetComponent<PhotonView>();
+
+        if (pv == null)
+            Debug.LogError("Pistol: No se encontró PhotonView en el Player.");
+        else Debug.Log(pv.name);
     }
 
     //-----------------------  SEMI-AUTOMATICA  ------------------------
@@ -28,7 +35,10 @@ public class Pistol : Weapon
 
     public override void Fire()
     {
-        photonView.RPC("PlayFireSound", RpcTarget.All);
+
+        pv.RPC("PlayFireSound", RpcTarget.All);
+
+        //photonView.RPC("PlayFireSound", RpcTarget.All);
 
         recoiling = true;
         recovering = false;

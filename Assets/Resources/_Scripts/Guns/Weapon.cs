@@ -40,7 +40,7 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
     public GameObject hitVFX;
     public Sprite crosshair;
     public AudioClip[] fireSound;
-    protected AudioSource audioSource;
+    [HideInInspector] public AudioSource audioSource;
 
     protected virtual void Awake()
     {
@@ -115,10 +115,21 @@ public abstract class Weapon : MonoBehaviourPunCallbacks
     {
         if (fireSound == null || audioSource == null) return;
 
-        if (fireSound.Length > 1 )
-        {
+        if (fireSound.Length > 1)
             audioSource.PlayOneShot(fireSound[Random.Range(0, fireSound.Length)]);
-        }
-        else audioSource.PlayOneShot(fireSound[0]);
+        else
+            audioSource.PlayOneShot(fireSound[0]);
     }
+
+    //[PunRPC]
+    //protected void PlayFireSound()
+    //{
+    //    if (fireSound == null || audioSource == null) return;
+
+    //    if (fireSound.Length > 1 )
+    //    {
+    //        audioSource.PlayOneShot(fireSound[Random.Range(0, fireSound.Length)]);
+    //    }
+    //    else audioSource.PlayOneShot(fireSound[0]);
+    //}
 }

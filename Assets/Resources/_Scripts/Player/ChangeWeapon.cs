@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChangeWeapon : MonoBehaviourPun
+public class ChangeWeapon : MonoBehaviourPun, IPunObservable
 {
     [Header("UI")]
     [SerializeField] private Image crosshairUI;
@@ -16,14 +16,22 @@ public class ChangeWeapon : MonoBehaviourPun
     private int currentWeaponIndex = 0;
     private Weapon currentWeapon;
 
+    private int lastKillCheckpoint = 0;
 
     private void Start()
     {
         if (weapons.Count > 0) EquipWeapon(0);
+
+        if (photonView.IsMine)
+        {
+            photonView.RPC("RPC_EquipWeapon", RpcTarget.OthersBuffered, currentWeaponIndex);
+        }
     }
 
     private void Update()
     {
+        if (!photonView.IsMine) return;
+
         if (photonView.IsMine)
         {
             CheckKillsForWeaponChange();
@@ -54,27 +62,47 @@ public class ChangeWeapon : MonoBehaviourPun
 
         EquipWeapon(nextIndex);
 
-        photonView.RPC("RPC_EquipWeapon", RpcTarget.Others, currentWeaponIndex);
+        //photonView.RPC("RPC_EquipWeapon", RpcTarget.AllBuffered, currentWeaponIndex);
     }
 
-    [PunRPC]
-    private void RPC_EquipWeapon(int index)
-    {
-        currentWeaponIndex = index;
-        EquipWeapon(currentWeaponIndex);
+    //[PunRPC]
+    //private void RPC_EquipWeapon(int index)
+    //{
+    //    currentWeaponIndex = index;
+    //    EquipWeapon(currentWeaponIndex);
 
-        Debug.Log("Jugador remoto equipó: " + currentWeapon.name);
-    }
+    //    Debug.Log("Jugador remoto equipó: " + currentWeapon.name);
+    //}
 
     private void CheckKillsForWeaponChange()
     {
         int currentKills = GameManager.instance.kills;
-        int lastKillCheckpoint = 0;
+        //int lastKillCheckpoint = 0;
 
         if (currentKills >= lastKillCheckpoint + killsPerChange)
         {
             lastKillCheckpoint = currentKills;
             NextWeapon();
+        }
+    }
+
+    public Weapon GetCurrentWeapon()
+    {
+        return currentWeapon;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(currentWeaponIndex);
+        }
+        else
+        {
+            int receivedIndex = (int)stream.ReceiveNext();
+
+            if (receivedIndex != currentWeaponIndex)
+                EquipWeapon(receivedIndex);
         }
     }
 }

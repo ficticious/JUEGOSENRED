@@ -11,7 +11,7 @@ public class CameraMove : MonoBehaviour
     {
         if (camera == null)
             Debug.LogError("No se asignó la cámara");
-        //camera = transform.Find("Camera");
+
         Cursor.lockState = CursorLockMode.Locked;
     }
 
