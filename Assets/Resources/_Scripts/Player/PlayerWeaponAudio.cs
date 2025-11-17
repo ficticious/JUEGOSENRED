@@ -21,4 +21,14 @@ public class PlayerWeaponAudio : MonoBehaviour
         else
             currentWeapon.audioSource.PlayOneShot(currentWeapon.fireSound[0]);
     }
+
+
+    [PunRPC]
+    private void RPC_EquipWeapon(int index)
+    {
+        changeWeapon.currentWeaponIndex = index;
+        changeWeapon.EquipWeapon(changeWeapon.currentWeaponIndex);
+
+        Debug.Log("Jugador remoto equipó: " + changeWeapon.currentWeaponIndex);
+    }
 }

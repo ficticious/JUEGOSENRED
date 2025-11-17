@@ -13,7 +13,7 @@ public class ChangeWeapon : MonoBehaviourPun, IPunObservable
     [SerializeField] private List<GameObject> weapons = new List<GameObject>();
     [Min(1)] public int killsPerChange;
 
-    private int currentWeaponIndex = 0;
+    public int currentWeaponIndex = 0;
     private Weapon currentWeapon;
 
     private int lastKillCheckpoint = 0;
@@ -40,7 +40,7 @@ public class ChangeWeapon : MonoBehaviourPun, IPunObservable
         }
     }
 
-    private void EquipWeapon(int index)
+    public void EquipWeapon(int index)
     {
         for (int i = 0; i < weapons.Count; i++)
             weapons[i].SetActive(i == index);

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7081878461258682687}
   - component: {fileID: 5017878296344438261}
   - component: {fileID: 7909288675644964003}
+  - component: {fileID: 8926080983923383007}
   m_Layer: 0
   m_Name: CombatDummy.001
   m_TagString: Untagged
@@ -93,7 +94,21 @@ BoxCollider:
   m_GameObject: {fileID: 6819551313310712864}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.26, y: 1.2, z: 0.25}
   m_Center: {x: 0, y: 0.66131, z: 0.07}
+--- !u!64 &8926080983923383007
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6819551313310712864}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3666730418039576904, guid: d0ea7f076cbb6e748841f85394b4e9a4, type: 3}

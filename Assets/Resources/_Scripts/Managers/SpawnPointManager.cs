@@ -42,14 +42,17 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public override void OnJoinedRoom()
     {
-        base.OnJoinedRoom();
+        //base.OnJoinedRoom();
 
-        GameObject localPlayer = FindLocalPlayer();
+        //GameObject localPlayer = FindLocalPlayer();
 
-        if (localPlayer != null)
-        {
-            SpawnLocalPlayer(localPlayer);
-        }
+        //if (localPlayer == null) return;
+        //SpawnLocalPlayer(localPlayer);
+
+        //if (localPlayer != null)
+        //{
+        //    SpawnLocalPlayer(localPlayer);
+        //}
     }
 
     private void ValidateSpawnPoints()
@@ -76,7 +79,8 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
             {
                 Health playerHealth = playerObj.GetComponent<Health>();
 
-                if (playerHealth != null && !playerHealth.IsDead() && playerHealth.GetCurrentHealth() > 0)
+                //if (playerHealth != null && !playerHealth.IsDead() && playerHealth.GetCurrentHealth() > 0)
+                if (playerHealth == null || playerHealth.IsDead()) continue;
                 {
                     float distance = Vector3.Distance(spawn.position, playerObj.transform.position);
                     if (distance < minDistance)
@@ -185,17 +189,18 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
-            GetRandomSpawnPoint();
+            spawnPoint = GetFarthestSpawnPoint();
+            //GetRandomSpawnPoint();
             Debug.LogWarning("No se pudo encontrar un punto de spawn seguro");
         }
     }
 
-    [PunRPC]
-    public void SetRespawnPosition(float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float rotW)
-    {
-        transform.position = new Vector3(posX, posY, posZ);
-        transform.rotation = new Quaternion(rotX, rotY, rotZ, rotW);
-    }
+    //[PunRPC]
+    //public void SetRespawnPosition(float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float rotW)
+    //{
+    //    transform.position = new Vector3(posX, posY, posZ);
+    //    transform.rotation = new Quaternion(rotX, rotY, rotZ, rotW);
+    //}
 
     void OnDrawGizmos()
     {

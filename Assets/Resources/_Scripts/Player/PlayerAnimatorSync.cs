@@ -11,7 +11,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
 
     private void Awake()
     {
-        Debug.Log("Holaaaa");
+        //Debug.Log("Holaaaa");
         if (anim == null)
             anim = GetComponentInChildren<Animator>();
         

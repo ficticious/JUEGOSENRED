@@ -7,9 +7,9 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     [Header("Components")]
-    private Rigidbody rb;
+    [HideInInspector] public Rigidbody rb;
+    [HideInInspector] public PhotonView photonView;
     private Animator anim;
-    private PhotonView photonView;
 
     [Header("Movement")]
     [SerializeField] private float walkSpeed = 5f;
@@ -115,9 +115,9 @@ public class Movement : MonoBehaviour
         sprintSpeed = Mathf.Min(sprintSpeed * multiplier, maxSprint);
     }
 
-    public void OnMoveInput(Vector2 inputValue) => input = inputValue;
-    public void OnJumpInput(bool value) => jumping = value;
-    public void OnSprintInput(bool value) => sprinting = value;
+    //public void OnMoveInput(Vector2 inputValue) => input = inputValue;
+    //public void OnJumpInput(bool value) => jumping = value;
+    //public void OnSprintInput(bool value) => sprinting = value;
 
     private void OnTriggerStay(Collider other)
     {

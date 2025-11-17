@@ -52,6 +52,10 @@ MonoBehaviour:
   - RPC_PlaySound
   - RPC_SetActiveState
   - RPC_EquipWeapon
+  - ReturnWinner
+  - StartGulagMatch
+  - RPC_FinishGulag
+  - RPC_StartMinigame
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

@@ -18,7 +18,7 @@ public class Pistol : Weapon
 
         if (pv == null)
             Debug.LogError("Pistol: No se encontró PhotonView en el Player.");
-        else Debug.Log(pv.name);
+       // else Debug.Log(pv.name);
     }
 
     //-----------------------  SEMI-AUTOMATICA  ------------------------

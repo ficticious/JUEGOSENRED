@@ -109,7 +109,7 @@ MonoBehaviour:
   explosionVFX: {fileID: 4593184484909914552, guid: 2e1e9506f5904a64b81744324fb7cd50, type: 3}
   lifetime: 5
   useGravity: 0
-  expSound: {fileID: 8300000, guid: cd823ba0adf07fc46bf3a4e9bca20a70, type: 3}
+  expSound: {fileID: 0}
   min: 1
   max: 40
 --- !u!1001 &8000839343414748043

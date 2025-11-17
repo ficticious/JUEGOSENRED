@@ -62,7 +62,10 @@ public class Rocket : MonoBehaviourPunCallbacks
         Vector3 hitPoint = contact.point;
         Vector3 hitNormal = contact.normal;
 
-        photonView.RPC("RPC_PlayExplosionSoundAt", RpcTarget.All, hitPoint);
+        //photonView.RPC("RPC_PlayExplosionSoundAt", RpcTarget.All, hitPoint);
+
+        PhotonNetwork.InstantiateRoomObject(Path.Combine("_Prefabs", "Audio", "ExplosionSound"), hitPoint, Quaternion.identity, 0, new object[] { min, max });
+
         Explode(hitPoint, hitNormal);
     }
 

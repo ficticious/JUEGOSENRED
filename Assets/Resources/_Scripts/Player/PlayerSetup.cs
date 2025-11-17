@@ -68,5 +68,9 @@ public class PlayerSetup : MonoBehaviourPun
         }
     }
 
-
+    public void EnableLocalCamera(bool enabled)
+    {
+        playerCamera.SetActive(enabled);
+        cameraScript.enabled = enabled;
+    }
 }

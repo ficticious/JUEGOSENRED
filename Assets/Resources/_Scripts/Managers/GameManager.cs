@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public int deaths = 0;
     [SerializeField] private int killsToWin;
 
+    public bool gameFinished = false;
+
 
     private void Awake()
     {
@@ -32,8 +34,22 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void GoToLobby()
     {
         PhotonNetwork.Disconnect();
+
         kills = 0;
         deaths = 0;
+
+        gameFinished = false;
+    }
+
+    public override void OnJoinedRoom()
+    {
+        kills = 0;
+        deaths = 0;
+
+        Hashtable hash = new Hashtable();
+        hash["kills"] = 0;
+        hash["deaths"] = 0;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
@@ -50,34 +66,56 @@ public class GameManager : MonoBehaviourPunCallbacks
 
                 if (targetPlayer == PhotonNetwork.LocalPlayer)
                 {
-                    //FindObjectOfType<WinScreen>().ShowWinPanel();
                     winPanel.SetActive(true);
-                    StopAllPlayers();
+
+
+                    //FindObjectOfType<WinScreen>().ShowWinPanel();
+                    //StopAllPlayers();
                 }
                 else
                 {
+                    losePanel.SetActive(true);
+
+
                     //FindObjectOfType<GameOverScreen>().ShowLosePanel();
                     //ShowPanel();
-                    losePanel.SetActive(true);
-                    StopAllPlayers();
+                    //StopAllPlayers();
                 }
+
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    PhotonNetwork.CurrentRoom.IsOpen = false;
+                    PhotonNetwork.CurrentRoom.IsVisible = false;
+                }
+
+
+                gameFinished = true;
+                StopAllPlayers();
             }
         }
     }
 
     public void StopAllPlayers()
     {
-        var players = FindObjectsOfType<Movement>();
-        var cameraPlayers = FindObjectsOfType<CameraMove>();
+        var players = FindObjectsOfType<PlayerSetup>();
 
         foreach (var p in players)
         {
-            p.enabled = false;
+            p.DisablePlayer();
         }
-        foreach (var d in cameraPlayers)
-        {
-            d.enabled = false;
-        }
+        SpectatorCameraManager.Instance.EnableSpectator();
+
+        //var players = FindObjectsOfType<Movement>();
+        //var cameraPlayers = FindObjectsOfType<CameraMove>();
+
+        //foreach (var p in players)
+        //{
+        //    p.enabled = false;
+        //}
+        //foreach (var d in cameraPlayers)
+        //{
+        //    d.enabled = false;
+        //}
 
     }
     public void SetHashes()

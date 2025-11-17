@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -7,15 +8,17 @@ public class Health : MonoBehaviourPunCallbacks
 {
     [Header("Parameters")]
     public float health;
-    public float respawnTime = 0f;
+    //private float respawnTime;
     private float maxHealth = 100;
 
     [Header("UI")]
     public TextMeshProUGUI healthText;
 
-    private PlayerSetup playerSetup;
+    public PlayerSetup playerSetup;
     public bool isLocalPlayer;
-    private bool isDead = false;
+    public bool isDead = false;
+    private bool canRespawn = true;
+
 
     void Start()
     {
@@ -32,71 +35,13 @@ public class Health : MonoBehaviourPunCallbacks
         {
             TakeDamage(30, -1);
         }
-    }
 
-    [PunRPC]
-    public void TakeDamage(float damage, int attackerId)
-    {
-        if (isDead || health <= 0) return;
-
-        health -= damage;
-        health = Mathf.Max(0, health);
-        UpdateUI(healthText, health);
-
-        if (health <= 0 && !isDead)
-        {
-            isDead = true;
-            photonView.RPC("Die", RpcTarget.All, attackerId);
-        }
+        canRespawn = !GameManager.instance.gameFinished;
     }
 
 
-    [PunRPC]
-    public void TakeDamage(float damage)
-    {
-        TakeDamage(damage, -1);
-    }
 
-    [PunRPC]
-    public void Die(int attackerId = -1)
-    {
-        if (isDead == false) isDead = true;
-
-        Debug.Log($"{gameObject.name} murió");
-
-        if (photonView.IsMine) 
-        {
-            if (playerSetup != null)
-            {
-                playerSetup.DisablePlayer();
-            }
-
-            if (health <= 0f)
-            {
-                health = 0f;
-                GameManager.instance.deaths++;
-                GameManager.instance.SetHashes();
-            }
-
-            StartCoroutine(RespawnCoroutine());
-            //StartCoroutine(SpawnManager.instance.RespawnCoroutine());
-            //SpawnManager.instance.RespawnPlayer();
-        }
-
-        
-        if (attackerId != -1 && PhotonNetwork.LocalPlayer.ActorNumber == attackerId)
-        {
-            GameManager.instance.kills++;
-            GameManager.instance.SetHashes();
-        }
-    }
-
-    private IEnumerator RespawnCoroutine()
-    {
-        yield return new WaitForSeconds(respawnTime);
-        if (!photonView.IsMine) yield break;
-        RespawnPlayer();
-    }
+    // -----------------  FUNCIONES NORMALES  ----------------------------
 
     public void RespawnPlayer()
     {
@@ -114,31 +59,6 @@ public class Health : MonoBehaviourPunCallbacks
         }
 
         photonView.RPC("CompleteRespawn", RpcTarget.All);
-    }
-
-    [PunRPC]
-    public void SetRespawnPosition(float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float rotW)
-    {
-        transform.position = new Vector3(posX, posY, posZ);
-        transform.rotation = new Quaternion(rotX, rotY, rotZ, rotW);
-    }
-
-    [PunRPC]
-   
-    public void CompleteRespawn()
-    {
-        ResetHealth();
-        isDead = false;
-
-        if (photonView.IsMine) 
-        {
-            if (playerSetup != null)
-            {
-                playerSetup.EnablePlayer();
-            }
-        }
-
-        Debug.Log($"{gameObject.name} ha respawneado");
     }
 
     public void Heal(float healAmount)
@@ -160,7 +80,103 @@ public class Health : MonoBehaviourPunCallbacks
         if (text != null)
             text.text = value.ToString("F1");
     }
-   
+    //-----------------------------------------------------------------
+
+
+
+
+
+
+    // -----------------  FUNCIONES PUN RPC  ----------------------------
+
+    [PunRPC]
+    public void Die(int attackerId = -1)
+    {
+        if (isDead) return;
+        isDead = true;
+
+        Debug.Log($"{gameObject.name} murió.");
+
+        if (photonView.IsMine)
+        {
+            playerSetup.DisablePlayer();
+            playerSetup.EnableLocalCamera(false);
+
+            SpectatorCameraManager.Instance.EnableSpectator();
+
+            GameManager.instance.deaths++;
+            GameManager.instance.SetHashes();
+
+            //GulagManager.Instance.AddPlayerToGulag(this);
+
+            StartCoroutine(RespawnCoroutine());
+        }
+
+        if (attackerId != -1 &&
+            PhotonNetwork.LocalPlayer.ActorNumber == attackerId &&
+            photonView.Owner.ActorNumber != attackerId)
+        {
+            GameManager.instance.kills++;
+            GameManager.instance.SetHashes();
+        }
+    }
+
+    [PunRPC]
+    public void TakeDamage(float damage, int attackerId)
+    {
+        if (isDead || health <= 0) return;
+
+        health -= damage;
+        health = Mathf.Max(0, health);
+        UpdateUI(healthText, health);
+
+        if (health <= 0)
+        {
+            photonView.RPC("Die", RpcTarget.All, attackerId);
+        }
+    }
+
+    [PunRPC]
+    public void TakeDamage(float damage)
+    {
+        TakeDamage(damage, -1);
+    }
+
+    [PunRPC]
+    public void SetRespawnPosition(float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float rotW)
+    {
+        transform.position = new Vector3(posX, posY, posZ);
+        transform.rotation = new Quaternion(rotX, rotY, rotZ, rotW);
+    }
+
+    [PunRPC]
+    public void CompleteRespawn()
+    {
+        if (canRespawn) SpectatorCameraManager.Instance.DisableSpectator();
+        ResetHealth();
+        isDead = false;
+
+        if (photonView.IsMine)
+        {
+            if (playerSetup != null && canRespawn)
+            {
+                playerSetup.EnablePlayer();
+                playerSetup.EnableLocalCamera(true);
+
+                Debug.Log($"{gameObject.name} ha respawneado");
+            }
+        }
+
+    }
+    //----------------------------------------------------------------------------------
+
+
+
+
+
+
+    // -----------------  FUNCIONES VARIABLES  ----------------------------
+
     public float GetCurrentHealth()
     {
         return health;
@@ -170,15 +186,38 @@ public class Health : MonoBehaviourPunCallbacks
     {
         return isDead;
     }
+    //----------------------------------------------------
 
-    
-    //public void DealDamage(float damage, int attackerId = -1)
-    //{
-    //    photonView.RPC("TakeDamage", RpcTarget.All, damage, attackerId);
-    //}
 
-    //public void DealDamage(float damage)
-    //{
-    //    photonView.RPC("TakeDamage", RpcTarget.All, damage);
-    //}
+
+
+
+
+    // -----------------  COROUTINES  ----------------------------
+    public IEnumerator RespawnAfterGulag()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        if (!photonView.IsMine) yield break;
+
+        SpectatorCameraManager.Instance.DisableSpectator();
+        ResetHealth();
+        isDead = false;
+
+        Transform spawn = SpawnPointManager.Instance.GetRandomSpawnPoint();
+
+        photonView.RPC("SetRespawnPosition", RpcTarget.All,
+                      spawn.position.x, spawn.position.y, spawn.position.z,
+                      spawn.rotation.x, spawn.rotation.y, spawn.rotation.z, spawn.rotation.w);
+
+        photonView.RPC("CompleteRespawn", RpcTarget.All);
+    }
+
+    private IEnumerator RespawnCoroutine()
+    {
+        yield return new WaitForSeconds(SpawnManager.instance.respawnTime);
+        if (!photonView.IsMine) yield break;
+        RespawnPlayer();
+    }
+    //------------------------------------------------------------
 }

@@ -6,7 +6,7 @@ using Photon.Pun.Demo.PunBasics;
 using Photon.Pun.UtilityScripts;
 using System.IO;
 
-public abstract class Weapon : MonoBehaviourPunCallbacks
+public abstract class Weapon : MonoBehaviourPun
 {
     public Camera playerCamera;
 

@@ -55,8 +55,10 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 
     public GameObject SpawnPlayer()
     {
-        int spawnIndex = (PhotonNetwork.LocalPlayer.ActorNumber - 1) % spawnPoints.Length;
-        Transform spawn = spawnPoints[spawnIndex];
+        //int spawnIndex = (PhotonNetwork.LocalPlayer.ActorNumber - 1) % spawnPoints.Length;
+        //Transform spawn = spawnPoints[spawnIndex];
+
+        Transform spawn = SpawnPointManager.Instance.GetSafeSpawnPoint(SpawnPointManager.Instance.minDistanceBetweenPlayers);
 
         Quaternion spawnRotation = Quaternion.Euler(
             spawn.rotation.eulerAngles.x,
@@ -64,11 +66,8 @@ public class SpawnManager : MonoBehaviourPunCallbacks
             spawn.rotation.eulerAngles.z
         );
 
-        GameObject _player = PhotonNetwork.Instantiate(
-            Path.Combine("_Prefabs", "Player"),
-            spawn.position,
-            spawnRotation
-        );
+        GameObject _player = PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "Player"), spawn.position, spawnRotation);
+
         return _player;
     }
 
@@ -77,7 +76,8 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     //{
     //    yield return new WaitForSeconds(respawnTime);
     //    if (!photonView.IsMine) yield break;
-    //    RespawnPlayer();
+    //    SpawnPointManager.Instance.GetSafeSpawnPoint();
+    //    //RespawnPlayer();
     //}
 
     //public void RespawnPlayer()
