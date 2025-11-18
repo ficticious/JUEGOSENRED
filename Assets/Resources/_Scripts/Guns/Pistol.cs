@@ -7,6 +7,7 @@ using UnityEngine;
 public class Pistol : Weapon
 {
     private PhotonView pv;
+    private PlayerInputBlocker blocker;
     private void Start()
     {
         originalPosition = transform.parent.localPosition;
@@ -15,6 +16,7 @@ public class Pistol : Weapon
         recoverLength = 1 / fireRate * recoverPercent;
 
         pv = transform.root.GetComponent<PhotonView>();
+        blocker = transform.root.GetComponent<PlayerInputBlocker>();
 
         if (pv == null)
             Debug.LogError("Pistol: No se encontró PhotonView en el Player.");
@@ -24,7 +26,7 @@ public class Pistol : Weapon
     //-----------------------  SEMI-AUTOMATICA  ------------------------
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && blocker.canAttack)
         {
             Fire();
         }

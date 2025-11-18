@@ -150,4 +150,5 @@ MonoBehaviour:
   icon: {fileID: 485823971, guid: 080cb6d98b00c2645b2c41df5f69bc78, type: 3}
   pickupName: SpeedPowerUp
   pickupSound: {fileID: 0}
+  respawnTime: 15
   speedMultiplier: 1.25

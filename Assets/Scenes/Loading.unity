@@ -14922,7 +14922,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.289999, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -42552,7 +42552,7 @@ MonoBehaviour:
   isPublic: {fileID: 140612289}
   morePlayersButton: {fileID: 874969969}
   lessPlayersButton: {fileID: 812353617}
-  _maxPlayers: 2
+  _maxPlayers: 3
   _isVisible: 1
   _isOpen: 1
   errorText: {fileID: 177074398}

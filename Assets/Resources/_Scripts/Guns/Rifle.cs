@@ -13,6 +13,8 @@ public class Rifle : Weapon
     private float heatTime;
     private bool canShoot = true;
 
+    private PhotonView pv;
+    private PlayerInputBlocker blocker;
 
     private void Start()
     {
@@ -20,6 +22,9 @@ public class Rifle : Weapon
 
         recoilLength = 0.1f;
         recoverLength = 1 / fireRate * recoverPercent;
+
+        pv = transform.root.GetComponent<PhotonView>();
+        blocker = transform.root.GetComponent<PlayerInputBlocker>();
     }
 
     //-----------------------  AUTOMATICA  ------------------------
@@ -27,7 +32,7 @@ public class Rifle : Weapon
     {
         if (nextFire > 0) nextFire -= Time.deltaTime;
 
-        if (Input.GetButton("Fire1") && nextFire <= 0 && heatTime <= overHeatTime)
+        if (Input.GetButton("Fire1") && nextFire <= 0 && heatTime <= overHeatTime && blocker.canAttack)
         {
             if (canShoot)
             {
@@ -57,7 +62,7 @@ public class Rifle : Weapon
 
     public override void Fire()
     {
-        photonView.RPC("PlayFireSound", RpcTarget.All);
+        pv.RPC("PlayFireSound", RpcTarget.All);
 
         recoiling = true;
         recovering = false;

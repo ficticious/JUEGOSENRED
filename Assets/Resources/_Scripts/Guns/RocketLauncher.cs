@@ -12,8 +12,14 @@ public class RocketLauncher : Weapon
     public float rocketSpeed;
     public Transform spawnOffset;
 
+    private PhotonView pv;
+    private PlayerInputBlocker blocker;
+
     private void Start()
     {
+        pv = transform.root.GetComponent<PhotonView>();
+        blocker = transform.root.GetComponent<PlayerInputBlocker>();
+
         originalPosition = transform.parent.localPosition;
         recoilLength = 0.12f;
         recoverLength = 1 / fireRate * recoverPercent;
@@ -23,7 +29,7 @@ public class RocketLauncher : Weapon
     {
         if (nextFire > 0) nextFire -= Time.deltaTime;
 
-        if (Input.GetButtonDown("Fire1") && nextFire <= 0)
+        if (Input.GetButtonDown("Fire1") && nextFire <= 0 && blocker.canAttack)
         {
             nextFire = 1 / fireRate;
             Fire();
@@ -37,7 +43,7 @@ public class RocketLauncher : Weapon
     {
         if (!photonView.IsMine) return;
 
-        photonView.RPC("PlayFireSound", RpcTarget.All);
+        pv.RPC("PlayFireSound", RpcTarget.All);
 
         //recoiling = true;
         //recovering = false;

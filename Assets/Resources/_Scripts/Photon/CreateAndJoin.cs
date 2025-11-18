@@ -21,15 +21,15 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
     public Button lessPlayersButton;
 
     [Header("Room Options")]
-    [Min(2)] public int _maxPlayers = 2; 
+    [Min(3)] public int _maxPlayers = 3; 
     public bool _isVisible;
     public bool _isOpen;
 
     [Header("UI")]
     public GameObject errorText;
 
-    private const int MIN_PLAYERS = 2;
-    private const int MAX_PLAYERS = 4;
+    private const int MIN_PLAYERS = 3;
+    private const int MAX_PLAYERS = 8;
 
    
 

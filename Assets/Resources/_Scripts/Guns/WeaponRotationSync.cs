@@ -10,7 +10,7 @@ public class WeaponRotationSync : MonoBehaviourPun
 
     private void Update()
     {
-        transform.rotation = cam.transform.rotation;
+        transform.rotation = cam.rotation;
     }
 
     //[Header("References")]

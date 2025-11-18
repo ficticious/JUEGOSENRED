@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HealthPickup : PickUp
 {
+    [Header("Heal")]
     [SerializeField] private float healAmount;
 
     protected override void OnPickup(GameObject player)

@@ -56,6 +56,8 @@ MonoBehaviour:
   - StartGulagMatch
   - RPC_FinishGulag
   - RPC_StartMinigame
+  - SwitchActive
+  - RPC_SetActive
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

@@ -39,6 +39,9 @@ public class PauseManager : MonoBehaviourPunCallbacks
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (localPlayer == null)
+                localPlayer = FindLocalPlayer();
+
             if (isPaused)
                 ResumeGame();
             else
@@ -48,6 +51,9 @@ public class PauseManager : MonoBehaviourPunCallbacks
 
     public void PauseGame()
     {
+        //localPlayer = FindLocalPlayer();
+
+
         isPaused = true;
 
         pauseMenuUI.SetActive(true);
@@ -106,14 +112,17 @@ public class PauseManager : MonoBehaviourPunCallbacks
 
     private PlayerInputBlocker FindLocalPlayer()
     {
-        Debug.Log(localPlayer.name);
+        Debug.Log("aaaaa");
 
         PlayerInputBlocker[] players = FindObjectsOfType<PlayerInputBlocker>();
 
         foreach (var p in players)
         {
             if (p.photonView != null && p.photonView.IsMine)
+            {
+                Debug.Log(p);
                 return p;
+            }
         }
 
         return null;

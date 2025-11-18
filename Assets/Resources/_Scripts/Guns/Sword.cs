@@ -15,9 +15,14 @@ public class Sword : Weapon
     public float attackRadius = 1.5f;
 
     public LayerMask damageMask;
+    private PhotonView pv;
+    private PlayerInputBlocker blocker;
 
     private void Start()
     {
+        pv = transform.root.GetComponent<PhotonView>();
+        blocker = transform.root.GetComponent<PlayerInputBlocker>();
+
         originalPosition = transform.parent.localPosition;
 
         recoilLength = 0.05f;
@@ -27,7 +32,7 @@ public class Sword : Weapon
     private void Update()
     {
         if (nextFire > 0) nextFire -= Time.deltaTime;
-        if (Input.GetButtonDown("Fire1") && nextFire <= 0)
+        if (Input.GetButtonDown("Fire1") && nextFire <= 0 && blocker.canAttack)
         {
             nextFire = 1 / fireRate;
             Fire();
@@ -41,7 +46,7 @@ public class Sword : Weapon
     {
         if (!photonView.IsMine) return;
 
-        photonView.RPC("PlayFireSound", RpcTarget.All);
+        pv.RPC("PlayFireSound", RpcTarget.All);
 
         //recoiling = true;
         //recovering = false;
