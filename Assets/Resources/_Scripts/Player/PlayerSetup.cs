@@ -28,6 +28,8 @@ public class PlayerSetup : MonoBehaviourPun
         cameraScript.enabled = true;
         playerCamera.SetActive(true);
         movementScript.enabled = true;
+
+        PlayerNameHelper.SetPlayerName(nickname);
     }
 
     public void IsRemotePlayer()
