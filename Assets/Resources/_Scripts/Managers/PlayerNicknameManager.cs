@@ -32,18 +32,6 @@ public class PlayerNicknameManager : MonoBehaviour
     {
         SetNewNickname(nicknameInput.text);
         nicknameText.text = nicknameInput.text;
-
-        //string nick = nicknameInput.text;
-
-        //if (string.IsNullOrEmpty(nick))
-        //    return;
-
-        //PlayerPrefs.SetString(NICK_KEY, nick);
-        //PlayerPrefs.Save();
-
-        //PhotonNetwork.NickName = nick;
-
-        //nicknamePanel.SetActive(false);
     }
 
 
@@ -60,13 +48,16 @@ public class PlayerNicknameManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(newNick))
         {
-            Debug.LogWarning("Nickname vacío.");
+            ConnectionHandler.instance.ShowPopup($"ERROR: Nickname vacío"); 
+            //Debug.LogWarning("Nickname vacío.");
             return;
         }
 
         if (IsNicknameTaken(newNick))
         {
-            Debug.LogWarning("Ese nombre ya está en uso por otro jugador.");
+            ConnectionHandler.instance.ShowPopup($"ERROR: Ese nombre ya está en uso por otro jugador");
+
+            //Debug.LogWarning("Ese nombre ya está en uso por otro jugador.");
             return;
         }
 
@@ -78,7 +69,10 @@ public class PlayerNicknameManager : MonoBehaviour
         UpdateLocalPlayerNameTag(newNick);
 
         nicknamePanel.SetActive(false);
-        Debug.Log("Nuevo nickname guardado: " + newNick);
+
+        ConnectionHandler.instance.ShowPopup($"Nuevo nickname guardado: " + newNick);
+
+        //Debug.Log("Nuevo nickname guardado: " + newNick);
     }
 
     private bool IsNicknameTaken(string nick)
