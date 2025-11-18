@@ -30,6 +30,8 @@ public class Rifle : Weapon
     //-----------------------  AUTOMATICA  ------------------------
     private void Update()
     {
+        if (!pv.IsMine) return;
+
         if (nextFire > 0) nextFire -= Time.deltaTime;
 
         if (Input.GetButton("Fire1") && nextFire <= 0 && heatTime <= overHeatTime && blocker.canAttack)

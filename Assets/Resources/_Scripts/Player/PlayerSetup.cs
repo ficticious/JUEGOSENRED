@@ -19,6 +19,8 @@ public class PlayerSetup : MonoBehaviourPun
     {
         nickname = _name;
         nameTag.text = nickname;
+
+        //PhotonNetwork.NickName = _name;
     }
 
     public void IsLocalPlayer()
