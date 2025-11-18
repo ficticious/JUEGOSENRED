@@ -129,5 +129,12 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
         }
         catch { }
+
+       
+        LeaderboardService.SubmitScore(kills, "bluelakegungame", success =>
+        {
+            Debug.Log("Score subido: " + kills);
+        });
+
     }
 }
