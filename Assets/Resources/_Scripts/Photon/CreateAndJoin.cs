@@ -6,6 +6,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 
 public class CreateAndJoin : MonoBehaviourPunCallbacks
@@ -64,6 +65,12 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
     public void JoinRoom()
     {
         PhotonNetwork.JoinRoom(inputJoin.text);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+        Debug.Log("Jugador cerró el juego");
     }
 
     public void MorePlayers()

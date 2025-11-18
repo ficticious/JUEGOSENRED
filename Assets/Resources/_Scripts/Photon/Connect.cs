@@ -64,6 +64,13 @@ public class Connect : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
 
+        GameObject newPlayer = SpawnManager.instance.SpawnPlayer();
+        newPlayer.GetComponent<PhotonView>().RPC("SetNickname", RpcTarget.AllBuffered, PhotonNetwork.NickName);
+
+        //newPlayer.GetComponent<PlayerSetup>().IsLocalPlayer();
+
+
+
         //if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
         //{
         //    GameObject newPlayer = SpawnManager.instance.SpawnPlayer();
@@ -74,12 +81,11 @@ public class Connect : MonoBehaviourPunCallbacks
         //    PhotonNetwork.LocalPlayer.NickName = nickname;
         //}
 
-        GameObject newPlayer = SpawnManager.instance.SpawnPlayer();
-        EmptyNickname();
-        newPlayer.GetComponent<PhotonView>().RPC("SetNickname", RpcTarget.AllBuffered, nickname);
-        LocalPlayer();
 
-        PhotonNetwork.LocalPlayer.NickName = nickname;
+        //newPlayer.GetComponent<PhotonView>().RPC("SetNickname", RpcTarget.AllBuffered, nickname);
+        //EmptyNickname();
+        // LocalPlayer();
+        //PhotonNetwork.LocalPlayer.NickName = nickname;
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -93,7 +99,9 @@ public class Connect : MonoBehaviourPunCallbacks
 
     public void ChangeNickname(string _name)
     {
-        nickname = _name;
+        //nickname = _name;
+
+        //PhotonNetwork.NickName = _name;
     }
 
     private void EmptyNickname()
@@ -103,6 +111,12 @@ public class Connect : MonoBehaviourPunCallbacks
             numberOfPlayer = PhotonNetwork.CountOfPlayersInRooms + 1;
             nickname = nickname + numberOfPlayer.ToString();
         }
+    }
+
+
+    public void LocalPlayer()
+    {
+        player.GetComponent<Health>().isLocalPlayer = true;
     }
 
     //public void SetHashes()
@@ -117,10 +131,4 @@ public class Connect : MonoBehaviourPunCallbacks
     //    }
     //    catch { }
     //}
-
-    public void LocalPlayer()
-    {
-        player.GetComponent<Health>().isLocalPlayer = true;
-    }
-
 }

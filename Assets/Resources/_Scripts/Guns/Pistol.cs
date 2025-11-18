@@ -26,6 +26,8 @@ public class Pistol : Weapon
     //-----------------------  SEMI-AUTOMATICA  ------------------------
     private void Update()
     {
+        if (!pv.IsMine) return;
+
         if (Input.GetButtonDown("Fire1") && blocker.canAttack)
         {
             Fire();

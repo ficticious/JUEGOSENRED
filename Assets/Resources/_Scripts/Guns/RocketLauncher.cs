@@ -27,6 +27,7 @@ public class RocketLauncher : Weapon
 
     private void Update()
     {
+        if (!pv.IsMine) return;
         if (nextFire > 0) nextFire -= Time.deltaTime;
 
         if (Input.GetButtonDown("Fire1") && nextFire <= 0 && blocker.canAttack)

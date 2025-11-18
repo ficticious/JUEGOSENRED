@@ -31,6 +31,7 @@ public class Sword : Weapon
 
     private void Update()
     {
+        if (!pv.IsMine) return;
         if (nextFire > 0) nextFire -= Time.deltaTime;
         if (Input.GetButtonDown("Fire1") && nextFire <= 0 && blocker.canAttack)
         {
@@ -38,18 +39,11 @@ public class Sword : Weapon
             Fire();
             if (anim != null) anim.SetTrigger("Attack");
         }
-        //if (recoiling) Recoil();
-        //if (recovering) Recover();
     }
 
     public override void Fire()
     {
         if (!photonView.IsMine) return;
-
-        pv.RPC("PlayFireSound", RpcTarget.All);
-
-        //recoiling = true;
-        //recovering = false;
 
         Vector3 attackOrigin = playerCamera.transform.position;
         Vector3 attackDirection = playerCamera.transform.forward;
@@ -73,18 +67,9 @@ public class Sword : Weapon
             if (hitVFX)
             {
                 PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "VFX", hitVFX.name), hitInfo.point, Quaternion.identity);
+                pv.RPC("PlayFireSound", RpcTarget.All);
             }
         }
         Debug.Log($"Sword attack hit {hits.Length} targets");
     }
-
-
-    //private void OnDrawGizmosSelected()
-    //{
-    //    if (playerCamera == null) return;
-
-    //    Gizmos.color = Color.red;
-    //    Vector3 attackOrigin = playerCamera.transform.position + playerCamera.transform.forward * maxDistance;
-    //    Gizmos.DrawWireSphere(attackOrigin, attackRadius);
-    //}
 }

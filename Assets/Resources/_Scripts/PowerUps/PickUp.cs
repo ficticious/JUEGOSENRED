@@ -15,7 +15,6 @@ public abstract class PickUp : MonoBehaviourPun
     private float bounceAmplitude = 0.5f;
     private float bounceSpeed = 2f;
     private bool isActive = true;
-    private float timer = 0;
     private Vector3 startPos;
 
     private SpriteRenderer sprite;
@@ -67,7 +66,6 @@ public abstract class PickUp : MonoBehaviourPun
         yield return new WaitForSeconds(respawnTime);
 
         pv.RPC("RPC_SetActive", RpcTarget.All, true);
-        sprite.color = new Color(1, 1, 1, 1);
     }
 
     [PunRPC]
@@ -75,7 +73,7 @@ public abstract class PickUp : MonoBehaviourPun
     {
         isActive = active;
         //gameObject.SetActive(active);
-        sprite.color = new Color(0,0,0,0);
+        sprite.enabled = active;
         col.enabled = active;
     }
 }
