@@ -10,6 +10,7 @@ public class PauseManager : MonoBehaviourPunCallbacks
     [Header("UI")]
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private GameObject cam;
+    [SerializeField] private GameObject chat;
 
     private bool isPaused = false;
 
@@ -46,6 +47,16 @@ public class PauseManager : MonoBehaviourPunCallbacks
                 ResumeGame();
             else
                 PauseGame();
+
+            chat.SetActive(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            chat.SetActive(true);
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 
@@ -112,7 +123,7 @@ public class PauseManager : MonoBehaviourPunCallbacks
 
     private PlayerInputBlocker FindLocalPlayer()
     {
-        Debug.Log("aaaaa");
+        //Debug.Log("aaaaa");
 
         PlayerInputBlocker[] players = FindObjectsOfType<PlayerInputBlocker>();
 
@@ -120,7 +131,7 @@ public class PauseManager : MonoBehaviourPunCallbacks
         {
             if (p.photonView != null && p.photonView.IsMine)
             {
-                Debug.Log(p);
+                //Debug.Log(p);
                 return p;
             }
         }

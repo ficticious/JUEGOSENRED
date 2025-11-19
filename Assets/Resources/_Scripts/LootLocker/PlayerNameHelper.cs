@@ -10,7 +10,7 @@ public class PlayerNameHelper : MonoBehaviour
         LootLockerSDKManager.SetPlayerName(name, resp =>
         {
             if (!resp.success) Debug.LogError("Fallo nombre");
-            else Debug.Log("Se puso el nombre");
+            //else Debug.Log("Se puso el nombre");
         });
     }
 }

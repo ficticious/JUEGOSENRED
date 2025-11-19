@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 182cd195a28310e479cddf7ff82822f8, type: 3}
   m_Name: LootLockerConfig
   m_EditorClassIdentifier: 
-  apiKey: dev_91228ad2f4e4419da81a5650cd6df07e
-  adminToken: 3eb9502d523d7661d2eab8c243be67a5a18dfe9e
-  domainKey: k93f81f6
+  apiKey: 
+  adminToken: 
+  domainKey: 
   game_version: 1.0.0.0
-  sdk_version: 6.5.0
+  sdk_version: 
   url: https://api.lootlocker.com/v1
-  adminUrl: https://k93f81f6.api.lootlocker.com/admin
-  playerUrl: https://k93f81f6.api.lootlocker.com/player
-  userUrl: https://k93f81f6.api.lootlocker.com/game
-  baseUrl: https://k93f81f6.api.lootlocker.com
+  adminUrl: https://api.lootlocker.com/admin
+  playerUrl: https://api.lootlocker.com/player
+  userUrl: https://api.lootlocker.com/game
+  baseUrl: https://api.lootlocker.com
   clientSideRequestTimeOut: 180
   logLevel: 2
   prettifyJson: 1

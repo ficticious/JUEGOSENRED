@@ -9,12 +9,11 @@ public class Message : MonoBehaviour
 
     void Start()
     {
-        
+        MyMessage.color = Color.black;
+        GetComponent<RectTransform>().SetAsFirstSibling();
+
+        //MyMessage.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
