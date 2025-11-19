@@ -10,10 +10,9 @@ public class GulagManager : MonoBehaviourPunCallbacks
     [Header("Gulag Settings")]
     public Transform[] gulagSpawnPoints;
     public GameObject MinigamePrefab;
-
     public bool GulagActive = false;
-    private List<Health> waitingPlayers = new List<Health>();
 
+    private List<Health> waitingPlayers = new List<Health>();
     private Minigame currentMinigame;
 
     private void Awake()
@@ -23,45 +22,30 @@ public class GulagManager : MonoBehaviourPunCallbacks
 
     public void AddPlayerToGulag(Health player)
     {
-        waitingPlayers.Add(player);
-
-        if (waitingPlayers.Count == 1)
-        {
-            TeleportToWaitingArea(player);
-        }
-        else if (waitingPlayers.Count == 2)
-        {
-            StartMinigame(waitingPlayers[0], waitingPlayers[1]);
-        }
+        StartSoloMinigame(player);
     }
 
-    private void StartMinigame(Health p1, Health p2)
+    private void StartSoloMinigame(Health player)
     {
         GulagActive = true;
-
-        photonView.RPC("RPC_StartMinigame", RpcTarget.All,
-            p1.photonView.ViewID,
-            p2.photonView.ViewID);
+        photonView.RPC("RPC_StartSoloMinigame", RpcTarget.All, player.photonView.ViewID);
     }
 
     [PunRPC]
-    private void RPC_StartMinigame(int viewA, int viewB)
+    private void RPC_StartSoloMinigame(int viewID)
     {
-        Health playerA = PhotonView.Find(viewA).GetComponent<Health>();
-        Health playerB = PhotonView.Find(viewB).GetComponent<Health>();
+        Health player = PhotonView.Find(viewID).GetComponent<Health>();
 
-        // Teleport a posiciones del minijuego
-        TeleportPlayer(playerA, gulagSpawnPoints[0]);
-        TeleportPlayer(playerB, gulagSpawnPoints[1]);
+        TeleportPlayer(player, gulagSpawnPoints[0]);
 
-        // Activar players en modo minijuego
-        playerA.ResetHealth();
-        playerB.ResetHealth();
-        playerA.isDead = false;
-        playerB.isDead = false;
+        player.ResetHealth();
+        player.isDead = false;
+        player.playerSetup.EnablePlayer();
 
-        playerA.playerSetup.EnablePlayer();
-        playerB.playerSetup.EnablePlayer();
+        if (player.photonView.IsMine)
+        {
+            player.playerSetup.EnableLocalCamera(true);
+        }
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -69,19 +53,16 @@ public class GulagManager : MonoBehaviourPunCallbacks
                 MinigamePrefab.name,
                 Vector3.zero,
                 Quaternion.identity);
-
             currentMinigame = gm.GetComponent<Minigame>();
-            currentMinigame.Init(playerA, playerB);
+            currentMinigame.Init(player, null);
         }
 
-        UIGulag.Instance.ShowGulagUI(true);
+       // UIGulag.Instance.ShowGulagUI(true);
     }
 
     public void ReportWinner(Health winner)
     {
         photonView.RPC("RPC_FinishGulag", RpcTarget.All, winner.photonView.ViewID);
-
-        waitingPlayers.Clear();
         GulagActive = false;
     }
 
@@ -89,17 +70,9 @@ public class GulagManager : MonoBehaviourPunCallbacks
     private void RPC_FinishGulag(int winnerViewID)
     {
         Health winner = PhotonView.Find(winnerViewID).GetComponent<Health>();
+       // UIGulag.Instance.ShowGulagUI(false);
 
-        UIGulag.Instance.ShowGulagUI(false);
-
-        // Ganador vuelve al mapa
         winner.StartCoroutine(winner.RespawnAfterGulag());
-    }
-
-    private void TeleportToWaitingArea(Health p)
-    {
-        p.playerSetup.DisablePlayer();
-        p.playerSetup.EnableLocalCamera(false);
     }
 
     private void TeleportPlayer(Health p, Transform spawn)

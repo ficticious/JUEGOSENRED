@@ -102,14 +102,10 @@ public class Health : MonoBehaviourPunCallbacks
             playerSetup.DisablePlayer();
             playerSetup.EnableLocalCamera(false);
 
-            SpectatorCameraManager.Instance.EnableSpectator();
-
             GameManager.instance.deaths++;
             GameManager.instance.SetHashes();
 
-            //GulagManager.Instance.AddPlayerToGulag(this);
-
-            StartCoroutine(RespawnCoroutine());
+            GulagManager.Instance.AddPlayerToGulag(this);
         }
 
         if (attackerId != -1 &&
@@ -145,8 +141,19 @@ public class Health : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SetRespawnPosition(float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float rotW)
     {
+        CharacterController cc = GetComponent<CharacterController>();
+        if (cc != null)
+        {
+            cc.enabled = false;
+        }
+
         transform.position = new Vector3(posX, posY, posZ);
         transform.rotation = new Quaternion(rotX, rotY, rotZ, rotW);
+
+        if (cc != null)
+        {
+            cc.enabled = true;
+        }
     }
 
     [PunRPC]

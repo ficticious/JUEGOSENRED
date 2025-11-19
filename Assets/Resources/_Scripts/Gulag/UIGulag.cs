@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIGulag : MonoBehaviour
 {
-    public static UIGulag Instance;
+   /* public static UIGulag Instance;
 
     public GameObject gulagPanel;
 
@@ -17,4 +17,5 @@ public class UIGulag : MonoBehaviour
     {
         gulagPanel.SetActive(state);
     }
+   */
 }

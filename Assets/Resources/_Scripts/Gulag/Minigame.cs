@@ -7,10 +7,8 @@ public class Minigame : MonoBehaviourPun
 {
     private Health playerA;
     private Health playerB;
-
     private int scoreA = 0;
     private int scoreB = 0;
-
     public int targetsToWin = 5;
 
     public void Init(Health a, Health b)
@@ -25,7 +23,7 @@ public class Minigame : MonoBehaviourPun
 
         if (playerViewID == playerA.photonView.ViewID)
             scoreA++;
-        else if (playerViewID == playerB.photonView.ViewID)
+        else if (playerB != null && playerViewID == playerB.photonView.ViewID)
             scoreB++;
 
         CheckWinner();
@@ -35,8 +33,7 @@ public class Minigame : MonoBehaviourPun
     {
         if (scoreA >= targetsToWin)
             GulagManager.Instance.ReportWinner(playerA);
-
-        if (scoreB >= targetsToWin)
+        if (playerB != null && scoreB >= targetsToWin)
             GulagManager.Instance.ReportWinner(playerB);
     }
 }
