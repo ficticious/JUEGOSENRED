@@ -48,7 +48,8 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
     {
         if (string.IsNullOrEmpty(inputCreate.text))
         {
-            Debug.LogWarning("Cannot create room --- Need a room name");
+            ConnectionHandler.instance.ShowPopup($"Nombre de sala vacío");
+            //Debug.LogWarning("Cannot create room --- Need a room name");
             if (errorText != null) errorText.SetActive(true);
         }
         else
@@ -59,11 +60,14 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
                 IsVisible = isPublic.isOn,
                 IsOpen = isPublic.isOn,
             });
+            ConnectionHandler.instance.ShowPopup($"Sala creada con éxito");
         }
     }
 
     public void JoinRoom()
     {
+        if (inputJoin.text == string.Empty) ConnectionHandler.instance.ShowPopup($"No se puede unir - Nombre vacío");
+
         PhotonNetwork.JoinRoom(inputJoin.text);
     }
 
@@ -91,5 +95,8 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
 
         morePlayersButton.interactable = _maxPlayers < MAX_PLAYERS;
         lessPlayersButton.interactable = _maxPlayers > MIN_PLAYERS;
-    }   
+
+        if (_maxPlayers == MAX_PLAYERS) ConnectionHandler.instance.ShowPopup($"Limite de jugadores alcanzado");
+
+    }
 }

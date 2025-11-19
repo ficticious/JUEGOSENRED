@@ -11,6 +11,14 @@ public class Chat : MonoBehaviourPunCallbacks
 
     public PlayerSetup player;
 
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Return) && inputField.text != string.Empty)
+        {
+            SendMessage();
+        }
+    }
+
     public void SendMessage()
     {
         GetComponent<PhotonView>().RPC("GetMessage", RpcTarget.All, inputField.text);

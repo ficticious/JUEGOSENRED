@@ -6,13 +6,13 @@ using TMPro;
 public class Message : MonoBehaviour
 {
     public TextMeshProUGUI MyMessage;
+    public float size;
 
     void Start()
     {
         MyMessage.color = Color.black;
         GetComponent<RectTransform>().SetAsFirstSibling();
-
-        //MyMessage.gameObject.SetActive(false);
+        MyMessage.fontSize = size;
     }
 
     

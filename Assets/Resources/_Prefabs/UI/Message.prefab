@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MyMessage: {fileID: 3612912857420796601}
+  size: 32
 --- !u!1 &3612912857420796603
 GameObject:
   m_ObjectHideFlags: 0

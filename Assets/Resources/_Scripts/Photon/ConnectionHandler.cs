@@ -113,7 +113,8 @@ public class ConnectionHandler : MonoBehaviourPunCallbacks
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        ShowPopup($"Error al entrar a la sala:\n{message}");
+        ShowPopup($"Error: La sala no existe");
+        //ShowPopup($"Error al entrar a la sala:\n{message}");
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
