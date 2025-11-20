@@ -65,6 +65,7 @@ MonoBehaviour:
   - RPC_TeleportToWaiting
   - RPC_RequestGulagEntry
   - RPC_AddPlayerToGulag
+  - RPC_RegisterHit
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

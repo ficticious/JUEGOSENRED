@@ -11392,7 +11392,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &516406174
 Transform:
   m_ObjectHideFlags: 0
@@ -35130,7 +35130,7 @@ MonoBehaviour:
   - {fileID: 1424265134}
   - {fileID: 1332952727}
   wallsToDisable:
-  - {fileID: 480415547}
+  - {fileID: 1798286480}
   - {fileID: 634052305}
   targetObject: {fileID: 516406173}
   loserRespawnDelay: 10

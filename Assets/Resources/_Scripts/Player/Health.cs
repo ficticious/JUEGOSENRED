@@ -100,12 +100,7 @@ public class Health : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             playerSetup.DisablePlayer();
-
-            if (SpectatorCameraManager.Instance != null)
-            {
-                playerSetup.EnableLocalCamera(false);
-                SpectatorCameraManager.Instance.EnableSpectator();
-            }
+            playerSetup.EnableLocalCamera(false);
 
             GameManager.instance.deaths++;
             GameManager.instance.SetHashes();
@@ -212,7 +207,6 @@ public class Health : MonoBehaviourPunCallbacks
 
         if (!photonView.IsMine) yield break;
 
-        SpectatorCameraManager.Instance.DisableSpectator();
         ResetHealth();
         isDead = false;
 
