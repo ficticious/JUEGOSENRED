@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: LootLockerConfig
   m_EditorClassIdentifier: 
   apiKey: dev_91228ad2f4e4419da81a5650cd6df07e
-  adminToken: 
+  adminToken: 8697fcaebbd97b00da6510c70fecfdde6f8e3caf
   domainKey: k93f81f6
   game_version: 1.0.0.0
   sdk_version: 6.5.0
   url: https://api.lootlocker.com/v1
-  adminUrl: https://api.lootlocker.com/admin
-  playerUrl: https://api.lootlocker.com/player
-  userUrl: https://api.lootlocker.com/game
-  baseUrl: https://api.lootlocker.com
+  adminUrl: https://k93f81f6.api.lootlocker.com/admin
+  playerUrl: https://k93f81f6.api.lootlocker.com/player
+  userUrl: https://k93f81f6.api.lootlocker.com/game
+  baseUrl: https://k93f81f6.api.lootlocker.com
   clientSideRequestTimeOut: 180
   logLevel: 2
   prettifyJson: 1
