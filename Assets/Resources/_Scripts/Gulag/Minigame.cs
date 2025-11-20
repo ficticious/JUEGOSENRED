@@ -1,40 +1,55 @@
 using Photon.Pun;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Minigame : MonoBehaviourPun
+public class Minigame : MonoBehaviourPunCallbacks
 {
-   /* private Health playerA;
+    private Health playerA;
     private Health playerB;
-    private int scoreA = 0;
-    private int scoreB = 0;
-    public int targetsToWin = 5;
+    private PhotonView pv;
 
-    public void Init(Health a, Health b)
+    private void Awake()
     {
-        playerA = a;
-        playerB = b;
+        pv = GetComponent<PhotonView>();
     }
 
-    public void OnPlayerHitTarget(int playerViewID)
+    public void Initialize(Health player1, Health player2)
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        if (playerViewID == playerA.photonView.ViewID)
-            scoreA++;
-        else if (playerB != null && playerViewID == playerB.photonView.ViewID)
-            scoreB++;
+        playerA = player1;
+        playerB = player2;
 
-        CheckWinner();
+        Debug.Log($"[MINIGAME] Inicializado con {player1.gameObject.name} vs {player2.gameObject.name}");
+
+        pv.RPC("RPC_InitializeAll", RpcTarget.All, player1.photonView.ViewID, player2.photonView.ViewID);
     }
 
-    private void CheckWinner()
+    [PunRPC]
+    private void RPC_InitializeAll(int player1ViewID, int player2ViewID)
     {
-        if (scoreA >= targetsToWin)
-            GulagManager.Instance.ReportWinner(playerA);
-        if (playerB != null && scoreB >= targetsToWin)
-            GulagManager.Instance.ReportWinner(playerB);
+        playerA = PhotonView.Find(player1ViewID)?.GetComponent<Health>();
+        playerB = PhotonView.Find(player2ViewID)?.GetComponent<Health>();
+
+        Debug.Log($"[MINIGAME] Players asignados en cliente");
     }
-   */
+
+    public void OnPlayerHitTarget(int shooterViewID)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        Debug.Log($"[MINIGAME] Target golpeado por ViewID: {shooterViewID}");
+
+        GulagManager.Instance.OnTargetHit(shooterViewID);
+    }
+
+    public Health GetPlayerA()
+    {
+        return playerA;
+    }
+
+    public Health GetPlayerB()
+    {
+        return playerB;
+    }
 }

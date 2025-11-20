@@ -105,7 +105,7 @@ public class Health : MonoBehaviourPunCallbacks
             GameManager.instance.deaths++;
             GameManager.instance.SetHashes();
 
-            GulagManager.Instance.RequestGulagEntry(photonView.ViewID);
+            GulagManager.Instance.RequestGulagEntry(this);
         }
 
         if (attackerId != -1 &&
@@ -159,7 +159,11 @@ public class Health : MonoBehaviourPunCallbacks
     [PunRPC]
     public void CompleteRespawn()
     {
-        if (canRespawn) SpectatorCameraManager.Instance.DisableSpectator();
+        if (canRespawn && SpectatorCameraManager.Instance != null)
+        {
+            SpectatorCameraManager.Instance.DisableSpectator();
+        }
+
         ResetHealth();
         isDead = false;
 
@@ -173,7 +177,6 @@ public class Health : MonoBehaviourPunCallbacks
                 Debug.Log($"{gameObject.name} ha respawneado");
             }
         }
-
     }
     //----------------------------------------------------------------------------------
 

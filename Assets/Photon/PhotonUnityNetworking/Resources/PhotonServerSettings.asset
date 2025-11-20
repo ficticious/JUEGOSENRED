@@ -66,6 +66,11 @@ MonoBehaviour:
   - RPC_RequestGulagEntry
   - RPC_AddPlayerToGulag
   - RPC_RegisterHit
+  - RPC_ActivateTarget
+  - RPC_UpdateScore
+  - RPC_DeactivateTarget
+  - RPC_InitializeAll
+  - RPC_WaitInSpectatorWithTimeout
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

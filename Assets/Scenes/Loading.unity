@@ -11386,7 +11386,7 @@ GameObject:
   - component: {fileID: 516406176}
   - component: {fileID: 516406175}
   - component: {fileID: 516406179}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GulagTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11401,7 +11401,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 516406173}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.96, y: 1.36, z: 0}
+  m_LocalPosition: {x: 0.48, y: 1.36, z: 0}
   m_LocalScale: {x: 0.3575727, y: 0.3575727, z: 0.3575727}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -24041,6 +24041,50 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43999c511a596754fb989ff074c5955d, type: 3}
+--- !u!1 &1054515517
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1054515518}
+  - component: {fileID: 1054515519}
+  m_Layer: 0
+  m_Name: Minigame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1054515518
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1054515517}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.15, y: 6.39, z: -2.847}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1455390219}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1054515519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1054515517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd2a9342d41c8d4aabefb1ff0d48c83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1055259151
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28600,6 +28644,57 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3235365655083524568, guid: 74f86eb221914734c8d212e1c2845cdb, type: 3}
   m_PrefabInstance: {fileID: 218220989}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1232969505
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1232969507}
+  - component: {fileID: 1232969506}
+  m_Layer: 0
+  m_Name: GulagArena
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1232969506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232969505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04b77260766340429c684567b4e984f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gulagSpawnPoints:
+  - {fileID: 1424265134}
+  - {fileID: 1332952727}
+  wallsToDisable:
+  - {fileID: 1798286480}
+  - {fileID: 634052305}
+  targetObject: {fileID: 516406173}
+--- !u!4 &1232969507
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232969505}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1455390219}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1233117826
 GameObject:
   m_ObjectHideFlags: 0
@@ -34436,13 +34531,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9a9fb8a72b26214fa4eeec984a2eb07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gulagSpawnPoints:
-  - {fileID: 1424265134}
-  - {fileID: 1332952727}
-  wallsToDisable: []
-  targetObject: {fileID: 0}
+  arena: {fileID: 0}
+  queue: {fileID: 0}
+  minigamePrefab: {fileID: 0}
+  spectatorDelayBeforeGulag: 3
+  gulagWaitTimeout: 15
   loserRespawnDelay: 10
-  GulagActive: 0
 --- !u!4 &1431282345
 Transform:
   m_ObjectHideFlags: 0
@@ -35126,15 +35220,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9a9fb8a72b26214fa4eeec984a2eb07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gulagSpawnPoints:
-  - {fileID: 1424265134}
-  - {fileID: 1332952727}
-  wallsToDisable:
-  - {fileID: 1798286480}
-  - {fileID: 634052305}
-  targetObject: {fileID: 516406173}
-  loserRespawnDelay: 10
-  GulagActive: 0
+  arena: {fileID: 1232969506}
+  queue: {fileID: 1556088077}
+  minigamePrefab: {fileID: 1054515517}
+  spectatorDelayBeforeGulag: 3
+  gulagWaitTimeout: 3
+  loserRespawnDelay: 3
 --- !u!4 &1455390219
 Transform:
   m_ObjectHideFlags: 0
@@ -35143,10 +35234,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1455390217}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.464966, y: 0.93914795, z: -424.73764}
+  m_LocalPosition: {x: -5.4, y: 0.93914795, z: -421.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1054515518}
+  - {fileID: 1232969507}
+  - {fileID: 1556088078}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -37516,6 +37610,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1551904854}
   m_CullTransparentMesh: 1
+--- !u!1 &1556088076
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1556088078}
+  - component: {fileID: 1556088077}
+  m_Layer: 0
+  m_Name: GulagQueue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1556088077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556088076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5f45a28327a5f4c88880fd177d0326, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1556088078
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556088076}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1455390219}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1556236341
 GameObject:
   m_ObjectHideFlags: 0

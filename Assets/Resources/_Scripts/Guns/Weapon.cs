@@ -55,9 +55,11 @@ public abstract class Weapon : MonoBehaviourPun
 
     protected void DoDamage(RaycastHit hit, float dmg)
     {
+        // Primero verificar si es un GulagTarget
         GulagTarget gulagTarget = hit.transform.GetComponent<GulagTarget>();
         if (gulagTarget != null)
         {
+            Debug.Log($"[WEAPON] GulagTarget detectado, disparador ViewID: {photonView.ViewID}");
             gulagTarget.Hit(photonView.ViewID);
             return;
         }

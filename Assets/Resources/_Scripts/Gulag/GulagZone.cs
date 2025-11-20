@@ -9,7 +9,8 @@ public class GulagZone : MonoBehaviour
         Health h = other.GetComponent<Health>();
         if (h != null && h.photonView.IsMine)
         {
-            SpectatorCameraManager.Instance.IsInGulagZone = true;
+            if (SpectatorCameraManager.Instance != null)
+                SpectatorCameraManager.Instance.IsInGulagZone = true;
         }
     }
 
@@ -18,7 +19,8 @@ public class GulagZone : MonoBehaviour
         Health h = other.GetComponent<Health>();
         if (h != null && h.photonView.IsMine)
         {
-            SpectatorCameraManager.Instance.IsInGulagZone = false;
+            if (SpectatorCameraManager.Instance != null)
+                SpectatorCameraManager.Instance.IsInGulagZone = false;
         }
-    }            
+    }
 }
