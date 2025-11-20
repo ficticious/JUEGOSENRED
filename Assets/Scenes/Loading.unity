@@ -7066,7 +7066,7 @@ MonoBehaviour:
   buttonLobby: {fileID: 1471014716}
   kills: 0
   deaths: 0
-  killsToWin: 10
+  killsToWin: 13
   gameFinished: 0
 --- !u!4 &323417696
 Transform:
@@ -35296,7 +35296,7 @@ MonoBehaviour:
   - {fileID: 1798286480}
   - {fileID: 634052305}
   targetObject: {fileID: 516406173}
-  loserRespawnDelay: 10
+  loserRespawnDelay: 5
   GulagActive: 0
 --- !u!4 &1455390219
 Transform:
