@@ -1,14 +1,13 @@
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
-using TMPro; 
+using TMPro;
 
 public class Chat : MonoBehaviourPunCallbacks
 {
-    public TMP_InputField inputField; 
+    public TMP_InputField inputField;
     public GameObject message;
     public GameObject content;
-
     public PlayerSetup player;
 
     private void Update()
@@ -21,24 +20,22 @@ public class Chat : MonoBehaviourPunCallbacks
 
     public void SendMessage()
     {
-        GetComponent<PhotonView>().RPC("GetMessage", RpcTarget.All, inputField.text);
+        string myNickname = PhotonNetwork.LocalPlayer.NickName;
+        GetComponent<PhotonView>().RPC("GetMessage", RpcTarget.All, inputField.text, myNickname);
         inputField.text = string.Empty;
     }
 
     [PunRPC]
-    public void GetMessage(string RecieveMessage)
+    public void GetMessage(string receiveMessage, string senderNickname)
     {
-        string nickname = PhotonNetwork.NickName;
         GameObject M = Instantiate(message, Vector3.zero, Quaternion.identity, content.transform);
-        M.GetComponent<Message>().MyMessage.text = nickname + ": " + RecieveMessage;
+        M.GetComponent<Message>().MyMessage.text = senderNickname + ": " + receiveMessage;
     }
 
     public void CloseChat()
     {
         gameObject.SetActive(false);
-
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 }
-
