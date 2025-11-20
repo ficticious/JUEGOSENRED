@@ -7,15 +7,29 @@ public class GulagManager : MonoBehaviourPunCallbacks
 {
     public static GulagManager Instance;
 
-    [Header("Gulag Settings")]
-    public Transform[] gulagSpawnPoints;
-    public GameObject[] wallsToDisable;
-    public GameObject targetObject;
+    [Header("Gulag 1 Settings")]
+    public Transform[] gulag1SpawnPoints;
+    public GameObject[] gulag1WallsToDisable;
+    public GameObject gulag1TargetObject;
+
+    [Header("Gulag 2 Settings")]
+    public Transform[] gulag2SpawnPoints;
+    public GameObject[] gulag2WallsToDisable;
+    public GameObject gulag2TargetObject;
+
+    [Header("General Settings")]
     public float loserRespawnDelay = 10f;
 
-    public bool GulagActive = false;
+    private bool gulag1Active = false;
+    private bool gulag2Active = false;
 
     private List<int> waitingPlayerViewIDs = new List<int>();
+    private List<int> gulag1Players = new List<int>();
+    private List<int> gulag2Players = new List<int>();
+
+    private int gulag1WaitingPlayer = -1;
+    private int gulag2WaitingPlayer = -1;
+
     private PhotonView pv;
 
     private void Awake()
@@ -35,39 +49,124 @@ public class GulagManager : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsMasterClient) return;
 
-        Debug.Log($"[MASTER] Jugador {playerViewID} agregado al gulag.");
+        Debug.Log($"[MASTER] Jugador {playerViewID} agregado a la cola del gulag.");
 
         waitingPlayerViewIDs.Add(playerViewID);
 
         Debug.Log($"[MASTER] Total esperando: {waitingPlayerViewIDs.Count}");
 
+        ProcessGulagQueue();
+    }
+
+    private void ProcessGulagQueue()
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        Debug.Log($"[MASTER] ProcessGulagQueue - Esperando: {waitingPlayerViewIDs.Count}, Gulag1 activo: {gulag1Active}, Gulag2 activo: {gulag2Active}");
+
+        if (gulag1WaitingPlayer != -1 && waitingPlayerViewIDs.Count > 0 && !gulag1Active)
+        {
+            int player2 = waitingPlayerViewIDs[0];
+            waitingPlayerViewIDs.RemoveAt(0);
+
+            gulag1Players.Clear();
+            gulag1Players.Add(gulag1WaitingPlayer);
+            gulag1Players.Add(player2);
+
+            Debug.Log($"[MASTER] Emparejando en Gulag 1: {gulag1WaitingPlayer} vs {player2}");
+            StartGulag(1, gulag1WaitingPlayer, player2);
+            gulag1WaitingPlayer = -1;
+            return;
+        }
+
+        if (gulag2WaitingPlayer != -1 && waitingPlayerViewIDs.Count > 0 && !gulag2Active)
+        {
+            int player2 = waitingPlayerViewIDs[0];
+            waitingPlayerViewIDs.RemoveAt(0);
+
+            gulag2Players.Clear();
+            gulag2Players.Add(gulag2WaitingPlayer);
+            gulag2Players.Add(player2);
+
+            Debug.Log($"[MASTER] Emparejando en Gulag 2: {gulag2WaitingPlayer} vs {player2}");
+            StartGulag(2, gulag2WaitingPlayer, player2);
+            gulag2WaitingPlayer = -1;
+            return;
+        }
+
+        if (!gulag1Active && waitingPlayerViewIDs.Count >= 2)
+        {
+            int player1 = waitingPlayerViewIDs[0];
+            int player2 = waitingPlayerViewIDs[1];
+
+            waitingPlayerViewIDs.RemoveAt(0);
+            waitingPlayerViewIDs.RemoveAt(0);
+
+            gulag1Players.Clear();
+            gulag1Players.Add(player1);
+            gulag1Players.Add(player2);
+
+            Debug.Log($"[MASTER] Iniciando Gulag 1 con jugadores {player1} y {player2}");
+            StartGulag(1, player1, player2);
+            return;
+        }
+
+        if (!gulag2Active && waitingPlayerViewIDs.Count >= 2)
+        {
+            int player1 = waitingPlayerViewIDs[0];
+            int player2 = waitingPlayerViewIDs[1];
+
+            waitingPlayerViewIDs.RemoveAt(0);
+            waitingPlayerViewIDs.RemoveAt(0);
+
+            gulag2Players.Clear();
+            gulag2Players.Add(player1);
+            gulag2Players.Add(player2);
+
+            Debug.Log($"[MASTER] Iniciando Gulag 2 con jugadores {player1} y {player2}");
+            StartGulag(2, player1, player2);
+            return;
+        }
+
         if (waitingPlayerViewIDs.Count == 1)
         {
-            Debug.Log($"[MASTER] Primer jugador, enviando a sala de espera en spawn 0");
-            pv.RPC("RPC_TeleportToWaiting", RpcTarget.All, playerViewID, 0);
-        }
-        else if (waitingPlayerViewIDs.Count == 2)
-        {
-            Debug.Log($"[MASTER] Segundo jugador detectado, iniciando duelo");
-            StartGulagDuel();
+            int playerID = waitingPlayerViewIDs[0];
+            waitingPlayerViewIDs.RemoveAt(0);
+
+            if (!gulag1Active && gulag1WaitingPlayer == -1)
+            {
+                gulag1WaitingPlayer = playerID;
+                Debug.Log($"[MASTER] Jugador {playerID} esperando en Gulag 1");
+                pv.RPC("RPC_TeleportToWaiting", RpcTarget.All, playerID, 1, 0);
+            }
+            else if (!gulag2Active && gulag2WaitingPlayer == -1)
+            {
+                gulag2WaitingPlayer = playerID;
+                Debug.Log($"[MASTER] Jugador {playerID} esperando en Gulag 2");
+                pv.RPC("RPC_TeleportToWaiting", RpcTarget.All, playerID, 2, 0);
+            }
+            else
+            {
+                waitingPlayerViewIDs.Add(playerID);
+                Debug.Log($"[MASTER] Jugador {playerID} vuelve a la cola - Ambos gulags ocupados");
+            }
         }
     }
 
-    private void StartGulagDuel()
+    private void StartGulag(int gulagNumber, int player1ViewID, int player2ViewID)
     {
-        GulagActive = true;
+        if (gulagNumber == 1)
+            gulag1Active = true;
+        else
+            gulag2Active = true;
 
-        Debug.Log($"[MASTER] Iniciando duelo entre ViewID {waitingPlayerViewIDs[0]} y ViewID {waitingPlayerViewIDs[1]}");
-
-        pv.RPC("RPC_StartDuel", RpcTarget.All,
-            waitingPlayerViewIDs[0],
-            waitingPlayerViewIDs[1]);
+        pv.RPC("RPC_StartDuel", RpcTarget.All, gulagNumber, player1ViewID, player2ViewID);
     }
 
     [PunRPC]
-    private void RPC_TeleportToWaiting(int viewID, int spawnIndex)
+    private void RPC_TeleportToWaiting(int viewID, int gulagNumber, int spawnIndex)
     {
-        Debug.Log($"[RPC] RPC_TeleportToWaiting - ViewID: {viewID}, Spawn: {spawnIndex}");
+        Debug.Log($"[RPC] RPC_TeleportToWaiting - ViewID: {viewID}, Gulag: {gulagNumber}, Spawn: {spawnIndex}");
 
         Health player = PhotonView.Find(viewID).GetComponent<Health>();
         if (player == null)
@@ -76,9 +175,9 @@ public class GulagManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        Debug.Log($"[RPC] Jugador encontrado: {player.gameObject.name}, teletransportando...");
+        Transform[] spawnPoints = gulagNumber == 1 ? gulag1SpawnPoints : gulag2SpawnPoints;
 
-        TeleportPlayer(player, gulagSpawnPoints[spawnIndex]);
+        TeleportPlayer(player, spawnPoints[spawnIndex]);
 
         player.ResetHealth();
         player.isDead = false;
@@ -86,48 +185,54 @@ public class GulagManager : MonoBehaviourPunCallbacks
 
         if (player.photonView.IsMine)
         {
-            Debug.Log($"[LOCAL] Es mi jugador, habilitando cámara");
+            Debug.Log($"[LOCAL] Es mi jugador, habilitando cámara en Gulag {gulagNumber}");
             player.playerSetup.EnableLocalCamera(true);
         }
     }
 
     [PunRPC]
-    private void RPC_StartDuel(int viewID1, int viewID2)
+    private void RPC_StartDuel(int gulagNumber, int viewID1, int viewID2)
     {
-        Debug.Log($"[RPC] RPC_StartDuel - ViewID1: {viewID1}, ViewID2: {viewID2}");
+        Debug.Log($"[RPC] RPC_StartDuel - Gulag {gulagNumber}, ViewID1: {viewID1}, ViewID2: {viewID2}");
 
         Health player1 = PhotonView.Find(viewID1).GetComponent<Health>();
         Health player2 = PhotonView.Find(viewID2).GetComponent<Health>();
 
-        if (player1 == null)
+        if (player1 == null || player2 == null)
         {
-            Debug.LogError($"[ERROR] No se encontró player1 con ViewID {viewID1}");
-            return;
-        }
-        if (player2 == null)
-        {
-            Debug.LogError($"[ERROR] No se encontró player2 con ViewID {viewID2}");
+            Debug.LogError($"[ERROR] No se encontraron los jugadores");
             return;
         }
 
-        Debug.Log($"[RPC] Jugadores encontrados: {player1.gameObject.name} y {player2.gameObject.name}");
+        Transform[] spawnPoints;
+        GameObject[] walls;
+        GameObject target;
 
-        Debug.Log($"[RPC] Teletransportando {player1.gameObject.name} al spawn 0");
-        TeleportPlayer(player1, gulagSpawnPoints[0]);
+        if (gulagNumber == 1)
+        {
+            spawnPoints = gulag1SpawnPoints;
+            walls = gulag1WallsToDisable;
+            target = gulag1TargetObject;
+        }
+        else
+        {
+            spawnPoints = gulag2SpawnPoints;
+            walls = gulag2WallsToDisable;
+            target = gulag2TargetObject;
+        }
 
-        Debug.Log($"[RPC] Teletransportando {player2.gameObject.name} al spawn 1");
-        TeleportPlayer(player2, gulagSpawnPoints[1]);
+        Debug.Log($"[RPC] Teletransportando jugadores al Gulag {gulagNumber}");
+        TeleportPlayer(player1, spawnPoints[0]);
+        TeleportPlayer(player2, spawnPoints[1]);
 
-        foreach (GameObject wall in wallsToDisable)
+        foreach (GameObject wall in walls)
         {
             wall.SetActive(false);
         }
-        Debug.Log($"[RPC] Paredes desactivadas");
 
-        if (targetObject != null)
+        if (target != null)
         {
-            targetObject.SetActive(true);
-            Debug.Log($"[RPC] Target activado");
+            target.SetActive(true);
         }
 
         player1.ResetHealth();
@@ -137,32 +242,29 @@ public class GulagManager : MonoBehaviourPunCallbacks
 
         if (player1.photonView.IsMine)
         {
-            Debug.Log($"[LOCAL] Player1 es mío, habilitando");
             player1.playerSetup.EnablePlayer();
             player1.playerSetup.EnableLocalCamera(true);
         }
         if (player2.photonView.IsMine)
         {
-            Debug.Log($"[LOCAL] Player2 es mío, habilitando");
             player2.playerSetup.EnablePlayer();
             player2.playerSetup.EnableLocalCamera(true);
         }
-
-        Debug.Log($"[RPC] Duelo iniciado completamente");
     }
 
-    public void OnTargetHit(int shooterViewID)
+    public void OnTargetHit(int gulagNumber, int shooterViewID)
     {
-        if (!PhotonNetwork.IsMasterClient || !GulagActive) return;
+        if (!PhotonNetwork.IsMasterClient) return;
 
-        Debug.Log($"[MASTER] Target golpeado por ViewID: {shooterViewID}");
+        Debug.Log($"[MASTER] Target del Gulag {gulagNumber} golpeado por ViewID: {shooterViewID}");
 
         Health winner = PhotonView.Find(shooterViewID).GetComponent<Health>();
         if (winner == null) return;
 
+        List<int> currentGulagPlayers = gulagNumber == 1 ? gulag1Players : gulag2Players;
         Health loser = null;
 
-        foreach (int viewID in waitingPlayerViewIDs)
+        foreach (int viewID in currentGulagPlayers)
         {
             if (viewID != shooterViewID)
             {
@@ -171,58 +273,86 @@ public class GulagManager : MonoBehaviourPunCallbacks
             }
         }
 
-        Debug.Log($"[MASTER] Ganador: {winner.gameObject.name}, Perdedor: {(loser != null ? loser.gameObject.name : "Ninguno")}");
-
-        pv.RPC("RPC_DuelFinished", RpcTarget.All,
+        pv.RPC("RPC_DuelFinished", RpcTarget.All, gulagNumber,
             winner.photonView.ViewID,
             loser != null ? loser.photonView.ViewID : -1);
 
-        waitingPlayerViewIDs.Clear();
-        GulagActive = false;
+        if (gulagNumber == 1)
+        {
+            gulag1Players.Clear();
+            gulag1Active = false;
+        }
+        else
+        {
+            gulag2Players.Clear();
+            gulag2Active = false;
+        }
+
+        ProcessGulagQueue();
     }
 
     [PunRPC]
-    private void RPC_DuelFinished(int winnerViewID, int loserViewID)
+    private void RPC_DuelFinished(int gulagNumber, int winnerViewID, int loserViewID)
     {
-        Debug.Log($"[RPC] Duelo finalizado - Ganador: {winnerViewID}, Perdedor: {loserViewID}");
+        Debug.Log($"[RPC] Duelo del Gulag {gulagNumber} finalizado - Ganador: {winnerViewID}, Perdedor: {loserViewID}");
 
         Health winner = PhotonView.Find(winnerViewID).GetComponent<Health>();
-        if (winner == null) return;
+        if (winner == null)
+        {
+            Debug.LogError($"[ERROR] No se encontró el ganador con ViewID {winnerViewID}");
+            return;
+        }
 
-        foreach (GameObject wall in wallsToDisable)
+        GameObject[] walls = gulagNumber == 1 ? gulag1WallsToDisable : gulag2WallsToDisable;
+        GameObject target = gulagNumber == 1 ? gulag1TargetObject : gulag2TargetObject;
+
+        foreach (GameObject wall in walls)
         {
             wall.SetActive(true);
         }
 
-        if (targetObject != null)
+        if (target != null)
         {
-            targetObject.SetActive(false);
+            target.SetActive(false);
         }
 
         if (winner.photonView.IsMine)
         {
-            Debug.Log($"[LOCAL] Soy el ganador, respawneando");
+            Debug.Log($"[LOCAL] Soy el ganador ViewID {winnerViewID}, respawneando al mapa");
             winner.StartCoroutine(winner.RespawnAfterGulag());
         }
 
         if (loserViewID != -1)
         {
             Health loser = PhotonView.Find(loserViewID).GetComponent<Health>();
-            if (loser != null && loser.photonView.IsMine)
+            if (loser == null)
             {
-                Debug.Log($"[LOCAL] Soy el perdedor, esperando {loserRespawnDelay}s");
-                StartCoroutine(RespawnLoserAfterDelay(loser));
+                Debug.LogError($"[ERROR] No se encontró el perdedor con ViewID {loserViewID}");
+                return;
+            }
+
+            if (loser.photonView.IsMine)
+            {
+                Debug.Log($"[LOCAL] Soy el perdedor ViewID {loserViewID}, esperando {loserRespawnDelay} segundos");
+                loser.StartCoroutine(RespawnLoserAfterDelay(loser));
             }
         }
     }
 
     private IEnumerator RespawnLoserAfterDelay(Health loser)
     {
+        Debug.Log($"[COROUTINE] Esperando {loserRespawnDelay} segundos para respawnear perdedor");
+
         yield return new WaitForSeconds(loserRespawnDelay);
 
         if (loser != null && loser.photonView.IsMine)
         {
+            Debug.Log($"[COROUTINE] Respawneando perdedor {loser.photonView.ViewID}");
             loser.StartCoroutine(loser.RespawnAfterGulag());
+        }
+        else
+        {
+            Debug.LogError($"[COROUTINE ERROR] Perdedor es null o no es mío");
         }
     }
 
@@ -233,8 +363,6 @@ public class GulagManager : MonoBehaviourPunCallbacks
             Debug.LogError("[ERROR] Spawn point es NULL!");
             return;
         }
-
-        Debug.Log($"[TELEPORT] Teletransportando a posición: {spawn.position}");
 
         p.photonView.RPC("SetRespawnPosition", RpcTarget.All,
             spawn.position.x, spawn.position.y, spawn.position.z,

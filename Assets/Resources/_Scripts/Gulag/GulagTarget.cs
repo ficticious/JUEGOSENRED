@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+
 public class GulagTarget : MonoBehaviourPunCallbacks
 {
+    public int gulagNumber = 1; 
     private bool hasBeenHit = false;
     private PhotonView pv;
 
@@ -39,7 +41,7 @@ public class GulagTarget : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
-            GulagManager.Instance.OnTargetHit(shooterViewID);
+            GulagManager.Instance.OnTargetHit(gulagNumber, shooterViewID);
         }
     }
 }
