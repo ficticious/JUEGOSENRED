@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class GulagManager : MonoBehaviourPunCallbacks
 {
     public static GulagManager Instance;
@@ -17,25 +15,34 @@ public class GulagManager : MonoBehaviourPunCallbacks
 
     public bool GulagActive = false;
 
-    private List<Health> waitingPlayers = new List<Health>();
-    private Health currentWinner;
+    private List<int> waitingPlayerViewIDs = new List<int>();
+    private PhotonView pv;
 
     private void Awake()
     {
         Instance = this;
+        pv = GetComponent<PhotonView>();
     }
 
-    public void AddPlayerToGulag(Health player)
+    public void RequestGulagEntry(int playerViewID)
     {
-        if (!photonView.IsMine) return;
+        pv.RPC("RPC_AddPlayerToGulag", RpcTarget.MasterClient, playerViewID);
+    }
 
-        waitingPlayers.Add(player);
+    [PunRPC]
+    private void RPC_AddPlayerToGulag(int playerViewID)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
 
-        if (waitingPlayers.Count == 1)
+        waitingPlayerViewIDs.Add(playerViewID);
+
+        Debug.Log($"Jugador {playerViewID} agregado al gulag. Total esperando: {waitingPlayerViewIDs.Count}");
+
+        if (waitingPlayerViewIDs.Count == 1)
         {
-            photonView.RPC("RPC_TeleportToWaiting", RpcTarget.All, player.photonView.ViewID, 0);
+            pv.RPC("RPC_TeleportToWaiting", RpcTarget.All, playerViewID, 0);
         }
-        else if (waitingPlayers.Count == 2)
+        else if (waitingPlayerViewIDs.Count >= 2)
         {
             StartGulagDuel();
         }
@@ -44,15 +51,22 @@ public class GulagManager : MonoBehaviourPunCallbacks
     private void StartGulagDuel()
     {
         GulagActive = true;
-        photonView.RPC("RPC_StartDuel", RpcTarget.All,
-            waitingPlayers[0].photonView.ViewID,
-            waitingPlayers[1].photonView.ViewID);
+        pv.RPC("RPC_StartDuel", RpcTarget.All,
+            waitingPlayerViewIDs[0],
+            waitingPlayerViewIDs[1]);
     }
 
     [PunRPC]
     private void RPC_TeleportToWaiting(int viewID, int spawnIndex)
     {
         Health player = PhotonView.Find(viewID).GetComponent<Health>();
+        if (player == null)
+        {
+            Debug.LogError($"No se encontró jugador con ViewID {viewID}");
+            return;
+        }
+
+        Debug.Log($"Teletransportando jugador {viewID} al spawn {spawnIndex}");
 
         TeleportPlayer(player, gulagSpawnPoints[spawnIndex]);
 
@@ -63,6 +77,11 @@ public class GulagManager : MonoBehaviourPunCallbacks
         if (player.photonView.IsMine)
         {
             player.playerSetup.EnableLocalCamera(true);
+
+            if (SpectatorCameraManager.Instance != null)
+            {
+                SpectatorCameraManager.Instance.DisableSpectator();
+            }
         }
     }
 
@@ -71,6 +90,14 @@ public class GulagManager : MonoBehaviourPunCallbacks
     {
         Health player1 = PhotonView.Find(viewID1).GetComponent<Health>();
         Health player2 = PhotonView.Find(viewID2).GetComponent<Health>();
+
+        if (player1 == null || player2 == null)
+        {
+            Debug.LogError("No se encontraron los jugadores para el duelo");
+            return;
+        }
+
+        Debug.Log($"Iniciando duelo entre {viewID1} y {viewID2}");
 
         foreach (GameObject wall in wallsToDisable)
         {
@@ -91,11 +118,21 @@ public class GulagManager : MonoBehaviourPunCallbacks
         {
             player1.playerSetup.EnablePlayer();
             player1.playerSetup.EnableLocalCamera(true);
+
+            if (SpectatorCameraManager.Instance != null)
+            {
+                SpectatorCameraManager.Instance.DisableSpectator();
+            }
         }
         if (player2.photonView.IsMine)
         {
             player2.playerSetup.EnablePlayer();
             player2.playerSetup.EnableLocalCamera(true);
+
+            if (SpectatorCameraManager.Instance != null)
+            {
+                SpectatorCameraManager.Instance.DisableSpectator();
+            }
         }
     }
 
@@ -104,22 +141,24 @@ public class GulagManager : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient || !GulagActive) return;
 
         Health winner = PhotonView.Find(shooterViewID).GetComponent<Health>();
+        if (winner == null) return;
+
         Health loser = null;
 
-        foreach (Health player in waitingPlayers)
+        foreach (int viewID in waitingPlayerViewIDs)
         {
-            if (player.photonView.ViewID != shooterViewID)
+            if (viewID != shooterViewID)
             {
-                loser = player;
+                loser = PhotonView.Find(viewID).GetComponent<Health>();
                 break;
             }
         }
 
-        photonView.RPC("RPC_DuelFinished", RpcTarget.All,
+        pv.RPC("RPC_DuelFinished", RpcTarget.All,
             winner.photonView.ViewID,
             loser != null ? loser.photonView.ViewID : -1);
 
-        waitingPlayers.Clear();
+        waitingPlayerViewIDs.Clear();
         GulagActive = false;
     }
 
@@ -127,6 +166,7 @@ public class GulagManager : MonoBehaviourPunCallbacks
     private void RPC_DuelFinished(int winnerViewID, int loserViewID)
     {
         Health winner = PhotonView.Find(winnerViewID).GetComponent<Health>();
+        if (winner == null) return;
 
         foreach (GameObject wall in wallsToDisable)
         {
@@ -138,12 +178,18 @@ public class GulagManager : MonoBehaviourPunCallbacks
             targetObject.SetActive(false);
         }
 
-        winner.StartCoroutine(winner.RespawnAfterGulag());
+        if (winner.photonView.IsMine)
+        {
+            winner.StartCoroutine(winner.RespawnAfterGulag());
+        }
 
         if (loserViewID != -1)
         {
             Health loser = PhotonView.Find(loserViewID).GetComponent<Health>();
-            StartCoroutine(RespawnLoserAfterDelay(loser));
+            if (loser != null && loser.photonView.IsMine)
+            {
+                StartCoroutine(RespawnLoserAfterDelay(loser));
+            }
         }
     }
 

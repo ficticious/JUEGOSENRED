@@ -63,6 +63,8 @@ MonoBehaviour:
   - RPC_DuelFinished
   - RPC_StartDuel
   - RPC_TeleportToWaiting
+  - RPC_RequestGulagEntry
+  - RPC_AddPlayerToGulag
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

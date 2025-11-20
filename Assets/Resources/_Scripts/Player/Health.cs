@@ -95,17 +95,22 @@ public class Health : MonoBehaviourPunCallbacks
         if (isDead) return;
         isDead = true;
 
-        Debug.Log($"{gameObject.name} murió.");
+        Debug.Log($"{gameObject.name} murió. ViewID: {photonView.ViewID}");
 
         if (photonView.IsMine)
         {
             playerSetup.DisablePlayer();
-            playerSetup.EnableLocalCamera(false);
+
+            if (SpectatorCameraManager.Instance != null)
+            {
+                playerSetup.EnableLocalCamera(false);
+                SpectatorCameraManager.Instance.EnableSpectator();
+            }
 
             GameManager.instance.deaths++;
             GameManager.instance.SetHashes();
 
-            GulagManager.Instance.AddPlayerToGulag(this);
+            GulagManager.Instance.RequestGulagEntry(photonView.ViewID);
         }
 
         if (attackerId != -1 &&

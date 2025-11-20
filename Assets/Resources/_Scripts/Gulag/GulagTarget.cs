@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+
 public class GulagTarget : MonoBehaviourPunCallbacks
 {
     private bool hasBeenHit = false;
@@ -12,8 +13,9 @@ public class GulagTarget : MonoBehaviourPunCallbacks
         gameObject.SetActive(false);
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
         hasBeenHit = false;
     }
 
