@@ -1,0 +1,16 @@
+backupsaternos49@gmail.com
+BlueLakeLeaderboard#
+
+Name:The Scoreboard
+keyNombre:bluelakegungame
+
+Key: dev_91228ad2f4e4419da81a5650cd6df07e
+Key Domain: k93f81f6
+
+Cambiar versión:
+
+#if UNITY_2023_1_OR_NEWER
+    LootLockerHTTPClient[] serverApis = GameObject.FindObjectsByType<LootLockerHTTPClient>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+#else
+            LootLockerHTTPClient[] serverApis = GameObject.FindObjectsOfType<LootLockerHTTPClient>(true);
+#endif

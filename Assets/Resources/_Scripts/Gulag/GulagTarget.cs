@@ -39,7 +39,7 @@ public class GulagTarget : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsMasterClient)
         {
-            GulagManager.Instance.OnTargetHit(shooterViewID);
+            //GulagManager.Instance.OnTargetHit(shooterViewID);
         }
     }
 }
