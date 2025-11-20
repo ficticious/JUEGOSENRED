@@ -50,7 +50,7 @@ MonoBehaviour:
   playerCamera: {fileID: 0}
   hitMask:
     serializedVersion: 2
-    m_Bits: 257
+    m_Bits: 2305
   damage: 0
   fireRate: 0.5
   maxDistance: 0
@@ -65,6 +65,7 @@ MonoBehaviour:
   crosshair: {fileID: 21300000, guid: 6f6c2d827b5ed454b90a1529cefe9041, type: 3}
   fireSound:
   - {fileID: 8300000, guid: 09ca13588c03a8a46b320ab6fcb5ca7d, type: 3}
+  audioSource: {fileID: 0}
   rocketPrefab: {fileID: 4748909612535099152, guid: 5842d3cd7197d2444b5009cddd7ff9e9, type: 3}
   rocketSpeed: 20
   spawnOffset: {fileID: 6940898214748970412}

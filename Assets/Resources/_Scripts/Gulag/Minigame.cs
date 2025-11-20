@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Minigame : MonoBehaviourPun
 {
-    private Health playerA;
+   /* private Health playerA;
     private Health playerB;
     private int scoreA = 0;
     private int scoreB = 0;
@@ -36,4 +36,5 @@ public class Minigame : MonoBehaviourPun
         if (playerB != null && scoreB >= targetsToWin)
             GulagManager.Instance.ReportWinner(playerB);
     }
+   */
 }

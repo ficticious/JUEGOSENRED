@@ -50,7 +50,7 @@ MonoBehaviour:
   playerCamera: {fileID: 0}
   hitMask:
     serializedVersion: 2
-    m_Bits: 257
+    m_Bits: 2305
   damage: 30
   fireRate: 2
   maxDistance: 1.3
@@ -68,6 +68,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 55f7707685b3d394a98927be7df60727, type: 3}
   - {fileID: 8300000, guid: 6ddd4040baf5e744991e6ac1b17e30c2, type: 3}
   - {fileID: 8300000, guid: 169301831cb7a174ebb92288476fa32a, type: 3}
+  audioSource: {fileID: 0}
   anim: {fileID: 8719069218925075963}
   attackRadius: 1
   damageMask:

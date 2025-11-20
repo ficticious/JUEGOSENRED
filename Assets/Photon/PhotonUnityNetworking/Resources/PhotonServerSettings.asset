@@ -60,6 +60,9 @@ MonoBehaviour:
   - RPC_SetActive
   - GetMessage
   - RPC_StartSoloMinigame
+  - RPC_DuelFinished
+  - RPC_StartDuel
+  - RPC_TeleportToWaiting
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

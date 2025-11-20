@@ -55,22 +55,26 @@ public abstract class Weapon : MonoBehaviourPun
 
     protected void DoDamage(RaycastHit hit, float dmg)
     {
+        GulagTarget gulagTarget = hit.transform.GetComponent<GulagTarget>();
+        if (gulagTarget != null)
+        {
+            gulagTarget.Hit(photonView.ViewID);
+            return;
+        }
+
         PhotonView targetPV = hit.transform.GetComponent<PhotonView>();
         if (targetPV == null) return;
-        
-        float distance = Vector3.Distance(playerCamera.transform.position, hit.point);
 
+        float distance = Vector3.Distance(playerCamera.transform.position, hit.point);
         if (distance > damageFalloffDistance)
         {
             Debug.Log($"Hit fuera de rango ({distance:F1}m). Solo VFX.");
             return;
         }
-
         float t = Mathf.InverseLerp(minDistance, maxDistance, distance);
         float damageMultiplier = Mathf.Lerp(1f, minDamagePercent, t);
         float finalDamage = dmg * damageMultiplier;
 
-        
         if (targetPV.Owner != null)
         {
             targetPV.RPC("TakeDamage", targetPV.Owner, finalDamage, PhotonNetwork.LocalPlayer.ActorNumber);
@@ -79,7 +83,6 @@ public abstract class Weapon : MonoBehaviourPun
         {
             targetPV.RPC("TakeDamage", RpcTarget.All, finalDamage, PhotonNetwork.LocalPlayer.ActorNumber);
         }
-
         Debug.Log($"Hit → {finalDamage:F1} dmg (Base {dmg:F1}, Dist {distance:F1})");
     }
 

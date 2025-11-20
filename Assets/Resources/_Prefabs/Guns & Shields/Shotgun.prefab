@@ -133,7 +133,7 @@ MonoBehaviour:
   playerCamera: {fileID: 0}
   hitMask:
     serializedVersion: 2
-    m_Bits: 257
+    m_Bits: 2305
   damage: 50
   fireRate: 0.8
   maxDistance: 15
