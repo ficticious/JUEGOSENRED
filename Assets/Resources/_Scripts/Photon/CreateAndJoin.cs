@@ -30,7 +30,7 @@ public class CreateAndJoin : MonoBehaviourPunCallbacks
     public GameObject errorText;
 
     private const int MIN_PLAYERS = 3;
-    private const int MAX_PLAYERS = 8;
+    private const int MAX_PLAYERS = 3;
 
    
 
