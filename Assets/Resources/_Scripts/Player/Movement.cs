@@ -61,6 +61,8 @@ public class Movement : MonoBehaviour
 
         anim.SetBool("Running", sprinting);
         //anim.SetBool("Jumping", jumping);
+
+        //if (Input.GetKeyDown(KeyCode.M)) anim.SetTrigger("Dance");
     }
 
     private void FixedUpdate()

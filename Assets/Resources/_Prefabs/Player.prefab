@@ -1857,6 +1857,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 8426486406473321785}
     m_Modifications:
     - target: {fileID: -8374916534212303954, guid: 2c556d4a0d58b3642adbdddf8aaa3aaf, type: 3}
+      propertyPath: muzzlePos
+      value: 
+      objectReference: {fileID: 1417340758806302948}
+    - target: {fileID: -8374916534212303954, guid: 2c556d4a0d58b3642adbdddf8aaa3aaf, type: 3}
+      propertyPath: muzzleVFX
+      value: 
+      objectReference: {fileID: 2708598583397607911, guid: 68c75c7de10f89548b7451b3cc00611f, type: 3}
+    - target: {fileID: -8374916534212303954, guid: 2c556d4a0d58b3642adbdddf8aaa3aaf, type: 3}
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 7853596038875301623}
@@ -1923,6 +1931,11 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 1386677868099979516, guid: 2c556d4a0d58b3642adbdddf8aaa3aaf, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2c556d4a0d58b3642adbdddf8aaa3aaf, type: 3}
+--- !u!4 &1417340758806302948 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7270931686324042472, guid: 2c556d4a0d58b3642adbdddf8aaa3aaf, type: 3}
+  m_PrefabInstance: {fileID: 8596507684493912588}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2881626138303474936 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5814562209642301172, guid: 2c556d4a0d58b3642adbdddf8aaa3aaf, type: 3}

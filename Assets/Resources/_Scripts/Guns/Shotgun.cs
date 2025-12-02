@@ -43,6 +43,7 @@ public class Shotgun : Weapon
     public override void Fire()
     {
         pv.RPC("PlayFireSound", RpcTarget.All);
+        if (muzzleVFX != null) PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "VFX", muzzleVFX.name), muzzlePos.position, Quaternion.identity);
 
         recoiling = true;
         recovering = false;
