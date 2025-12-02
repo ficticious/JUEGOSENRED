@@ -41,6 +41,7 @@ public class Pistol : Weapon
     {
 
         pv.RPC("PlayFireSound", RpcTarget.All);
+        if (muzzleVFX != null) PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "VFX", muzzleVFX.name), muzzlePos.position, Quaternion.identity);
 
         //photonView.RPC("PlayFireSound", RpcTarget.All);
 

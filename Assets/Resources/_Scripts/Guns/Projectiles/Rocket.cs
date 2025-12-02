@@ -18,9 +18,10 @@ public class Rocket : MonoBehaviourPunCallbacks
     public bool useGravity = false;
 
     [Header("Audio")]
-    public AudioClip expSound;
+    public GameObject expSoundPrefab;
     protected AudioSource audioSource;
     public float min, max;
+    private AudioClip expSound;
 
 
     private Rigidbody rb;
@@ -64,7 +65,8 @@ public class Rocket : MonoBehaviourPunCallbacks
 
         //photonView.RPC("RPC_PlayExplosionSoundAt", RpcTarget.All, hitPoint);
 
-        PhotonNetwork.InstantiateRoomObject(Path.Combine("_Prefabs", "Audio", "ExplosionSound"), hitPoint, Quaternion.identity, 0, new object[] { min, max });
+        //PhotonNetwork.InstantiateRoomObject(Path.Combine("_Prefabs", "Audio", "ExplosionSound"), hitPoint, Quaternion.identity, 0, new object[] { min, max });
+        PhotonNetwork.InstantiateRoomObject(Path.Combine("_Prefabs", "Audio", expSoundPrefab.name), hitPoint, Quaternion.identity, 0, new object[] { min, max });
 
         Explode(hitPoint, hitNormal);
     }

@@ -38,6 +38,8 @@ public abstract class Weapon : MonoBehaviourPun
 
     [Header("VFX -- UI -- AUDIO")]
     public GameObject hitVFX;
+    public GameObject muzzleVFX;
+    public Transform muzzlePos;
     public Sprite crosshair;
     public AudioClip[] fireSound;
     [HideInInspector] public AudioSource audioSource;
