@@ -112,26 +112,60 @@ public class GulagManager : MonoBehaviourPunCallbacks
 
         int loserID = queue.GetOpponent(shooterViewID);
 
-        pv.RPC("RPC_DuelFinished", RpcTarget.All, shooterViewID, loserID);
+        // Enviar a jugadores específicos
+        PhotonView winnerView = PhotonView.Find(shooterViewID);
+        if (winnerView != null)
+        {
+            pv.RPC("RPC_NotifyWinner", winnerView.Owner);
+        }
+
+        if (loserID != -1)
+        {
+            PhotonView loserView = PhotonView.Find(loserID);
+            if (loserView != null)
+            {
+                pv.RPC("RPC_NotifyLoser", loserView.Owner);
+            }
+        }
+
+        // Notificar a todos que el gulag terminó (para desactivar arena)
+        pv.RPC("RPC_GulagEnded", RpcTarget.All);
+
         queue.Clear();
         GulagActive = false;
     }
 
     [PunRPC]
-    private void RPC_DuelFinished(int winnerID, int loserID)
+    private void RPC_NotifyWinner()
+    {
+        Health winner = GetLocalPlayerHealth();
+        if (winner != null)
+            StartCoroutine(winner.RespawnAfterGulag());
+    }
+
+    [PunRPC]
+    private void RPC_NotifyLoser()
+    {
+        Health loser = GetLocalPlayerHealth();
+        if (loser != null)
+            StartCoroutine(RespawnLoser(loser));
+    }
+
+    [PunRPC]
+    private void RPC_GulagEnded()
     {
         environment.DisableArena();
+    }
 
-        Health winner = PhotonView.Find(winnerID).GetComponent<Health>();
-        if (winner.photonView.IsMine)
-            StartCoroutine(winner.RespawnAfterGulag());
-
-        if (loserID != -1)
+    private Health GetLocalPlayerHealth()
+    {
+        // Busca el jugador local
+        foreach (var player in FindObjectsOfType<Health>())
         {
-            Health loser = PhotonView.Find(loserID).GetComponent<Health>();
-            if (loser != null && loser.photonView.IsMine)
-                StartCoroutine(RespawnLoser(loser));
+            if (player.photonView.IsMine)
+                return player;
         }
+        return null;
     }
 
     private IEnumerator RespawnLoser(Health h)
