@@ -112,7 +112,7 @@ public class GulagManager : MonoBehaviourPunCallbacks
 
         int loserID = queue.GetOpponent(shooterViewID);
 
-        // Enviar a jugadores específicos
+       
         PhotonView winnerView = PhotonView.Find(shooterViewID);
         if (winnerView != null)
         {
@@ -128,7 +128,7 @@ public class GulagManager : MonoBehaviourPunCallbacks
             }
         }
 
-        // Notificar a todos que el gulag terminó (para desactivar arena)
+        
         pv.RPC("RPC_GulagEnded", RpcTarget.All);
 
         queue.Clear();
@@ -159,7 +159,7 @@ public class GulagManager : MonoBehaviourPunCallbacks
 
     private Health GetLocalPlayerHealth()
     {
-        // Busca el jugador local
+        
         foreach (var player in FindObjectsOfType<Health>())
         {
             if (player.photonView.IsMine)
