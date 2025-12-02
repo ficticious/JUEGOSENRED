@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5814562209642301172}
   - component: {fileID: 7681664408634895966}
-  - component: {fileID: 1386677868099979516}
+  - component: {fileID: -8374916534212303954}
   m_Layer: 0
   m_Name: Pistol 1
   m_TagString: Untagged
@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5904332040145930600}
+  - {fileID: 7270931686324042472}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -41,7 +42,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1931559476291141607}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49c07aadda42e1f42bfaf4a2256f243c, type: 3}
   m_Name: 
@@ -63,9 +64,9 @@ MonoBehaviour:
   hitVFX: {fileID: 3432958286849152088, guid: 87ee7299dd44ed747af24dbb91bcd33b, type: 3}
   crosshair: {fileID: 21300000, guid: 552478a654d2eb8478c30045279d5688, type: 3}
   fireSound:
-  - {fileID: 8300000, guid: 9043a6a9d56f2894ea001655b3314f6a, type: 3}
+  - {fileID: 8300000, guid: 717cd45fd1f119c4aae028e7959aa852, type: 3}
   audioSource: {fileID: 0}
---- !u!114 &1386677868099979516
+--- !u!114 &-8374916534212303954
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,19 +75,62 @@ MonoBehaviour:
   m_GameObject: {fileID: 1931559476291141607}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 11500000, guid: 12aed302b14de404ca15631d3586a07d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
+  playerCamera: {fileID: 0}
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 2305
+  damage: 0
+  fireRate: 0.5
+  maxDistance: 0
+  minDistance: 10
+  damageFalloffDistance: 10
+  recoverPercent: 0
+  recoilUp: 0
+  recoilBack: 0
+  recoiling: 0
+  recovering: 0
+  hitVFX: {fileID: 0}
+  crosshair: {fileID: 21300000, guid: 552478a654d2eb8478c30045279d5688, type: 3}
+  fireSound:
+  - {fileID: 8300000, guid: 09ca13588c03a8a46b320ab6fcb5ca7d, type: 3}
+  audioSource: {fileID: 0}
+  rocketPrefab: {fileID: 4748909612535099152, guid: 3b1187bca24ab6b40a9fcfbb379afec1, type: 3}
+  rocketSpeed: 15
+  spawnOffset: {fileID: 7270931686324042472}
+--- !u!1 &4898073496267185668
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7270931686324042472}
+  m_Layer: 0
+  m_Name: SpawnOffset
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7270931686324042472
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4898073496267185668}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.533, y: 0.164, z: 1.486}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5814562209642301172}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3764023718501997675
 PrefabInstance:
   m_ObjectHideFlags: 0

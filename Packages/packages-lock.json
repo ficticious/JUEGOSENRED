@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.lootlocker.lootlockersdk": {
-      "version": "file:C:/Users/matul/Downloads/unity-sdk-6.5.0/unity-sdk-6.5.0",
+      "version": "file:C:/Users/Usuario/Downloads/unity-sdk-6.5.0/unity-sdk-6.5.0",
       "depth": 0,
       "source": "local",
       "dependencies": {}
@@ -89,6 +89,15 @@
       "depth": 1,
       "source": "registry",
       "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.postprocessing": {
+      "version": "3.5.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.physics": "1.0.0"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.services.core": {
