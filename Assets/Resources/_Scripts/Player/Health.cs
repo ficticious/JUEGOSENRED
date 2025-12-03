@@ -13,6 +13,7 @@ public class Health : MonoBehaviourPunCallbacks
 
     [Header("UI")]
     public TextMeshProUGUI healthText;
+    public DamageOverlay damageOverlay;
 
     public PlayerSetup playerSetup;
     public bool isLocalPlayer;
@@ -27,6 +28,9 @@ public class Health : MonoBehaviourPunCallbacks
         playerSetup = GetComponent<PlayerSetup>();
         isLocalPlayer = photonView.IsMine;
         UpdateUI(healthText, health);
+
+        if (!isLocalPlayer)
+            damageOverlay = null;
     }
 
     private void Update()
@@ -125,6 +129,16 @@ public class Health : MonoBehaviourPunCallbacks
         health -= damage;
         health = Mathf.Max(0, health);
         UpdateUI(healthText, health);
+
+        if (photonView.IsMine && damageOverlay != null)
+        {
+            damageOverlay.ShowDamage();
+        }
+
+        if (damage > 40f)
+            damageOverlay.maxAlpha = 0.9f;
+        else
+            damageOverlay.maxAlpha = 0.6f;
 
         if (health <= 0)
         {
