@@ -50,11 +50,15 @@ public class Movement : MonoBehaviour
     {
         if (!photonView.IsMine) return;
 
+        HandleMovement();
+        HandleJump();
+
         input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         input.Normalize();
 
         sprinting = Input.GetButton("Sprint");
-        jumping = Input.GetButton("Jump");
+        jumping = Input.GetButtonDown("Jump");
+
 
         if (groundCheck != null)
             grounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
@@ -68,9 +72,6 @@ public class Movement : MonoBehaviour
     private void FixedUpdate()
     {
         if (!photonView.IsMine) return;
-
-        HandleMovement();
-        HandleJump();
 
         anim.SetBool("Moving", input.magnitude > 0.1f);
     }

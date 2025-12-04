@@ -3,23 +3,37 @@ using UnityEngine;
 public class GulagEnvironmentController
 {
     private GameObject[] walls;
-    private GameObject target;
+    private GameObject[] targets;
 
-    public GulagEnvironmentController(GameObject[] walls, GameObject target)
+    public GulagEnvironmentController(GameObject[] walls, GameObject[] targets)
     {
         this.walls = walls;
-        this.target = target;
+        this.targets = targets;
     }
 
     public void EnableArena()
     {
-        foreach (var w in walls) w.SetActive(false);
-        if (target != null) target.SetActive(true);
+        foreach (var w in walls)
+            w.SetActive(false);
+
+        // Activar todos los targets
+        foreach (var t in targets)
+        {
+            if (t != null)
+                t.SetActive(true);
+        }
     }
 
     public void DisableArena()
     {
-        foreach (var w in walls) w.SetActive(true);
-        if (target != null) target.SetActive(false);
+        foreach (var w in walls)
+            w.SetActive(true);
+
+        // Desactivar todos los targets
+        foreach (var t in targets)
+        {
+            if (t != null)
+                t.SetActive(false);
+        }
     }
 }

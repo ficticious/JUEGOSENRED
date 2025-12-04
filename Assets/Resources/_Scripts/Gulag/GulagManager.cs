@@ -9,7 +9,7 @@ public class GulagManager : MonoBehaviourPunCallbacks
     [Header("Settings")]
     public Transform[] gulagSpawnPoints;
     public GameObject[] wallsToDisable;
-    public GameObject targetObject;
+    public GameObject[] targetObjects;
     public float loserRespawnDelay = 10f;
 
     public bool GulagActive = false;
@@ -28,7 +28,7 @@ public class GulagManager : MonoBehaviourPunCallbacks
 
         queue = new GulagQueueManager();
         teleporter = new GulagTeleportService();
-        environment = new GulagEnvironmentController(wallsToDisable, targetObject);
+        environment = new GulagEnvironmentController(wallsToDisable, targetObjects);
     }
 
     // --------------------- ENTRADA AL GULAG ---------------------
