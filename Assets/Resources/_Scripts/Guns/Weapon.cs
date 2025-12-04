@@ -70,7 +70,7 @@ public abstract class Weapon : MonoBehaviourPun
         float distance = Vector3.Distance(playerCamera.transform.position, hit.point);
         if (distance > damageFalloffDistance)
         {
-            Debug.Log($"Hit fuera de rango ({distance:F1}m). Solo VFX.");
+            //Debug.Log($"Hit fuera de rango ({distance:F1}m). Solo VFX.");
             return;
         }
         float t = Mathf.InverseLerp(minDistance, maxDistance, distance);
@@ -85,7 +85,7 @@ public abstract class Weapon : MonoBehaviourPun
         {
             targetPV.RPC("TakeDamage", RpcTarget.All, finalDamage, PhotonNetwork.LocalPlayer.ActorNumber);
         }
-        Debug.Log($"Hit → {finalDamage:F1} dmg (Base {dmg:F1}, Dist {distance:F1})");
+        //Debug.Log($"Hit → {finalDamage:F1} dmg (Base {dmg:F1}, Dist {distance:F1})");
     }
 
     public void Recoil()

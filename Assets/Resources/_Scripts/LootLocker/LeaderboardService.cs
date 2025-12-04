@@ -16,7 +16,7 @@ public class LeaderboardService : MonoBehaviour
 
                 return;
             }
-            Debug.Log("Se envio el score");
+            //Debug.Log("Se envio el score");
             onDone?.Invoke(true);
         });
     }

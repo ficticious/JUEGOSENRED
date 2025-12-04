@@ -8,6 +8,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
     private bool remoteMoving;
     private bool remoteRunning;
     private bool remoteJumpTrigger;
+    private bool remoteDanceTrigger;
 
     private void Awake()
     {
@@ -33,6 +34,9 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             bool jumpJustActivated = anim.GetCurrentAnimatorStateInfo(0).IsTag("JumpStart");
             stream.SendNext(jumpJustActivated);
 
+            bool danceJustActivated = anim.GetCurrentAnimatorStateInfo(0).IsTag("DanceStart");
+            stream.SendNext(danceJustActivated);
+
             //Debug.Log("ENVIADO Jump:" + jumpJustActivated);
         }
         else
@@ -40,12 +44,17 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             remoteMoving = (bool)stream.ReceiveNext();
             remoteRunning = (bool)stream.ReceiveNext();
             remoteJumpTrigger = (bool)stream.ReceiveNext();
+            remoteDanceTrigger = (bool)stream.ReceiveNext();
 
             anim.SetBool("Moving", remoteMoving);
             anim.SetBool("Running", remoteRunning);
 
             if (remoteJumpTrigger)
                 anim.SetTrigger("Jumping");
+
+
+            if (remoteDanceTrigger)
+                anim.SetTrigger("Dance");
 
             //Debug.Log("Datos recibidos");
 

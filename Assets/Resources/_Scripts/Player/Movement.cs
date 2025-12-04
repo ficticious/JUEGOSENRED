@@ -50,14 +50,11 @@ public class Movement : MonoBehaviour
     {
         if (!photonView.IsMine) return;
 
-        HandleMovement();
-        HandleJump();
-
         input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         input.Normalize();
 
         sprinting = Input.GetButton("Sprint");
-        jumping = Input.GetButtonDown("Jump");
+        jumping = Input.GetButton("Jump");
 
 
         if (groundCheck != null)
@@ -66,12 +63,15 @@ public class Movement : MonoBehaviour
         anim.SetBool("Running", sprinting);
         //anim.SetBool("Jumping", jumping);
 
-        //if (Input.GetKeyDown(KeyCode.M)) anim.SetTrigger("Dance");
+        if (Input.GetKeyDown(KeyCode.M)) anim.SetTrigger("Dance");
     }
 
     private void FixedUpdate()
     {
         if (!photonView.IsMine) return;
+
+        HandleMovement();
+        HandleJump();
 
         anim.SetBool("Moving", input.magnitude > 0.1f);
     }

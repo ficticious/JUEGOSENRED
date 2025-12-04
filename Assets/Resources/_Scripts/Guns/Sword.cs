@@ -50,6 +50,8 @@ public class Sword : Weapon
 
         Collider[] hits = Physics.OverlapSphere(attackOrigin + attackDirection * maxDistance, attackRadius, damageMask, QueryTriggerInteraction.Ignore);
 
+        if (muzzleVFX != null) PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "VFX", muzzleVFX.name), muzzlePos.position, Quaternion.identity);
+
         foreach (Collider hit in hits)
         {
             if (hit.transform.root == transform.root) continue;
@@ -70,6 +72,6 @@ public class Sword : Weapon
                 pv.RPC("PlayFireSound", RpcTarget.All);
             }
         }
-        Debug.Log($"Sword attack hit {hits.Length} targets");
+        //Debug.Log($"Sword attack hit {hits.Length} targets");
     }
 }

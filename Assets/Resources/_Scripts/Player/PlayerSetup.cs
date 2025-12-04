@@ -38,7 +38,7 @@ public class PlayerSetup : MonoBehaviourPun
         cameraScript.enabled = false;
         playerCamera.SetActive(false);
 
-        Debug.Log("Remote Player");
+        //Debug.Log("Remote Player");
     }
 
     public void DisablePlayer()

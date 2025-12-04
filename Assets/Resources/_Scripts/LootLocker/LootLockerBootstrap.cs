@@ -26,7 +26,7 @@ public class LootLockerBootstrap : MonoBehaviour
             }
 
             SessionStarted = true;
-            Debug.Log("Conectado correctamente a LootLocker");
+            //Debug.Log("Conectado correctamente a LootLocker");
         });
     }
 }

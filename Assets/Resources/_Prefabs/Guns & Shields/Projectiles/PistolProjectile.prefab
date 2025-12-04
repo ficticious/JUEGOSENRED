@@ -109,8 +109,8 @@ GameObject:
   - component: {fileID: -1401786760639279771}
   - component: {fileID: 6056230720763058046}
   - component: {fileID: 4870492884116466957}
-  - component: {fileID: 468511540710359874}
   - component: {fileID: 6666027198468329818}
+  - component: {fileID: 468511540710359874}
   m_Layer: 0
   m_Name: PistolProjectile
   m_TagString: Untagged
@@ -187,30 +187,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &468511540710359874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4748909612535099152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c056e542cb502054894651eb674bcd6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosionRadius: 4
-  explosionDamage: 25
-  explosionForce: 0
-  damageMask:
-    serializedVersion: 2
-    m_Bits: 257
-  explosionVFX: {fileID: 4425129568585013132, guid: bbeeb0ddc21369746aaaae5c5c1c09cf, type: 3}
-  lifetime: 5
-  useGravity: 1
-  expSoundPrefab: {fileID: 3672495780695104216, guid: f83ec002310d61d4586c88eec0c21d46, type: 3}
-  min: 1
-  max: 2
 --- !u!114 &6666027198468329818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,6 +203,30 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 1
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!114 &468511540710359874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4748909612535099152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c056e542cb502054894651eb674bcd6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionRadius: 5
+  explosionDamage: 30
+  explosionForce: 0
+  damageMask:
+    serializedVersion: 2
+    m_Bits: 257
+  explosionVFX: {fileID: 4425129568585013132, guid: bbeeb0ddc21369746aaaae5c5c1c09cf, type: 3}
+  lifetime: 5
+  useGravity: 1
+  expSoundPrefab: {fileID: 3672495780695104216, guid: f83ec002310d61d4586c88eec0c21d46, type: 3}
+  min: 1
+  max: 2
 --- !u!1001 &2451388650061774246
 PrefabInstance:
   m_ObjectHideFlags: 0

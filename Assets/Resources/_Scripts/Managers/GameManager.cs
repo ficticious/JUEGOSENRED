@@ -133,7 +133,7 @@ public class GameManager : MonoBehaviourPunCallbacks
        
         LeaderboardService.SubmitScore(kills, "bluelakegungame", success =>
         {
-            Debug.Log("Score subido: " + kills);
+            //Debug.Log("Score subido: " + kills);
         });
 
     }

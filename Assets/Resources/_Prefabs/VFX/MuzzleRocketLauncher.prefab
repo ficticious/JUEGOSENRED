@@ -4895,8 +4895,9 @@ GameObject:
   - component: {fileID: 2504214343621411456}
   - component: {fileID: 2504214343621411457}
   - component: {fileID: 4741991464754137355}
+  - component: {fileID: 6714853952620511279}
   m_Layer: 0
-  m_Name: CFXR3 Hit Fire B (Air)
+  m_Name: MuzzleRocketLauncher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4911,8 +4912,8 @@ Transform:
   m_GameObject: {fileID: 2504214343621411470}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2504214343101900868}
   - {fileID: 8234944510094819725}
@@ -9913,6 +9914,28 @@ MonoBehaviour:
     perlinColor: 0
     perlinColorSpeed: 1
   fadeOutReference: {fileID: 2504214343621411456}
+--- !u!114 &6714853952620511279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2504214343621411470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &6484188613129301618
 GameObject:
   m_ObjectHideFlags: 0
@@ -9956,9 +9979,9 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 1, g: 0.6207441, b: 0.20392156, a: 1}
+  m_Color: {r: 1, g: 0.7317827, b: 0.43867922, a: 1}
   m_Intensity: 0
-  m_Range: 10
+  m_Range: 3
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10

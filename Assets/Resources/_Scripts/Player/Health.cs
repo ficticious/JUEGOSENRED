@@ -99,7 +99,7 @@ public class Health : MonoBehaviourPunCallbacks
         if (isDead) return;
         isDead = true;
 
-        Debug.Log($"{gameObject.name} murió. ViewID: {photonView.ViewID}");
+        //Debug.Log($"{gameObject.name} murió. ViewID: {photonView.ViewID}");
 
         if (photonView.IsMine)
         {
@@ -135,10 +135,10 @@ public class Health : MonoBehaviourPunCallbacks
             damageOverlay.ShowDamage();
         }
 
-        if (damage > 40f)
-            damageOverlay.maxAlpha = 0.9f;
-        else
-            damageOverlay.maxAlpha = 0.6f;
+        //if (damage > 40f)
+        //    damageOverlay.maxAlpha = 0.9f;
+        //else
+        //    damageOverlay.maxAlpha = 0.6f;
 
         if (health <= 0)
         {
@@ -184,7 +184,7 @@ public class Health : MonoBehaviourPunCallbacks
                 playerSetup.EnablePlayer();
                 playerSetup.EnableLocalCamera(true);
 
-                Debug.Log($"{gameObject.name} ha respawneado");
+                //Debug.Log($"{gameObject.name} ha respawneado");
             }
         }
 
