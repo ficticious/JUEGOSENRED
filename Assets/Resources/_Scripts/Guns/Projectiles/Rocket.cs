@@ -69,6 +69,22 @@ public class Rocket : MonoBehaviourPunCallbacks
         PhotonNetwork.InstantiateRoomObject(Path.Combine("_Prefabs", "Audio", expSoundPrefab.name), hitPoint, Quaternion.identity, 0, new object[] { min, max });
 
         Explode(hitPoint, hitNormal);
+
+        GulagTarget gulagTarget = collision.gameObject.GetComponent<GulagTarget>();
+        if (gulagTarget != null)
+        {
+            // Buscar el PhotonView del jugador que disparó
+            foreach (var player in FindObjectsOfType<PhotonView>())
+            {
+                if (player.Owner != null && player.Owner.ActorNumber == ownerActorNumber)
+                {
+                    gulagTarget.Hit(player.ViewID);
+                    break;
+
+                }
+            }
+        }
+
     }
 
     private void Explode(Vector3 pos, Vector3 normal)
@@ -99,7 +115,7 @@ public class Rocket : MonoBehaviourPunCallbacks
                 Vector3 explosionCenter = transform.position;
                 float distance = Vector3.Distance(explosionCenter, c.transform.position);
                 float t = Mathf.Clamp01(distance / explosionRadius);
-                float dmgToApply = Mathf.Lerp(explosionDamage, 1f, t); 
+                float dmgToApply = Mathf.Lerp(explosionDamage, 1f, t);
 
                 if (dmgToApply > 0f)
                 {
