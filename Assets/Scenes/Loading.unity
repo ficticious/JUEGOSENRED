@@ -47879,7 +47879,7 @@ MonoBehaviour:
   isPublic: {fileID: 140612289}
   morePlayersButton: {fileID: 874969969}
   lessPlayersButton: {fileID: 812353617}
-  _maxPlayers: 3
+  _maxPlayers: 6
   _isVisible: 1
   _isOpen: 1
   errorText: {fileID: 0}
