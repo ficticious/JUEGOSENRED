@@ -18,10 +18,10 @@ public class Shotgun : Weapon
         pv = transform.root.GetComponent<PhotonView>();
         blocker = transform.root.GetComponent<PlayerInputBlocker>();
 
-        originalPosition = transform.parent.localPosition;
+        initialPosition = transform.localPosition;
 
-        recoilLength = 0.1f;
-        recoverLength = 1 / fireRate * recoverPercent;
+        //recoilLength = 0.1f;
+        //recoverLength = 1 / fireRate * recoverPercent;
     }
 
     //-----------------------  SEMI-AUTOMATICA  ------------------------
@@ -36,8 +36,11 @@ public class Shotgun : Weapon
             Fire();
         }
 
-        if (recoiling) Recoil();
-        if (recovering) Recover();
+        //if (recoiling) Recoil();
+        //if (recovering) Recover();
+
+
+        Recoil();
     }
 
     public override void Fire()
@@ -45,8 +48,10 @@ public class Shotgun : Weapon
         pv.RPC("PlayFireSound", RpcTarget.All);
         if (muzzleVFX != null) PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "VFX", muzzleVFX.name), muzzlePos.position, Quaternion.identity);
 
-        recoiling = true;
-        recovering = false;
+        //recoiling = true;
+        //recovering = false;
+
+        ApplyRecoil();
 
         for (int i = 0; i < pellets; i++)
         {

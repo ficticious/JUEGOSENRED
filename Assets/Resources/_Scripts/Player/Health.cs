@@ -35,10 +35,10 @@ public class Health : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            TakeDamage(30, -1);
-        }
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //    TakeDamage(30, -1);
+        //}
 
         canRespawn = !GameManager.instance.gameFinished;
     }
@@ -106,10 +106,15 @@ public class Health : MonoBehaviourPunCallbacks
             playerSetup.DisablePlayer();
             playerSetup.EnableLocalCamera(false);
 
+
+            SpectatorCameraManager.Instance.EnableSpectator();
+
+
             GameManager.instance.deaths++;
             GameManager.instance.SetHashes();
 
-            GulagManager.Instance.RequestGulagEntry(photonView.ViewID);
+            //GulagManager.Instance.RequestGulagEntry(photonView.ViewID);
+
         }
 
         if (attackerId != -1 &&
@@ -119,6 +124,8 @@ public class Health : MonoBehaviourPunCallbacks
             GameManager.instance.kills++;
             GameManager.instance.SetHashes();
         }
+
+        StartCoroutine(RespawnCoroutine());
     }
 
     [PunRPC]
@@ -237,7 +244,9 @@ public class Health : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(SpawnManager.instance.respawnTime);
         if (!photonView.IsMine) yield break;
+        damageOverlay.DeactivateOverlay();
         RespawnPlayer();
+        playerSetup.movementScript.rb.velocity = Vector3.zero;
     }
     //------------------------------------------------------------
 }

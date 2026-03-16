@@ -21,19 +21,29 @@ public abstract class Weapon : MonoBehaviourPun
     private float minDamagePercent = 0.2f;
     protected float nextFire;
 
-    [Header("Recoil")]
-    [Range(0, 2)]
-    public float recoverPercent;
-    public float recoilUp;
-    public float recoilBack;
-    public bool recoiling;
-    public bool recovering;
+    //[Header("Recoil")]
+    //[Range(0, 2)]
+    //public float recoverPercent;
+    //public float recoilUp;
+    //public float recoilBack;
+    //public bool recoiling;
+    //public bool recovering;
 
-    protected float recoilLength;
-    protected float recoverLength;
+    //protected float recoilLength;
+    //protected float recoverLength;
 
-    protected Vector3 originalPosition;
-    protected Vector3 recoilVelocity = Vector3.zero;
+    //protected Vector3 originalPosition;
+    //protected Vector3 recoilVelocity = Vector3.zero;
+
+    [Header("Weapon Recoil (Kickback)")]
+    public Vector3 recoilKickback = new Vector3(0f, 0.05f, -0.2f);
+    public float recoilSnappiness = 20f;
+    public float recoilReturnSpeed = 10f;
+
+    protected Vector3 initialPosition;
+    private Vector3 currentRecoilPosition;
+    private Vector3 targetRecoilPosition;
+
 
 
     [Header("VFX -- UI -- AUDIO")]
@@ -52,6 +62,12 @@ public abstract class Weapon : MonoBehaviourPun
         audioSource.spatialBlend = 1f;
         audioSource.playOnAwake = false;
     }
+    //void Start()
+    //{
+    //    initialPosition = transform.localPosition;
+    //}
+
+
 
     public abstract void Fire();
 
@@ -90,29 +106,47 @@ public abstract class Weapon : MonoBehaviourPun
 
     public void Recoil()
     {
-        Vector3 finalPosition = new Vector3(originalPosition.x, originalPosition.y + recoilUp, originalPosition.z - recoilBack);
+        //Vector3 finalPosition = new Vector3(originalPosition.x, originalPosition.y + recoilUp, originalPosition.z - recoilBack);
 
-        transform.parent.localPosition = Vector3.SmoothDamp(transform.parent.localPosition, finalPosition, ref recoilVelocity, recoilLength);
+        //transform.parent.localPosition = Vector3.SmoothDamp(transform.parent.localPosition, finalPosition, ref recoilVelocity, recoilLength);
 
-        if (Vector3.Distance(transform.parent.localPosition, finalPosition) < 0.01f)
-        {
-            recoiling = false;
-            recovering = true;
-        }
+        //if (Vector3.Distance(transform.parent.localPosition, finalPosition) < 0.01f)
+        //{
+        //    recoiling = false;
+        //    recovering = true;
+        //}
+
+
+
+
+        targetRecoilPosition = Vector3.Lerp(targetRecoilPosition, Vector3.zero, Time.deltaTime * recoilReturnSpeed);
+
+        currentRecoilPosition = Vector3.Lerp(currentRecoilPosition, targetRecoilPosition, Time.deltaTime * recoilSnappiness);
+
+        Vector3 finalTargetPosition = initialPosition + currentRecoilPosition;
+
+        transform.localPosition = Vector3.Lerp(transform.localPosition, finalTargetPosition, Time.deltaTime);
+
     }
 
-    public void Recover()
+    public void ApplyRecoil()
     {
-        Vector3 finalPosition = originalPosition;
-
-        transform.parent.localPosition = Vector3.SmoothDamp(transform.parent.localPosition, finalPosition, ref recoilVelocity, recoverLength);
-
-        if (Vector3.Distance(transform.parent.localPosition, finalPosition) < 0.01f)
-        {
-            recoiling = false;
-            recovering = false;
-        }
+        targetRecoilPosition += recoilKickback;
     }
+
+
+    //public void Recover()
+    //{
+    //    Vector3 finalPosition = originalPosition;
+
+    //    transform.parent.localPosition = Vector3.SmoothDamp(transform.parent.localPosition, finalPosition, ref recoilVelocity, recoverLength);
+
+    //    if (Vector3.Distance(transform.parent.localPosition, finalPosition) < 0.01f)
+    //    {
+    //        recoiling = false;
+    //        recovering = false;
+    //    }
+    //}
 
 
     [PunRPC]

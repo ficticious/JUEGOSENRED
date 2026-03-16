@@ -7,7 +7,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     public static SpawnManager instance;
 
     public GameObject player;
-    public float respawnTime = 30f;
+    public float respawnTime = 2f;
     public Transform[] spawnPoints;
 
     [Header("GAMEOBJECTS")]

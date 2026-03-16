@@ -23,10 +23,10 @@ public class Sword : Weapon
         pv = transform.root.GetComponent<PhotonView>();
         blocker = transform.root.GetComponent<PlayerInputBlocker>();
 
-        originalPosition = transform.parent.localPosition;
+        initialPosition = transform.localPosition;
 
-        recoilLength = 0.05f;
-        recoverLength = 1 / fireRate * recoverPercent;
+        //recoilLength = 0.05f;
+        //recoverLength = 1 / fireRate * recoverPercent;
     }
 
     private void Update()
@@ -39,11 +39,19 @@ public class Sword : Weapon
             Fire();
             if (anim != null) anim.SetTrigger("Attack");
         }
+
+
+        Recoil();
+
     }
 
     public override void Fire()
     {
         if (!photonView.IsMine) return;
+
+
+        ApplyRecoil();
+
 
         Vector3 attackOrigin = playerCamera.transform.position;
         Vector3 attackDirection = playerCamera.transform.forward;

@@ -10,10 +10,10 @@ public class Pistol : Weapon
     private PlayerInputBlocker blocker;
     private void Start()
     {
-        originalPosition = transform.parent.localPosition;
+        initialPosition = transform.localPosition;
 
-        recoilLength = 0.1f;
-        recoverLength = 1 / fireRate * recoverPercent;
+        //recoilLength = 0.1f;
+        //recoverLength = 1 / fireRate * recoverPercent;
 
         pv = transform.root.GetComponent<PhotonView>();
         blocker = transform.root.GetComponent<PlayerInputBlocker>();
@@ -33,8 +33,10 @@ public class Pistol : Weapon
             Fire();
         }
 
-        if (recoiling) Recoil();
-        if (recovering) Recover();
+        Recoil();
+
+        //if (recoiling) Recoil();
+        //if (recovering) Recover();
     }
 
     public override void Fire()
@@ -45,8 +47,12 @@ public class Pistol : Weapon
 
         //photonView.RPC("PlayFireSound", RpcTarget.All);
 
-        recoiling = true;
-        recovering = false;
+        //recoiling = true;
+        //recovering = false;
+
+
+        ApplyRecoil();
+
 
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
         RaycastHit hit;

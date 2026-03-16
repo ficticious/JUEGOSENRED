@@ -20,9 +20,9 @@ public class RocketLauncher : Weapon
         pv = transform.root.GetComponent<PhotonView>();
         blocker = transform.root.GetComponent<PlayerInputBlocker>();
 
-        originalPosition = transform.parent.localPosition;
-        recoilLength = 0.12f;
-        recoverLength = 1 / fireRate * recoverPercent;
+        initialPosition = transform.localPosition;
+        //recoilLength = 0.12f;
+        //recoverLength = 1 / fireRate * recoverPercent;
     }
 
     private void Update()
@@ -38,6 +38,9 @@ public class RocketLauncher : Weapon
 
         //if (recoiling) Recoil();
         //if (recovering) Recover();
+
+
+        Recoil();
     }
 
     public override void Fire()
@@ -49,6 +52,8 @@ public class RocketLauncher : Weapon
 
         //recoiling = true;
         //recovering = false;
+
+        ApplyRecoil();
 
         Vector3 spawnPos = spawnOffset.position; //playerCamera.transform.position + playerCamera.transform.TransformVector(spawnOffset);  ----- VECTOR3 SPAWNOFFSET -----
         Quaternion spawnRot = Quaternion.LookRotation(playerCamera.transform.forward, Vector3.up);

@@ -6799,7 +6799,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 7853596038564473441, guid: 97340654bc95fed4492f9cd34d852eb5, type: 3}
-  respawnTime: 2
+  respawnTime: 1
   spawnPoints:
   - {fileID: 518907522}
   - {fileID: 1483378649}
@@ -27550,7 +27550,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1137078560
 Transform:
   m_ObjectHideFlags: 0
@@ -40537,7 +40537,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1609301179
 Transform:
   m_ObjectHideFlags: 0

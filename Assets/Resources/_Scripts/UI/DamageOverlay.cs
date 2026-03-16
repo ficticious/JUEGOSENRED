@@ -22,6 +22,11 @@ public class DamageOverlay : MonoBehaviour
         currentRoutine = StartCoroutine(DamageRoutine());
     }
 
+    public void DeactivateOverlay()
+    {
+        SetAlpha(0);
+    }
+
     private IEnumerator DamageRoutine()
     {
         yield return FadeAlpha(0f, maxAlpha, fadeInTime);

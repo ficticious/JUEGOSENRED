@@ -1498,6 +1498,26 @@ PrefabInstance:
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 7853596038875301623}
+    - target: {fileID: -4386927849894710348, guid: f6edb64daedd1f942a953d69c10780c0, type: 3}
+      propertyPath: recoilKickback.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4386927849894710348, guid: f6edb64daedd1f942a953d69c10780c0, type: 3}
+      propertyPath: recoilKickback.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -4386927849894710348, guid: f6edb64daedd1f942a953d69c10780c0, type: 3}
+      propertyPath: recoilKickback.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4386927849894710348, guid: f6edb64daedd1f942a953d69c10780c0, type: 3}
+      propertyPath: recoilSnappiness
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: -4386927849894710348, guid: f6edb64daedd1f942a953d69c10780c0, type: 3}
+      propertyPath: recoilReturnSpeed
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 420317133739793150, guid: f6edb64daedd1f942a953d69c10780c0, type: 3}
       propertyPath: spawnOffset
       value: 
@@ -1589,6 +1609,26 @@ PrefabInstance:
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 7853596038875301623}
+    - target: {fileID: 5718004964440099364, guid: 488572273aa2f9f4c9077c407d210440, type: 3}
+      propertyPath: recoilKickback.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5718004964440099364, guid: 488572273aa2f9f4c9077c407d210440, type: 3}
+      propertyPath: recoilKickback.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5718004964440099364, guid: 488572273aa2f9f4c9077c407d210440, type: 3}
+      propertyPath: recoilKickback.z
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5718004964440099364, guid: 488572273aa2f9f4c9077c407d210440, type: 3}
+      propertyPath: recoilSnappiness
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5718004964440099364, guid: 488572273aa2f9f4c9077c407d210440, type: 3}
+      propertyPath: recoilReturnSpeed
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 6156933091364586894, guid: 488572273aa2f9f4c9077c407d210440, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -1793,6 +1833,26 @@ PrefabInstance:
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 7853596038875301623}
+    - target: {fileID: 1304217250789177226, guid: b6865d98ccd74f14d9d411d7956838e8, type: 3}
+      propertyPath: recoilKickback.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1304217250789177226, guid: b6865d98ccd74f14d9d411d7956838e8, type: 3}
+      propertyPath: recoilKickback.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1304217250789177226, guid: b6865d98ccd74f14d9d411d7956838e8, type: 3}
+      propertyPath: recoilKickback.z
+      value: -2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1304217250789177226, guid: b6865d98ccd74f14d9d411d7956838e8, type: 3}
+      propertyPath: recoilSnappiness
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1304217250789177226, guid: b6865d98ccd74f14d9d411d7956838e8, type: 3}
+      propertyPath: recoilReturnSpeed
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 8224114873886908253, guid: b6865d98ccd74f14d9d411d7956838e8, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -1873,6 +1933,26 @@ PrefabInstance:
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 7853596038875301623}
+    - target: {fileID: 2640488853077056372, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: recoilKickback.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2640488853077056372, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: recoilKickback.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2640488853077056372, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: recoilKickback.z
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2640488853077056372, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: recoilSnappiness
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2640488853077056372, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
+      propertyPath: recoilReturnSpeed
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 5827699506475396465, guid: bfe2d739f6e29054da28eed5cc6768e2, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1965,6 +2045,26 @@ PrefabInstance:
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 7853596038875301623}
+    - target: {fileID: -7511515547400059792, guid: 817058b0a0ab4f8409d0c3091ce8c7bc, type: 3}
+      propertyPath: recoilKickback.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511515547400059792, guid: 817058b0a0ab4f8409d0c3091ce8c7bc, type: 3}
+      propertyPath: recoilKickback.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511515547400059792, guid: 817058b0a0ab4f8409d0c3091ce8c7bc, type: 3}
+      propertyPath: recoilKickback.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511515547400059792, guid: 817058b0a0ab4f8409d0c3091ce8c7bc, type: 3}
+      propertyPath: recoilSnappiness
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511515547400059792, guid: 817058b0a0ab4f8409d0c3091ce8c7bc, type: 3}
+      propertyPath: recoilReturnSpeed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 167862648816245269, guid: 817058b0a0ab4f8409d0c3091ce8c7bc, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -2077,6 +2177,26 @@ PrefabInstance:
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 7853596038875301623}
+    - target: {fileID: -8374916534212303954, guid: 2c556d4a0d58b3642adbdddf8aaa3aaf, type: 3}
+      propertyPath: recoilKickback.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8374916534212303954, guid: 2c556d4a0d58b3642adbdddf8aaa3aaf, type: 3}
+      propertyPath: recoilKickback.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8374916534212303954, guid: 2c556d4a0d58b3642adbdddf8aaa3aaf, type: 3}
+      propertyPath: recoilKickback.z
+      value: -6
+      objectReference: {fileID: 0}
+    - target: {fileID: -8374916534212303954, guid: 2c556d4a0d58b3642adbdddf8aaa3aaf, type: 3}
+      propertyPath: recoilSnappiness
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -8374916534212303954, guid: 2c556d4a0d58b3642adbdddf8aaa3aaf, type: 3}
+      propertyPath: recoilReturnSpeed
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 1931559476291141607, guid: 2c556d4a0d58b3642adbdddf8aaa3aaf, type: 3}
       propertyPath: m_Name
       value: Pistol
