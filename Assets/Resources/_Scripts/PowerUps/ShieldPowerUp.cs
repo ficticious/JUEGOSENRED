@@ -6,12 +6,12 @@ public class ShieldPowerUp : PickUp
 {
     protected override void OnPickup(GameObject player)
     {
-        Shield shield = player.GetComponentInChildren<Shield>(true);
+        //Shield shield = player.GetComponentInChildren<Shield>(true);
 
-        if (shield != null)
-        {
-            Debug.Log("ShieldPickUP");
-            shield.Activate();
-        }
+        //if (shield != null)
+        //{
+        //    Debug.Log("ShieldPickUP");
+        //    shield.Activate();
+        //}
     }
 }

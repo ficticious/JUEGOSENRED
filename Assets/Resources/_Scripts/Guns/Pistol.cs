@@ -8,12 +8,10 @@ public class Pistol : Weapon
 {
     private PhotonView pv;
     private PlayerInputBlocker blocker;
+
     private void Start()
     {
         initialPosition = transform.localPosition;
-
-        //recoilLength = 0.1f;
-        //recoverLength = 1 / fireRate * recoverPercent;
 
         pv = transform.root.GetComponent<PhotonView>();
         blocker = transform.root.GetComponent<PlayerInputBlocker>();
@@ -22,6 +20,7 @@ public class Pistol : Weapon
             Debug.LogError("Pistol: No se encontró PhotonView en el Player.");
        // else Debug.Log(pv.name);
     }
+
 
     //-----------------------  SEMI-AUTOMATICA  ------------------------
     private void Update()
@@ -34,24 +33,12 @@ public class Pistol : Weapon
         }
 
         Recoil();
-
-        //if (recoiling) Recoil();
-        //if (recovering) Recover();
     }
 
     public override void Fire()
     {
-
         pv.RPC("PlayFireSound", RpcTarget.All);
         if (muzzleVFX != null) PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "VFX", muzzleVFX.name), muzzlePos.position, Quaternion.identity);
-
-        //photonView.RPC("PlayFireSound", RpcTarget.All);
-
-        //recoiling = true;
-        //recovering = false;
-
-
-        ApplyRecoil();
 
 
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
@@ -62,5 +49,7 @@ public class Pistol : Weapon
             if (hitVFX) Photon.Pun.PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "VFX", hitVFX.name), hit.point, Quaternion.identity);
             DoDamage(hit, damage);
         }
+
+        ApplyRecoil();
     }
 }

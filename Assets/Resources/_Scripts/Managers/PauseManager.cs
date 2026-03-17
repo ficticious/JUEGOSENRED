@@ -103,24 +103,6 @@ public class PauseManager : MonoBehaviourPunCallbacks
         cam.SetActive(true);
     }
 
-    //private void DisableLocalPlayerControls(bool disabled)
-    //{
-    //    Movement movement = FindObjectOfType<Movement>();
-    //    if (movement != null && movement.photonView.IsMine)
-    //    {
-    //        movement.enabled = !disabled;
-    //        movement.rb.velocity = Vector3.zero;
-    //    }
-
-    //    CameraMove cm = FindObjectOfType<CameraMove>();
-    //    if (cm != null && movement.photonView.IsMine)
-    //        cm.enabled = !disabled;
-
-    //    //Shooting shooting = FindObjectOfType<Shooting>();
-    //    //if (shooting != null && shooting.photonView.IsMine)
-    //    //    shooting.enabled = !disabled;
-    //}
-
     private PlayerInputBlocker FindLocalPlayer()
     {
         //Debug.Log("aaaaa");

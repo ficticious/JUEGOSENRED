@@ -19,9 +19,6 @@ public class Shotgun : Weapon
         blocker = transform.root.GetComponent<PlayerInputBlocker>();
 
         initialPosition = transform.localPosition;
-
-        //recoilLength = 0.1f;
-        //recoverLength = 1 / fireRate * recoverPercent;
     }
 
     //-----------------------  SEMI-AUTOMATICA  ------------------------
@@ -36,10 +33,6 @@ public class Shotgun : Weapon
             Fire();
         }
 
-        //if (recoiling) Recoil();
-        //if (recovering) Recover();
-
-
         Recoil();
     }
 
@@ -47,11 +40,6 @@ public class Shotgun : Weapon
     {
         pv.RPC("PlayFireSound", RpcTarget.All);
         if (muzzleVFX != null) PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "VFX", muzzleVFX.name), muzzlePos.position, Quaternion.identity);
-
-        //recoiling = true;
-        //recovering = false;
-
-        ApplyRecoil();
 
         for (int i = 0; i < pellets; i++)
         {
@@ -67,5 +55,7 @@ public class Shotgun : Weapon
                 DoDamage(hit, damage / pellets);
             }
         }
+
+        ApplyRecoil();
     }
 }

@@ -1,10 +1,11 @@
-using UnityEngine;
 using Photon.Pun;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
-public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
+public class SpawnPointManager : MonoBehaviour
 {
-    public static SpawnPointManager Instance;
+    public static SpawnPointManager Instance { get; private set; }
 
     [Header("Spawn Settings")]
     public float minDistanceBetweenPlayers = 10f;
@@ -19,34 +20,17 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
 
     void Start()
     {
-        spawnPoints = SpawnManager.instance.spawnPoints;
-        ValidateSpawnPoints();
+        // Usamos Linq para filtrar los nulos rápidamente
+        spawnPoints = SpawnManager.instance.spawnPoints.Where(sp => sp != null).ToArray();
 
-        if (spawnPoints == null || spawnPoints.Length == 0)
+        if (spawnPoints.Length == 0)
             Debug.LogWarning("No hay Spawnpoints asignados.");
-    }
-
-    private void ValidateSpawnPoints()
-    {
-        List<Transform> validSpawns = new List<Transform>();
-        foreach (Transform spawn in spawnPoints)
-        {
-            if (spawn != null)
-                validSpawns.Add(spawn);
-        }
-        spawnPoints = validSpawns.ToArray();
     }
 
     public Transform GetSafeSpawnPoint(float minDistance = 10f)
@@ -55,19 +39,14 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
 
         foreach (Transform spawn in spawnPoints)
         {
-            if (spawn == null) continue;
-
             bool isSafe = true;
 
-            foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Player"))
+            // OPTIMIZACIÓN: Usamos la lista estática en lugar de FindGameObjectsWithTag
+            foreach (Health playerHealth in Health.AllActivePlayers)
             {
-                Health playerHealth = playerObj.GetComponent<Health>();
+                if (playerHealth.IsDead) continue;
 
-                // FIX — ahora sí funciona correctamente
-                if (playerHealth == null || playerHealth.IsDead())
-                    continue;
-
-                float distance = Vector3.Distance(spawn.position, playerObj.transform.position);
+                float distance = Vector3.Distance(spawn.position, playerHealth.transform.position);
                 if (distance < minDistance)
                 {
                     isSafe = false;
@@ -75,49 +54,35 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
                 }
             }
 
-            if (isSafe)
-                safeSpawns.Add(spawn);
+            if (isSafe) safeSpawns.Add(spawn);
         }
 
-        if (safeSpawns.Count == 0)
-            return GetFarthestSpawnPoint();
+        if (safeSpawns.Count == 0) return GetFarthestSpawnPoint();
 
         return safeSpawns[Random.Range(0, safeSpawns.Count)];
     }
 
     public Transform GetRandomSpawnPoint()
     {
-        List<Transform> validSpawns = new List<Transform>();
-        foreach (Transform spawn in spawnPoints)
-            if (spawn != null) validSpawns.Add(spawn);
-
-        if (validSpawns.Count == 0)
-        {
-            Debug.LogError("No hay spawn points válidos.");
-            return null;
-        }
-
-        return validSpawns[Random.Range(0, validSpawns.Count)];
+        if (spawnPoints == null || spawnPoints.Length == 0) return null;
+        return spawnPoints[Random.Range(0, spawnPoints.Length)];
     }
 
     private Transform GetFarthestSpawnPoint()
     {
         Transform farthestSpawn = spawnPoints[0];
-        float maxDistance = 0f;
+        float maxDistance = -1f;
 
         foreach (Transform spawn in spawnPoints)
         {
-            if (spawn == null) continue;
-
             float totalDistance = 0f;
             int playerCount = 0;
 
-            foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Player"))
+            foreach (Health playerHealth in Health.AllActivePlayers)
             {
-                Health playerHealth = playerObj.GetComponent<Health>();
-                if (playerHealth != null && !playerHealth.IsDead())
+                if (!playerHealth.IsDead)
                 {
-                    totalDistance += Vector3.Distance(spawn.position, playerObj.transform.position);
+                    totalDistance += Vector3.Distance(spawn.position, playerHealth.transform.position);
                     playerCount++;
                 }
             }
@@ -140,36 +105,24 @@ public class SpawnPointManager : MonoBehaviourPunCallbacks, IPunObservable
 
         foreach (Transform spawn in spawnPoints)
         {
-            if (spawn == null) continue;
-
             bool isSafe = true;
 
             if (Application.isPlaying)
             {
-                foreach (GameObject playerObj in GameObject.FindGameObjectsWithTag("Player"))
+                foreach (Health playerHealth in Health.AllActivePlayers)
                 {
-                    Health playerHealth = playerObj.GetComponent<Health>();
-                    if (playerHealth != null && !playerHealth.IsDead())
+                    if (!playerHealth.IsDead && Vector3.Distance(spawn.position, playerHealth.transform.position) < minDistanceBetweenPlayers)
                     {
-                        float distance = Vector3.Distance(spawn.position, playerObj.transform.position);
-                        if (distance < minDistanceBetweenPlayers)
-                        {
-                            isSafe = false;
-                            break;
-                        }
+                        isSafe = false;
+                        break;
                     }
                 }
             }
 
             Gizmos.color = isSafe ? safeColor : unsafeColor;
             Gizmos.DrawSphere(spawn.position, gizmoRadius);
-
             Gizmos.color = new Color(Gizmos.color.r, Gizmos.color.g, Gizmos.color.b, 0.2f);
             Gizmos.DrawWireSphere(spawn.position, minDistanceBetweenPlayers);
         }
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
     }
 }

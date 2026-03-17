@@ -1,252 +1,106 @@
 ﻿using Photon.Pun;
 using System;
-using System.Collections;
-using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviourPunCallbacks
+public class Health : MonoBehaviourPunCallbacks, IPunObservable
 {
+    public static readonly List<Health> AllActivePlayers = new List<Health>();
+
     [Header("Parameters")]
-    public float health;
-    //private float respawnTime;
-    private float maxHealth = 100;
+    public float maxHealth = 100f;
+    private float currentHealth;
 
-    [Header("UI")]
-    public TextMeshProUGUI healthText;
-    public DamageOverlay damageOverlay;
+    public bool IsDead { get; private set; }
 
-    public PlayerSetup playerSetup;
-    public bool isLocalPlayer;
-    public bool isDead = false;
-    private bool canRespawn = true;
+    // Patrón Observer: Eventos a los que otros scripts (UI, Respawn) se van a suscribir
+    public event Action<float, float> OnHealthChanged;
+    public event Action<int> OnDied;
+    public event Action OnRespawned;
 
-
-    void Start()
+    private void Awake()
     {
-        health = maxHealth;
-        isDead = false;
-        playerSetup = GetComponent<PlayerSetup>();
-        isLocalPlayer = photonView.IsMine;
-        UpdateUI(healthText, health);
-
-        if (!isLocalPlayer)
-            damageOverlay = null;
+        currentHealth = maxHealth;
     }
 
-    private void Update()
+    public override void OnEnable()
     {
-        //if (Input.GetKeyDown(KeyCode.P))
-        //{
-        //    TakeDamage(30, -1);
-        //}
-
-        canRespawn = !GameManager.instance.gameFinished;
+        base.OnEnable();
+        AllActivePlayers.Add(this); // Nos registramos globalmente
     }
 
-
-
-    // -----------------  FUNCIONES NORMALES  ----------------------------
-
-    public void RespawnPlayer()
+    public override void OnDisable()
     {
-        if (!photonView.IsMine) return;
+        base.OnDisable();
+        AllActivePlayers.Remove(this); // Nos damos de baja
+    }
 
-        Transform spawnPoint = SpawnPointManager.Instance.GetSafeSpawnPoint(10f);
+    public void TakeDamage(float damage, int attackerId = -1)
+    {
+        if (IsDead || !photonView.IsMine) return; // Solo el dueño dicta su propio daño
+        photonView.RPC(nameof(RPC_TakeDamage), RpcTarget.All, damage, attackerId);
+    }
 
-        if (spawnPoint == null) spawnPoint = SpawnPointManager.Instance.GetRandomSpawnPoint();
+    [PunRPC]
+    private void RPC_TakeDamage(float damage, int attackerId)
+    {
+        if (IsDead) return;
 
-        else
+        currentHealth -= damage;
+        currentHealth = Mathf.Max(0, currentHealth);
+
+        // Dispara el evento para que la UI se actualice automáticamente
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
+
+        if (currentHealth <= 0)
         {
-            photonView.RPC("SetRespawnPosition", RpcTarget.All,
-                          spawnPoint.position.x, spawnPoint.position.y, spawnPoint.position.z,
-                          spawnPoint.rotation.x, spawnPoint.rotation.y, spawnPoint.rotation.z, spawnPoint.rotation.w);
+            Die(attackerId);
         }
-
-        photonView.RPC("CompleteRespawn", RpcTarget.All);
     }
 
-    public void Heal(float healAmount)
+    private void Die(int attackerId)
     {
-        if (isDead) return;
-
-        health = Mathf.Min(maxHealth, health + healAmount);
-        UpdateUI(healthText, health);
+        IsDead = true;
+        OnDied?.Invoke(attackerId); // Avisa a los managers de Respawn, Stats, etc.
     }
 
     public void ResetHealth()
     {
-        health = maxHealth;
-        UpdateUI(healthText, health);
+        IsDead = false;
+        currentHealth = maxHealth;
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
+        OnRespawned?.Invoke();
     }
 
-    public void UpdateUI(TextMeshProUGUI text, float value)
+    public void Heal(float healAmount)
     {
-        if (text != null)
-            text.text = value.ToString("F1");
-    }
-    //-----------------------------------------------------------------
-
-
-
-
-
-
-    // -----------------  FUNCIONES PUN RPC  ----------------------------
-
-    [PunRPC]
-    public void Die(int attackerId = -1)
-    {
-        if (isDead) return;
-        isDead = true;
-
-        //Debug.Log($"{gameObject.name} murió. ViewID: {photonView.ViewID}");
-
-        if (photonView.IsMine)
-        {
-            playerSetup.DisablePlayer();
-            playerSetup.EnableLocalCamera(false);
-
-
-            SpectatorCameraManager.Instance.EnableSpectator();
-
-
-            GameManager.instance.deaths++;
-            GameManager.instance.SetHashes();
-
-            //GulagManager.Instance.RequestGulagEntry(photonView.ViewID);
-
-        }
-
-        if (attackerId != -1 &&
-            PhotonNetwork.LocalPlayer.ActorNumber == attackerId &&
-            photonView.Owner.ActorNumber != attackerId)
-        {
-            GameManager.instance.kills++;
-            GameManager.instance.SetHashes();
-        }
-
-        StartCoroutine(RespawnCoroutine());
+        if (IsDead || !photonView.IsMine) return;
+        photonView.RPC(nameof(RPC_Heal), RpcTarget.All, healAmount);
     }
 
     [PunRPC]
-    public void TakeDamage(float damage, int attackerId)
+    private void RPC_Heal(float healAmount)
     {
-        if (isDead || health <= 0) return;
+        if (IsDead) return;
 
-        health -= damage;
-        health = Mathf.Max(0, health);
-        UpdateUI(healthText, health);
+        currentHealth += healAmount;
+        currentHealth = Mathf.Min(maxHealth, currentHealth);
 
-        if (photonView.IsMine && damageOverlay != null)
-        {
-            damageOverlay.ShowDamage();
-        }
-
-        //if (damage > 40f)
-        //    damageOverlay.maxAlpha = 0.9f;
-        //else
-        //    damageOverlay.maxAlpha = 0.6f;
-
-        if (health <= 0)
-        {
-            photonView.RPC("Die", RpcTarget.All, attackerId);
-        }
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 
-    [PunRPC]
-    public void TakeDamage(float damage)
-    {
-        TakeDamage(damage, -1);
-    }
 
-    [PunRPC]
-    public void SetRespawnPosition(float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float rotW)
+    // Opcional: Para sincronizar la vida exacta para jugadores que entran tarde (Late Joiners)
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        CharacterController cc = GetComponent<CharacterController>();
-        if (cc != null)
+        if (stream.IsWriting)
         {
-            cc.enabled = false;
+            stream.SendNext(currentHealth);
         }
-
-        transform.position = new Vector3(posX, posY, posZ);
-        transform.rotation = new Quaternion(rotX, rotY, rotZ, rotW);
-
-        if (cc != null)
+        else
         {
-            cc.enabled = true;
+            currentHealth = (float)stream.ReceiveNext();
+            OnHealthChanged?.Invoke(currentHealth, maxHealth);
         }
     }
-
-    [PunRPC]
-    public void CompleteRespawn()
-    {
-        if (canRespawn) SpectatorCameraManager.Instance.DisableSpectator();
-        ResetHealth();
-        isDead = false;
-
-        if (photonView.IsMine)
-        {
-            if (playerSetup != null && canRespawn)
-            {
-                playerSetup.EnablePlayer();
-                playerSetup.EnableLocalCamera(true);
-
-                //Debug.Log($"{gameObject.name} ha respawneado");
-            }
-        }
-
-    }
-    //----------------------------------------------------------------------------------
-
-
-
-
-
-
-    // -----------------  FUNCIONES VARIABLES  ----------------------------
-
-    public float GetCurrentHealth()
-    {
-        return health;
-    }
-
-    public bool IsDead()
-    {
-        return isDead;
-    }
-    //----------------------------------------------------
-
-
-
-
-
-
-    // -----------------  COROUTINES  ----------------------------
-    public IEnumerator RespawnAfterGulag()
-    {
-        yield return new WaitForSeconds(1.5f);
-
-        if (!photonView.IsMine) yield break;
-
-        ResetHealth();
-        isDead = false;
-
-        Transform spawn = SpawnPointManager.Instance.GetRandomSpawnPoint();
-
-        photonView.RPC("SetRespawnPosition", RpcTarget.All,
-                      spawn.position.x, spawn.position.y, spawn.position.z,
-                      spawn.rotation.x, spawn.rotation.y, spawn.rotation.z, spawn.rotation.w);
-
-        photonView.RPC("CompleteRespawn", RpcTarget.All);
-    }
-
-    private IEnumerator RespawnCoroutine()
-    {
-        yield return new WaitForSeconds(SpawnManager.instance.respawnTime);
-        if (!photonView.IsMine) yield break;
-        damageOverlay.DeactivateOverlay();
-        RespawnPlayer();
-        playerSetup.movementScript.rb.velocity = Vector3.zero;
-    }
-    //------------------------------------------------------------
 }

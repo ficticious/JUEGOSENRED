@@ -71,6 +71,9 @@ MonoBehaviour:
   - RPC_GulagEnded
   - RPC_NotifyLoser
   - RPC_NotifyWinner
+  - RPC_Heal
+  - RPC_SetRespawn
+  - RPC_TakeDamage
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

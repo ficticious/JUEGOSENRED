@@ -20,9 +20,6 @@ public class Rifle : Weapon
     {
         initialPosition = transform.localPosition;
 
-        //recoilLength = 0.1f;
-        //recoverLength = 1 / fireRate * recoverPercent;
-
         pv = transform.root.GetComponent<PhotonView>();
         blocker = transform.root.GetComponent<PlayerInputBlocker>();
     }
@@ -57,9 +54,6 @@ public class Rifle : Weapon
             heatTime -= 0.5f * Time.deltaTime;
         }
 
-        //if (recoiling) Recoil();
-        //if (recovering) Recover();
-
         Recoil();
     }
 
@@ -69,12 +63,6 @@ public class Rifle : Weapon
         pv.RPC("PlayFireSound", RpcTarget.All);
         if (muzzleVFX != null) PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "VFX", muzzleVFX.name), muzzlePos.position, Quaternion.identity);
 
-        //recoiling = true;
-        //recovering = false;
-
-
-        ApplyRecoil();
-
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
         RaycastHit hit;
 
@@ -83,5 +71,7 @@ public class Rifle : Weapon
             if (hitVFX) Photon.Pun.PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "VFX", hitVFX.name), hit.point, Quaternion.identity);
             DoDamage(hit, damage);
         }
+
+        ApplyRecoil();
     }
 }

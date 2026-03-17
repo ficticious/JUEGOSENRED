@@ -21,24 +21,12 @@ public abstract class Weapon : MonoBehaviourPun
     private float minDamagePercent = 0.2f;
     protected float nextFire;
 
-    //[Header("Recoil")]
-    //[Range(0, 2)]
-    //public float recoverPercent;
-    //public float recoilUp;
-    //public float recoilBack;
-    //public bool recoiling;
-    //public bool recovering;
-
-    //protected float recoilLength;
-    //protected float recoverLength;
-
-    //protected Vector3 originalPosition;
-    //protected Vector3 recoilVelocity = Vector3.zero;
 
     [Header("Weapon Recoil (Kickback)")]
     public Vector3 recoilKickback = new Vector3(0f, 0.05f, -0.2f);
     public float recoilSnappiness = 20f;
     public float recoilReturnSpeed = 10f;
+
 
     protected Vector3 initialPosition;
     private Vector3 currentRecoilPosition;
@@ -54,6 +42,8 @@ public abstract class Weapon : MonoBehaviourPun
     public AudioClip[] fireSound;
     [HideInInspector] public AudioSource audioSource;
 
+
+
     protected virtual void Awake()
     {
         audioSource = GetComponent<AudioSource>();
@@ -62,23 +52,19 @@ public abstract class Weapon : MonoBehaviourPun
         audioSource.spatialBlend = 1f;
         audioSource.playOnAwake = false;
     }
-    //void Start()
-    //{
-    //    initialPosition = transform.localPosition;
-    //}
-
 
 
     public abstract void Fire();
 
+
     protected void DoDamage(RaycastHit hit, float dmg)
     {
-        GulagTarget gulagTarget = hit.transform.GetComponent<GulagTarget>();
-        if (gulagTarget != null)
-        {
-            gulagTarget.Hit(photonView.ViewID);
-            return;
-        }
+        //GulagTarget gulagTarget = hit.transform.GetComponent<GulagTarget>();
+        //if (gulagTarget != null)
+        //{
+        //    gulagTarget.Hit(photonView.ViewID);
+        //    return;
+        //}
 
         PhotonView targetPV = hit.transform.GetComponent<PhotonView>();
         if (targetPV == null) return;
@@ -93,60 +79,37 @@ public abstract class Weapon : MonoBehaviourPun
         float damageMultiplier = Mathf.Lerp(1f, minDamagePercent, t);
         float finalDamage = dmg * damageMultiplier;
 
-        if (targetPV.Owner != null)
+        Health targetHealth = hit.transform.GetComponent<Health>();
+
+        if (targetHealth != null)
         {
-            targetPV.RPC("TakeDamage", targetPV.Owner, finalDamage, PhotonNetwork.LocalPlayer.ActorNumber);
+            // El script Health se encargará de validar la autoridad y enviar el RPC internamente
+            targetHealth.TakeDamage(finalDamage, PhotonNetwork.LocalPlayer.ActorNumber);
         }
-        else
-        {
-            targetPV.RPC("TakeDamage", RpcTarget.All, finalDamage, PhotonNetwork.LocalPlayer.ActorNumber);
-        }
+
+        //if (targetPV.Owner != null)
+        //{
+        //    targetPV.RPC("TakeDamage", targetPV.Owner, finalDamage, PhotonNetwork.LocalPlayer.ActorNumber);
+        //}
+        //else
+        //{
+        //    targetPV.RPC("TakeDamage", RpcTarget.All, finalDamage, PhotonNetwork.LocalPlayer.ActorNumber);
+        //}
         //Debug.Log($"Hit → {finalDamage:F1} dmg (Base {dmg:F1}, Dist {distance:F1})");
     }
 
     public void Recoil()
     {
-        //Vector3 finalPosition = new Vector3(originalPosition.x, originalPosition.y + recoilUp, originalPosition.z - recoilBack);
-
-        //transform.parent.localPosition = Vector3.SmoothDamp(transform.parent.localPosition, finalPosition, ref recoilVelocity, recoilLength);
-
-        //if (Vector3.Distance(transform.parent.localPosition, finalPosition) < 0.01f)
-        //{
-        //    recoiling = false;
-        //    recovering = true;
-        //}
-
-
-
-
         targetRecoilPosition = Vector3.Lerp(targetRecoilPosition, Vector3.zero, Time.deltaTime * recoilReturnSpeed);
-
         currentRecoilPosition = Vector3.Lerp(currentRecoilPosition, targetRecoilPosition, Time.deltaTime * recoilSnappiness);
-
         Vector3 finalTargetPosition = initialPosition + currentRecoilPosition;
-
         transform.localPosition = Vector3.Lerp(transform.localPosition, finalTargetPosition, Time.deltaTime);
-
     }
 
     public void ApplyRecoil()
     {
         targetRecoilPosition += recoilKickback;
     }
-
-
-    //public void Recover()
-    //{
-    //    Vector3 finalPosition = originalPosition;
-
-    //    transform.parent.localPosition = Vector3.SmoothDamp(transform.parent.localPosition, finalPosition, ref recoilVelocity, recoverLength);
-
-    //    if (Vector3.Distance(transform.parent.localPosition, finalPosition) < 0.01f)
-    //    {
-    //        recoiling = false;
-    //        recovering = false;
-    //    }
-    //}
 
 
     [PunRPC]
@@ -159,16 +122,4 @@ public abstract class Weapon : MonoBehaviourPun
         else
             audioSource.PlayOneShot(fireSound[0]);
     }
-
-    //[PunRPC]
-    //protected void PlayFireSound()
-    //{
-    //    if (fireSound == null || audioSource == null) return;
-
-    //    if (fireSound.Length > 1 )
-    //    {
-    //        audioSource.PlayOneShot(fireSound[Random.Range(0, fireSound.Length)]);
-    //    }
-    //    else audioSource.PlayOneShot(fireSound[0]);
-    //}
 }

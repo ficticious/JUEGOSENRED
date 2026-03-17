@@ -73,8 +73,6 @@ public class Rocket : MonoBehaviourPunCallbacks
 
     private void Explode(Vector3 pos, Vector3 normal)
     {
-        //pos = transform.position;
-
         if (explosionVFX != null)
         {
             Quaternion rot = Quaternion.LookRotation(normal);
@@ -83,41 +81,56 @@ public class Rocket : MonoBehaviourPunCallbacks
 
         Collider[] hits = Physics.OverlapSphere(pos, explosionRadius, damageMask, QueryTriggerInteraction.Ignore);
 
+        HashSet<Rigidbody> hitRigidbodies = new HashSet<Rigidbody>();
+        HashSet<Health> hitHealths = new HashSet<Health>();
+
         foreach (Collider c in hits)
         {
             Rigidbody otherRb = c.attachedRigidbody;
-            if (otherRb != null)
+
+            if (otherRb != null && !hitRigidbodies.Contains(otherRb))
             {
                 otherRb.AddExplosionForce(explosionForce, pos, explosionRadius, 1.0f, ForceMode.Impulse);
+                hitRigidbodies.Add(otherRb);
             }
 
-            PhotonView pv = c.GetComponent<PhotonView>();
-            if (pv != null && pv != photonView)
-            {
-                // if (pv.Owner != null && pv.Owner.ActorNumber == ownerActorNumber) continue;
+            Health targetHealth = c.GetComponentInParent<Health>();
 
-                Vector3 explosionCenter = transform.position;
-                float distance = Vector3.Distance(explosionCenter, c.transform.position);
+            if (targetHealth != null && !hitHealths.Contains(targetHealth))
+            {
+                hitHealths.Add(targetHealth);
+
+                // Cálculo de daño correcto: 100% en el centro, 0% en el borde
+                float distance = Vector3.Distance(pos, targetHealth.transform.position);
                 float t = Mathf.Clamp01(distance / explosionRadius);
-                float dmgToApply = Mathf.Lerp(explosionDamage, 1f, t); 
+                float dmgToApply = Mathf.Lerp(explosionDamage, 0f, t);
 
                 if (dmgToApply > 0f)
                 {
-                    if (pv.Owner != null) pv.RPC("TakeDamage", pv.Owner, dmgToApply, PhotonNetwork.LocalPlayer.ActorNumber);
-
-                    else pv.RPC("TakeDamage", RpcTarget.All, dmgToApply, PhotonNetwork.LocalPlayer.ActorNumber);
+                    targetHealth.TakeDamage(dmgToApply, PhotonNetwork.LocalPlayer.ActorNumber);
                 }
             }
+
+            //PhotonView pv = c.GetComponent<PhotonView>();
+            //if (pv != null && pv != photonView)
+            //{
+            //    // if (pv.Owner != null && pv.Owner.ActorNumber == ownerActorNumber) continue;
+
+            //    Vector3 explosionCenter = transform.position;
+            //    float distance = Vector3.Distance(explosionCenter, c.transform.position);
+            //    float t = Mathf.Clamp01(distance / explosionRadius);
+            //    float dmgToApply = Mathf.Lerp(explosionDamage, 1f, t); 
+
+            //    if (dmgToApply > 0f)
+            //    {
+            //        if (pv.Owner != null) pv.RPC("TakeDamage", pv.Owner, dmgToApply, PhotonNetwork.LocalPlayer.ActorNumber);
+
+            //        else pv.RPC("TakeDamage", RpcTarget.All, dmgToApply, PhotonNetwork.LocalPlayer.ActorNumber);
+            //    }
+            //}
         }
 
-        if (photonView.IsMine)
-        {
-            PhotonNetwork.Destroy(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        if (photonView.IsMine) PhotonNetwork.Destroy(gameObject);
     }
 
     [PunRPC]

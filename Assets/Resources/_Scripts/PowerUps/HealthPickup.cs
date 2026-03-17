@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,11 +10,17 @@ public class HealthPickup : PickUp
 
     protected override void OnPickup(GameObject player)
     {
-        Health playerHealth = player.GetComponent<Health>();
+        PhotonView pv = player.GetComponent<PhotonView>();
 
-        if (playerHealth != null)
+        if (pv != null && pv.IsMine)
         {
-            playerHealth.Heal(healAmount);
+            Health playerHealth = player.GetComponent<Health>();
+
+            if (playerHealth != null && !playerHealth.IsDead)
+            {
+                playerHealth.Heal(healAmount);
+                PhotonNetwork.Destroy(gameObject);
+            }
         }
     }
 }

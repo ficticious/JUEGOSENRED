@@ -29,7 +29,7 @@ public class Movement : MonoBehaviour
     private Vector2 input;
     private bool jumping;
     private bool sprinting;
-    private bool grounded;
+    [HideInInspector] public bool grounded;
 
     private float baseWalkSpeed;
     private float baseSprintSpeed;

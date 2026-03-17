@@ -8,61 +8,95 @@ using Photon.Pun.UtilityScripts;
 
 public class LeaderBoard : MonoBehaviour
 {
+    [Header("Containers")]
     public GameObject playersHolder;
     public GameObject overlay;
 
     [Header("Options")]
     public float refreshRate = 1f;
 
-    [Header("UI")]
+    [Header("UI Elements")]
     public GameObject[] slots;
-    [Space]
     public TextMeshProUGUI[] scoreTexts;
     public TextMeshProUGUI[] nameTexts;
     public TextMeshProUGUI[] kdTexts;
 
+    private Coroutine refreshCoroutine;
+    private bool isBoardActive = false;
+
     private void Start()
     {
-        InvokeRepeating(nameof(Refresh), 1f, refreshRate);
+        SetBoardActive(false);
     }
+
     private void Update()
     {
-        playersHolder.SetActive(Input.GetKey(KeyCode.Tab));
-        overlay.SetActive(Input.GetKey(KeyCode.Tab));
-    }
-    public void Refresh()
-    {
-        foreach(var slot in slots)
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            slot.SetActive(false);
+            SetBoardActive(true);
         }
-
-        var sortedPlayerList = (from player in PhotonNetwork.PlayerList orderby player.GetScore() descending select player).ToList();
-
-        int i = 0;
-
-        foreach (var player in sortedPlayerList)
+        else if (Input.GetKeyUp(KeyCode.Tab))
         {
-            slots[i].SetActive(true);
+            SetBoardActive(false);
+        }
+    }
 
-            if(player.NickName == "")
+    private void SetBoardActive(bool state)
+    {
+        if (isBoardActive == state) return;
+
+        isBoardActive = state;
+        playersHolder.SetActive(state);
+        overlay.SetActive(state);
+
+        if (state)
+        {
+            RefreshUI();
+            refreshCoroutine = StartCoroutine(RoutineRefresh());
+        }
+        else if (refreshCoroutine != null)
+        {
+            StopCoroutine(refreshCoroutine);
+            refreshCoroutine = null;
+        }
+    }
+
+    private IEnumerator RoutineRefresh()
+    {
+        while (isBoardActive)
+        {
+            yield return new WaitForSeconds(refreshRate);
+            RefreshUI();
+        }
+    }
+
+    private void RefreshUI()
+    {
+        var sortedPlayers = PhotonNetwork.PlayerList.OrderByDescending(p => p.GetScore()).ToList();
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            // Si el índice actual es menor que la cantidad de jugadores, mostramos los datos
+            if (i < sortedPlayers.Count)
             {
-                player.NickName = "unnamed";
-            }
+                var player = sortedPlayers[i];
+                slots[i].SetActive(true);
 
-            nameTexts[i].text = player.NickName;
-            scoreTexts[i].text = player.GetScore().ToString();
+                string pName = string.IsNullOrEmpty(player.NickName) ? "unnamed" : player.NickName;
+                nameTexts[i].text = pName;
+                scoreTexts[i].text = player.GetScore().ToString();
 
-            if (player.CustomProperties["kills"] != null)
-            {
-                kdTexts[i].text = player.CustomProperties["kills"] + "/" + player.CustomProperties["deaths"];
+                int kills = player.CustomProperties.TryGetValue("kills", out object k) ? (int)k : 0;
+                int deaths = player.CustomProperties.TryGetValue("deaths", out object d) ? (int)d : 0;
+
+                // Interpolación de strings para evitar generar basura en memoria
+                kdTexts[i].text = $"{kills}/{deaths}";
             }
             else
             {
-                kdTexts[i].text = "0/0";
+                // Ocultamos los slots sobrantes
+                if (slots[i].activeSelf) slots[i].SetActive(false);
             }
-
-            i++;
         }
     }
 }

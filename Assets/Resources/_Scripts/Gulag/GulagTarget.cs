@@ -5,41 +5,41 @@ using Photon.Pun;
 
 public class GulagTarget : MonoBehaviourPunCallbacks
 {
-    private bool hasBeenHit = false;
-    private PhotonView pv;
+    //private bool hasBeenHit = false;
+    //private PhotonView pv;
 
-    private void Awake()
-    {
-        pv = GetComponent<PhotonView>();
-    }
+    //private void Awake()
+    //{
+    //    pv = GetComponent<PhotonView>();
+    //}
 
-    private void Start()
-    {
-        gameObject.SetActive(false);
-    }
+    //private void Start()
+    //{
+    //    gameObject.SetActive(false);
+    //}
 
-    public override void OnEnable()
-    {
-        base.OnEnable();
-        hasBeenHit = false;
-    }
+    //public override void OnEnable()
+    //{
+    //    base.OnEnable();
+    //    hasBeenHit = false;
+    //}
 
-    public void Hit(int shooterViewID)
-    {
-        if (hasBeenHit) return;
+    //public void Hit(int shooterViewID)
+    //{
+    //    if (hasBeenHit) return;
 
-        pv.RPC("RPC_RegisterHit", RpcTarget.MasterClient, shooterViewID);
-    }
+    //    pv.RPC("RPC_RegisterHit", RpcTarget.MasterClient, shooterViewID);
+    //}
 
-    [PunRPC]
-    private void RPC_RegisterHit(int shooterViewID)
-    {
-        if (hasBeenHit) return;
-        hasBeenHit = true;
+    //[PunRPC]
+    //private void RPC_RegisterHit(int shooterViewID)
+    //{
+    //    if (hasBeenHit) return;
+    //    hasBeenHit = true;
 
-        if (PhotonNetwork.IsMasterClient)
-        {
-            GulagManager.Instance.OnTargetHit(shooterViewID);
-        }
-    }
+    //    if (PhotonNetwork.IsMasterClient)
+    //    {
+    //        GulagManager.Instance.OnTargetHit(shooterViewID);
+    //    }
+    //}
 }

@@ -21,8 +21,6 @@ public class RocketLauncher : Weapon
         blocker = transform.root.GetComponent<PlayerInputBlocker>();
 
         initialPosition = transform.localPosition;
-        //recoilLength = 0.12f;
-        //recoverLength = 1 / fireRate * recoverPercent;
     }
 
     private void Update()
@@ -36,10 +34,6 @@ public class RocketLauncher : Weapon
             Fire();
         }
 
-        //if (recoiling) Recoil();
-        //if (recovering) Recover();
-
-
         Recoil();
     }
 
@@ -49,11 +43,6 @@ public class RocketLauncher : Weapon
 
         pv.RPC("PlayFireSound", RpcTarget.All);
         if (muzzleVFX != null) PhotonNetwork.Instantiate(Path.Combine("_Prefabs", "VFX", muzzleVFX.name), muzzlePos.position, Quaternion.identity);
-
-        //recoiling = true;
-        //recovering = false;
-
-        ApplyRecoil();
 
         Vector3 spawnPos = spawnOffset.position; //playerCamera.transform.position + playerCamera.transform.TransformVector(spawnOffset);  ----- VECTOR3 SPAWNOFFSET -----
         Quaternion spawnRot = Quaternion.LookRotation(playerCamera.transform.forward, Vector3.up);
@@ -65,5 +54,7 @@ public class RocketLauncher : Weapon
         {
             rocketScript.Initialize(playerCamera.transform.forward * rocketSpeed, PhotonNetwork.LocalPlayer.ActorNumber);
         }
+
+        ApplyRecoil();
     }
 }

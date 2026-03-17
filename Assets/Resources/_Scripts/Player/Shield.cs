@@ -6,30 +6,30 @@ using UnityEngine;
 
 public class Shield : Health
 {
-    private void Start()
-    {
-        gameObject.SetActive(false);
-    }
+    //private void Start()
+    //{
+    //    gameObject.SetActive(false);
+    //}
 
-    private void Update()
-    {
-        if (gameObject.activeSelf)
-            UpdateUI(healthText, health);
+    //private void Update()
+    //{
+    //    if (gameObject.activeSelf)
+    //        UpdateUI(healthText, health);
 
-        if (health <= 0 && gameObject.activeSelf)
-            Deactivate();
-    }
+    //    if (health <= 0 && gameObject.activeSelf)
+    //        Deactivate();
+    //}
 
-    public void Activate()
-    {
-        health = 50;
-        UpdateUI(healthText, health);
-        gameObject.SetActive(true);
-    }
+    //public void Activate()
+    //{
+    //    health = 50;
+    //    UpdateUI(healthText, health);
+    //    gameObject.SetActive(true);
+    //}
 
-    public void Deactivate()
-    {
-         Debug.Log("Escudo destruido!");
-         gameObject.SetActive(false);  
-    }
+    //public void Deactivate()
+    //{
+    //     Debug.Log("Escudo destruido!");
+    //     gameObject.SetActive(false);  
+    //}
 }

@@ -64,23 +64,8 @@ public class GameManager : MonoBehaviourPunCallbacks
                 Cursor.lockState = CursorLockMode.None;
                 buttonLobby.SetActive(true);
 
-                if (targetPlayer == PhotonNetwork.LocalPlayer)
-                {
-                    winPanel.SetActive(true);
-
-
-                    //FindObjectOfType<WinScreen>().ShowWinPanel();
-                    //StopAllPlayers();
-                }
-                else
-                {
-                    losePanel.SetActive(true);
-
-
-                    //FindObjectOfType<GameOverScreen>().ShowLosePanel();
-                    //ShowPanel();
-                    //StopAllPlayers();
-                }
+                if (targetPlayer == PhotonNetwork.LocalPlayer) winPanel.SetActive(true);
+                else losePanel.SetActive(true);
 
                 if (PhotonNetwork.IsMasterClient)
                 {
@@ -104,19 +89,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             p.DisablePlayer();
         }
         SpectatorCameraManager.Instance.EnableSpectator();
-
-        //var players = FindObjectsOfType<Movement>();
-        //var cameraPlayers = FindObjectsOfType<CameraMove>();
-
-        //foreach (var p in players)
-        //{
-        //    p.enabled = false;
-        //}
-        //foreach (var d in cameraPlayers)
-        //{
-        //    d.enabled = false;
-        //}
-
     }
     public void SetHashes()
     {

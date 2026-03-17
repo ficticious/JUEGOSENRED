@@ -22,9 +22,6 @@ public class Connect : MonoBehaviourPunCallbacks
     private string nickname = "player";
     private int numberOfPlayer;
 
-    //[HideInInspector]
-    //public int kills = 0;
-    //public int deaths = 0;
 
     private void Awake()
     {
@@ -66,26 +63,6 @@ public class Connect : MonoBehaviourPunCallbacks
 
         GameObject newPlayer = SpawnManager.instance.SpawnPlayer();
         newPlayer.GetComponent<PhotonView>().RPC("SetNickname", RpcTarget.AllBuffered, PhotonNetwork.NickName);
-
-        //newPlayer.GetComponent<PlayerSetup>().IsLocalPlayer();
-
-
-
-        //if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
-        //{
-        //    GameObject newPlayer = SpawnManager.instance.SpawnPlayer();
-        //    EmptyNickname();
-        //    newPlayer.GetComponent<PhotonView>().RPC("SetNickname", RpcTarget.AllBuffered, nickname);
-        //    LocalPlayer();
-
-        //    PhotonNetwork.LocalPlayer.NickName = nickname;
-        //}
-
-
-        //newPlayer.GetComponent<PhotonView>().RPC("SetNickname", RpcTarget.AllBuffered, nickname);
-        //EmptyNickname();
-        // LocalPlayer();
-        //PhotonNetwork.LocalPlayer.NickName = nickname;
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -116,19 +93,6 @@ public class Connect : MonoBehaviourPunCallbacks
 
     public void LocalPlayer()
     {
-        player.GetComponent<Health>().isLocalPlayer = true;
+        //player.GetComponent<Health>().isLocalPlayer = true;
     }
-
-    //public void SetHashes()
-    //{
-    //    try
-    //    {
-    //        Hashtable hash = PhotonNetwork.LocalPlayer.CustomProperties;
-    //        hash["kills"] = kills;
-    //        hash["deaths"] = deaths;
-
-    //        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-    //    }
-    //    catch { }
-    //}
 }
